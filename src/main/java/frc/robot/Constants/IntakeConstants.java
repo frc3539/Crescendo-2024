@@ -5,4 +5,6 @@
 package frc.robot.Constants;
 
 /** Add your docs here. */
-public class IntakeConstants {}
+public class IntakeConstants{
+
+}
