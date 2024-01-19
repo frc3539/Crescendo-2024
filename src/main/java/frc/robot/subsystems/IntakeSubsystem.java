@@ -4,14 +4,36 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.constants.IDConstants;
 
 public class IntakeSubsystem extends SubsystemBase {
   /** Creates a new IntakeSubsystem. */
-  private TalonFX motorOne, motorTwo, motorThree;
-  public IntakeSubsystem() {}
+  private TalonFX intakeMotorOne, intakeMotorTwo, intakeMotorThree;
+
+  public IntakeSubsystem() {
+    intakeMotorOne = new TalonFX(IDConstants.intakeMotorOne, "canivore");
+    intakeMotorTwo = new TalonFX(IDConstants.intakeMotorTwo, "canivore");
+    intakeMotorThree = new TalonFX(IDConstants.intakeMotorThree, "canivore");
+
+  }
+
+  public void setMotorOneSpeed(double rps) {
+    intakeMotorOne.setControl(new VelocityVoltage(rps).withEnableFOC(true));
+  }
+
+  public void setMotorTwoSpeed(double rps) {
+    intakeMotorTwo.setControl(new VelocityVoltage(rps).withEnableFOC(true));
+
+  }
+
+  public void setMotorThreeSpeed(double rps) {
+    intakeMotorThree.setControl(new VelocityVoltage(rps).withEnableFOC(true));
+
+  }
 
   @Override
   public void periodic() {
