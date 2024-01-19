@@ -7,4 +7,10 @@ public class IDConstants extends BBConstants{
 		super("/home/lvuser/IDConstants.ini", true);
 		save();
 	}
+	public static int topMotor = 0;
+	public static int bottomMotor = 0;
+	public static int feedMotor = 0;
+	public static int intakeMotorOne = 0;
+	public static int intakeMotorTwo = 0;
+	public static int intakeMotorThree = 0;
 }
