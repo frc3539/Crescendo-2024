@@ -8,12 +8,9 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ClimberSubsystem extends SubsystemBase {
   /** Creates a new ClimberSubsystem. */
-  public ClimberSubsystem() {
-  }
+  public ClimberSubsystem() {}
 
-  public void log() {
-
-  }
+  public void log() {}
 
   @Override
   public void periodic() {

@@ -8,12 +8,9 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class LedSubsystem extends SubsystemBase {
   /** Creates a new LedSubsystem. */
-  public LedSubsystem() {
-  }
+  public LedSubsystem() {}
 
-  public void log() {
-
-  }
+  public void log() {}
 
   @Override
   public void periodic() {

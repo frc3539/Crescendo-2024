@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -18,9 +19,11 @@ import frc.robot.subsystems.DrivetrainSubsystem;
  */
 public class RobotContainer {
 
-  public static final DrivetrainSubsystem drivetrain = TunerConstants.DriveTrain;
+  public static final DrivetrainSubsystem drivetrainSubsystem = TunerConstants.DriveTrain;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
+  public static XboxController driver = new XboxController(1);
+
   public RobotContainer() {
     // Configure the trigger bindings
     configureBindings();
@@ -35,9 +38,7 @@ public class RobotContainer {
    * PS4} controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
    * joysticks}.
    */
-  private void configureBindings() {
-    
-  }
+  private void configureBindings() {}
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
