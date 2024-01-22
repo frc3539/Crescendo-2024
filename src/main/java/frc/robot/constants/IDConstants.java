@@ -13,4 +13,18 @@ public class IDConstants extends BBConstants{
 	public static int intakeMotorOne = 0;
 	public static int intakeMotorTwo = 0;
 	public static int intakeMotorThree = 0;
+	public static int FLDriveID = 0;
+	public static int FLCanCoderID = 0;
+	public static int FLSteeringID = 0;
+	public static int FRDriveID = 0;
+	public static int FRCanCoderID = 0;
+	public static int FRSteeringID = 0;
+	public static int BLDriveID = 0;
+	public static int BLCanCoderID = 0;
+	public static int BLSteeringID  = 0;
+	public static int BRDriveID  = 0;
+	public static int BRCanCoderID  = 0;
+	public static int BRSteeringID  = 0;
+	public static int PigeonID  = 0;
+	public static String swerveCanbusName = "canivore";
 }

@@ -19,36 +19,13 @@ import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.constants.DrivetrainConstants;
-import frc.robot.constants.IDConstants;
 
 public class DrivetrainSubsystem extends SwerveDrivetrain implements Subsystem {
   /** Creates a new DrivetrainSubsystem. */
 
   private final HolonomicMotionProfiledTrajectoryFollower follower;
 
-  SwerveDrivetrainConstants driveTrainConstants = new SwerveDrivetrainConstants()
-      .withCANbusName(IDConstants.swerveCanbusName)
-      .withPigeon2Id(IDConstants.PigeonID)
-      .withTurnKp(DrivetrainConstants.RotationkP)
-      .withTurnKd(DrivetrainConstants.RotationkD);
-
-  SwerveModuleConstants frontLeft = m_constantsCreator.createModuleConstants(
-      IDConstants.FLSteeringID, IDConstants.FLDriveID, IDConstants.FLCanCoderID, DriveConstants.FLSteerOffset,
-      DriveConstants.wheelTrackLength / 2.0, DriveConstants.wheelTrackWidth / 2.0);
-
-  SwerveModuleConstants frontRight = m_constantsCreator.createModuleConstants(
-      IDConstants.FRSteeringID, IDConstants.FRDriveID, IDConstants.FRCanCoderID, DriveConstants.FRSteerOffset,
-      DriveConstants.wheelTrackLength / 2.0, -DriveConstants.wheelTrackWidth / 2.0);
-
-  SwerveModuleConstants backRight = m_constantsCreator.createModuleConstants(
-      IDConstants.BRSteeringID, IDConstants.BRDriveID, IDConstants.BRCanCoderID, DriveConstants.BRSteerOffset,
-      -DriveConstants.wheelTrackLength / 2.0, -DriveConstants.wheelTrackWidth / 2.0);
-
-  SwerveModuleConstants backLeft = m_constantsCreator.createModuleConstants(
-      IDConstants.BLSteeringID, IDConstants.BLDriveID, IDConstants.BLCanCoderID, DriveConstants.BLSteerOffset,
-      -DriveConstants.wheelTrackLength / 2.0, DriveConstants.wheelTrackWidth / 2.0);
-
-  public DrivetrainSubsystem() {
+  public DrivetrainSubsystem(SwerveDrivetrainConstants driveTrainConstants, SwerveModuleConstants... modules) {
 
     super(null);
 
@@ -66,6 +43,10 @@ public class DrivetrainSubsystem extends SwerveDrivetrain implements Subsystem {
 
   public Command applyRequest(Supplier<SwerveRequest> requestSupplier) {
     return run(() -> this.setControl(requestSupplier.get()));
+  }
+
+  public void log() {
+
   }
 
   @Override
