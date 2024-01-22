@@ -10,31 +10,31 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.IDConstants;
 
 public class ShooterSubsystem extends SubsystemBase {
-  /** Creates a new ShooterSubsystem. */
-  private TalonFX topMotor, bottomMotor, feedMotor;
+/** Creates a new ShooterSubsystem. */
+private TalonFX topMotor, bottomMotor, feedMotor;
 
-  public ShooterSubsystem() {
-    topMotor = new TalonFX(IDConstants.topMotor, "canivore");
-    bottomMotor = new TalonFX(IDConstants.bottomMotor, "canivore");
-    feedMotor = new TalonFX(IDConstants.feedMotor, "canivore");
-  }
+public ShooterSubsystem() {
+	topMotor = new TalonFX(IDConstants.topMotor, "canivore");
+	bottomMotor = new TalonFX(IDConstants.bottomMotor, "canivore");
+	feedMotor = new TalonFX(IDConstants.feedMotor, "canivore");
+}
 
-  public void setTopMotorSpeed(double rps) {
-    topMotor.setControl(new VelocityVoltage(rps).withEnableFOC(true));
-  }
+public void setTopMotorSpeed(double rps) {
+	topMotor.setControl(new VelocityVoltage(rps).withEnableFOC(true));
+}
 
-  public void setBottomMotorSpeed(double rps) {
-    bottomMotor.setControl(new VelocityVoltage(rps).withEnableFOC(true));
-  }
+public void setBottomMotorSpeed(double rps) {
+	bottomMotor.setControl(new VelocityVoltage(rps).withEnableFOC(true));
+}
 
-  public void setFeedMotorSpeed(double rps) {
-    feedMotor.setControl(new VelocityVoltage(rps).withEnableFOC(true));
-  }
+public void setFeedMotorSpeed(double rps) {
+	feedMotor.setControl(new VelocityVoltage(rps).withEnableFOC(true));
+}
 
-  public void log() {}
+public void log() {}
 
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-  }
+@Override
+public void periodic() {
+	// This method will be called once per scheduler run
+}
 }

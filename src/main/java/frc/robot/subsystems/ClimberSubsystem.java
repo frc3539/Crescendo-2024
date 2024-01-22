@@ -7,13 +7,13 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ClimberSubsystem extends SubsystemBase {
-  /** Creates a new ClimberSubsystem. */
-  public ClimberSubsystem() {}
+/** Creates a new ClimberSubsystem. */
+public ClimberSubsystem() {}
 
-  public void log() {}
+public void log() {}
 
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-  }
+@Override
+public void periodic() {
+	// This method will be called once per scheduler run
+}
 }

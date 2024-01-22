@@ -10,31 +10,31 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.IDConstants;
 
 public class IntakeSubsystem extends SubsystemBase {
-  /** Creates a new IntakeSubsystem. */
-  private TalonFX intakeMotorOne, intakeMotorTwo, intakeMotorThree;
+/** Creates a new IntakeSubsystem. */
+private TalonFX intakeMotorOne, intakeMotorTwo, intakeMotorThree;
 
-  public IntakeSubsystem() {
-    intakeMotorOne = new TalonFX(IDConstants.intakeMotorOne, "rio");
-    intakeMotorTwo = new TalonFX(IDConstants.intakeMotorTwo, "rio");
-    intakeMotorThree = new TalonFX(IDConstants.intakeMotorThree, "rio");
-  }
+public IntakeSubsystem() {
+	intakeMotorOne = new TalonFX(IDConstants.intakeMotorOne, "rio");
+	intakeMotorTwo = new TalonFX(IDConstants.intakeMotorTwo, "rio");
+	intakeMotorThree = new TalonFX(IDConstants.intakeMotorThree, "rio");
+}
 
-  public void setMotorOneSpeed(double rps) {
-    intakeMotorOne.setControl(new VelocityVoltage(rps).withEnableFOC(true));
-  }
+public void setMotorOneSpeed(double rps) {
+	intakeMotorOne.setControl(new VelocityVoltage(rps).withEnableFOC(true));
+}
 
-  public void setMotorTwoSpeed(double rps) {
-    intakeMotorTwo.setControl(new VelocityVoltage(rps).withEnableFOC(true));
-  }
+public void setMotorTwoSpeed(double rps) {
+	intakeMotorTwo.setControl(new VelocityVoltage(rps).withEnableFOC(true));
+}
 
-  public void setMotorThreeSpeed(double rps) {
-    intakeMotorThree.setControl(new VelocityVoltage(rps).withEnableFOC(true));
-  }
+public void setMotorThreeSpeed(double rps) {
+	intakeMotorThree.setControl(new VelocityVoltage(rps).withEnableFOC(true));
+}
 
-  public void log() {}
+public void log() {}
 
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-  }
+@Override
+public void periodic() {
+	// This method will be called once per scheduler run
+}
 }
