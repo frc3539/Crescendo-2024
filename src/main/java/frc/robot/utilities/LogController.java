@@ -68,7 +68,6 @@ public void logPeriodic() {
 	if (!USE_LOGGING) return;
 	logDriveSubsystem();
 	logIntakeSubsystem();
-	logLEDs();
 }
 
 public void logDriveSubsystem() {
@@ -80,9 +79,5 @@ public void logIntakeSubsystem() {
 	if (!LOG_INTAKE_SUBSYSTEM) return;
 	intakeSubsystem.log();
 }
-
-public void logLEDs() {
-	if (!LOG_LEDS) return;
-	leds.log();
-}
+//Cameron is a goon
 }

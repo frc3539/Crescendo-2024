@@ -27,5 +27,7 @@ public static int BRDriveID = 0;
 public static int BRCanCoderID = 0;
 public static int BRSteeringID = 0;
 public static int PigeonID = 0;
+public static int CANdleID = 0;
+public static String CandleCanName = "";
 public static String swerveCanbusName = "canivore";
 }
