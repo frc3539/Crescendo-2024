@@ -4,10 +4,14 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.led.CANdle;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class LedSubsystem extends SubsystemBase {
-/** Creates a new LedSubsystem. */
+
+boolean enabled;
+CANdle candle;
+
 public LedSubsystem() {}
 
 public void log() {}
