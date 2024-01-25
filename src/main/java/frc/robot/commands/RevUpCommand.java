@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
+import frc.robot.constants.ShooterConstants;
 
 public class RevUpCommand extends Command {
   /** Creates a new RevUpCommand. */
@@ -16,8 +17,8 @@ public class RevUpCommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    RobotContainer.shooterSubsystem.setBottomMotorSpeed(1);
-     RobotContainer.shooterSubsystem.setTopMotorSpeed(-1);
+    RobotContainer.shooterSubsystem.setBottomMotorSpeed(-ShooterConstants.revRps);
+     RobotContainer.shooterSubsystem.setTopMotorSpeed(ShooterConstants.revRps);
 
   }
 

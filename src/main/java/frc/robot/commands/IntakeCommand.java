@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
+import frc.robot.constants.IntakeConstants;
 
 public class IntakeCommand extends Command {
 	public enum IntakeMode {
@@ -17,11 +18,7 @@ public class IntakeCommand extends Command {
 	boolean intake;
 	IntakeMode mode;
 
-	int intakeSpeed = -1;
-	int extakeSpeed = 1;
-
-	int frontSpeed = -1;
-	int backSpeed = 1;
+	
 
 	/** Creates a new IntakeCommand. */
 	public IntakeCommand(boolean intake, IntakeMode mode) {
@@ -34,29 +31,29 @@ public class IntakeCommand extends Command {
 	public void initialize() {
 
 		if (intake == true) {
-			RobotContainer.intakeSubsystem.setGroundMotorSpeed(intakeSpeed);
-			RobotContainer.intakeSubsystem.setGrabMotorSpeed(intakeSpeed);
+			RobotContainer.intakeSubsystem.setGroundMotorSpeed(IntakeConstants.intakeRps);
+			RobotContainer.intakeSubsystem.setGrabMotorSpeed(IntakeConstants.intakeRps);
 		} else {
-			RobotContainer.intakeSubsystem.setGroundMotorSpeed(extakeSpeed);
-			RobotContainer.intakeSubsystem.setGrabMotorSpeed(extakeSpeed);
+			RobotContainer.intakeSubsystem.setGroundMotorSpeed(-IntakeConstants.intakeRps);
+			RobotContainer.intakeSubsystem.setGrabMotorSpeed(-IntakeConstants.intakeRps);
 		}
 
 		switch (mode) {
 			case FRONT:
-				RobotContainer.intakeSubsystem.setKickMotorSpeed(frontSpeed);
+				RobotContainer.intakeSubsystem.setKickMotorSpeed(IntakeConstants.kickRps);
 				break;
 
 			case BACK:
-				RobotContainer.intakeSubsystem.setKickMotorSpeed(backSpeed);
+				RobotContainer.intakeSubsystem.setKickMotorSpeed(-IntakeConstants.kickRps);
 				break;
 
 			case SENSOR:
 				Boolean sensorReading = RobotContainer.intakeSubsystem.getSensor();
 				if (sensorReading == true) {
-					RobotContainer.intakeSubsystem.setKickMotorSpeed(frontSpeed);
+					RobotContainer.intakeSubsystem.setKickMotorSpeed(IntakeConstants.kickRps);
 				}
 				if (sensorReading == false) {
-					RobotContainer.intakeSubsystem.setKickMotorSpeed(backSpeed);
+					RobotContainer.intakeSubsystem.setKickMotorSpeed(-IntakeConstants.kickRps);
 				}
 				if (sensorReading == null) {
 					RobotContainer.intakeSubsystem.setKickMotorSpeed(0);

@@ -7,4 +7,7 @@ public IntakeConstants() {
 	super("/home/lvuser/IntakeConstants.ini", true);
 	save();
 }
+public static double intakeRps = 0.0;
+public static double kickRps = 0.0;
+
 }

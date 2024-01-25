@@ -7,4 +7,6 @@ public ShooterConstants() {
 	super("/home/lvuser/ShooterConstants.ini", true);
 	save();
 }
+public static double shootRps = 0.0;
+public static double revRps = 0.0;
 }
