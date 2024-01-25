@@ -5,28 +5,83 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.RobotContainer;
 
 public class IntakeCommand extends Command {
-/** Creates a new IntakeCommand. */
-public IntakeCommand() {
-	// Use addRequirements() here to declare subsystem dependencies.
-}
+	public enum IntakeMode {
+		FRONT,
+		BACK,
+		SENSOR;
+	}
 
-// Called when the command is initially scheduled.
-@Override
-public void initialize() {}
+	boolean intake;
+	IntakeMode mode;
 
-// Called every time the scheduler runs while the command is scheduled.
-@Override
-public void execute() {}
+	int intakeSpeed = -1;
+	int extakeSpeed = 1;
 
-// Called once the command ends or is interrupted.
-@Override
-public void end(boolean interrupted) {}
+	int frontSpeed = -1;
+	int backSpeed = 1;
 
-// Returns true when the command should end.
-@Override
-public boolean isFinished() {
-	return false;
-}
+	/** Creates a new IntakeCommand. */
+	public IntakeCommand(boolean intake, IntakeMode mode) {
+		this.intake = intake;
+		this.mode = mode;
+	}
+
+	// Called when the command is initially scheduled.
+	@Override
+	public void initialize() {
+
+		if (intake == true) {
+			RobotContainer.intakeSubsystem.setGroundMotorSpeed(intakeSpeed);
+			RobotContainer.intakeSubsystem.setGrabMotorSpeed(intakeSpeed);
+		} else {
+			RobotContainer.intakeSubsystem.setGroundMotorSpeed(extakeSpeed);
+			RobotContainer.intakeSubsystem.setGrabMotorSpeed(extakeSpeed);
+		}
+
+		switch (mode) {
+			case FRONT:
+				RobotContainer.intakeSubsystem.setKickMotorSpeed(frontSpeed);
+				break;
+
+			case BACK:
+				RobotContainer.intakeSubsystem.setKickMotorSpeed(backSpeed);
+				break;
+
+			case SENSOR:
+				Boolean sensorReading = RobotContainer.intakeSubsystem.getSensor();
+				if (sensorReading == true) {
+					RobotContainer.intakeSubsystem.setKickMotorSpeed(frontSpeed);
+				}
+				if (sensorReading == false) {
+					RobotContainer.intakeSubsystem.setKickMotorSpeed(backSpeed);
+				}
+				if (sensorReading == null) {
+					RobotContainer.intakeSubsystem.setKickMotorSpeed(0);
+				}
+				break;
+		}
+
+	}
+
+	// Called every time the scheduler runs while the command is scheduled.
+	@Override
+	public void execute() {
+	}
+
+	// Called once the command ends or is interrupted.
+	@Override
+	public void end(boolean interrupted) {
+	RobotContainer.intakeSubsystem.setGrabMotorSpeed(0);
+	RobotContainer.intakeSubsystem.setGroundMotorSpeed(0);
+	RobotContainer.intakeSubsystem.setKickMotorSpeed(0);
+	}
+
+	// Returns true when the command should end.
+	@Override
+	public boolean isFinished() {
+		return false;
+	}
 }

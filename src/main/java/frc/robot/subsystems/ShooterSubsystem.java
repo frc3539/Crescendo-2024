@@ -11,12 +11,13 @@ import frc.robot.constants.IDConstants;
 
 public class ShooterSubsystem extends SubsystemBase {
 /** Creates a new ShooterSubsystem. */
-private TalonFX topMotor, bottomMotor, feedMotor;
+private TalonFX topMotor, bottomMotor, feedMotor, angleMotor;
 
 public ShooterSubsystem() {
 	topMotor = new TalonFX(IDConstants.topMotor, "canivore");
 	bottomMotor = new TalonFX(IDConstants.bottomMotor, "canivore");
 	feedMotor = new TalonFX(IDConstants.feedMotor, "canivore");
+	angleMotor = new TalonFX(0, "canivore");
 }
 
 public void setTopMotorSpeed(double rps) {
@@ -30,7 +31,9 @@ public void setBottomMotorSpeed(double rps) {
 public void setFeedMotorSpeed(double rps) {
 	feedMotor.setControl(new VelocityVoltage(rps).withEnableFOC(true));
 }
-
+public void setAngleMotorSpeed(double rps){
+	angleMotor.setControl(new VelocityVoltage(rps).withEnableFOC(true));
+}
 public void log() {}
 
 @Override

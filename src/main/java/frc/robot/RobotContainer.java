@@ -8,7 +8,13 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.generated.TunerConstants;
+import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.LedSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.VisionSubsystem;
+
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -19,9 +25,15 @@ import frc.robot.subsystems.DrivetrainSubsystem;
 public class RobotContainer {
 
 public static final DrivetrainSubsystem drivetrainSubsystem = TunerConstants.DriveTrain;
+public static IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
+public static ClimberSubsystem climberSubsystem = new ClimberSubsystem();
+public static LedSubsystem ledSubsystem = new LedSubsystem(true);
+public static VisionSubsystem visionSubsystem = new VisionSubsystem();
+public static ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
 
 /** The container for the robot. Contains subsystems, OI devices, and commands. */
 public static CommandXboxController driverController = new CommandXboxController(1);
+public static CommandXboxController operatorController = new CommandXboxController(0);
 
 public RobotContainer() {
 	// Configure the trigger bindings
