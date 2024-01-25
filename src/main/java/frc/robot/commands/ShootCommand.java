@@ -6,7 +6,6 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
-import frc.robot.constants.ShooterConstants;
 
 public class ShootCommand extends Command {
 /** Creates a new ShootCommand. */
@@ -17,7 +16,7 @@ public ShootCommand() {
 // Called when the command is initially scheduled.
 @Override
 public void initialize() {	
-RobotContainer.shooterSubsystem.setFeedMotorSpeed(ShooterConstants.shootRps);
+RobotContainer.shooterSubsystem.setFeedMotorSpeed(1);
 
 }
 
