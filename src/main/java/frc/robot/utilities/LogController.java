@@ -79,5 +79,5 @@ public void logIntakeSubsystem() {
 	if (!LOG_INTAKE_SUBSYSTEM) return;
 	intakeSubsystem.log();
 }
-//Cameron is a goon
+// Cameron is a goon
 }
