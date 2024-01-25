@@ -7,6 +7,8 @@ package frc.robot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.commands.*;
+import frc.robot.commands.IntakeCommand.IntakeMode;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
@@ -49,7 +51,14 @@ public RobotContainer() {
 * PS4} controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
 * joysticks}.
 */
-private void configureBindings() {}
+private void configureBindings() {
+	operatorController.leftBumper().whileTrue(new RevUpCommand());
+	operatorController.rightBumper().whileTrue(new ShootCommand());
+	operatorController.povUp().whileTrue(new IntakeCommand(true, IntakeMode.FRONT));
+	operatorController.povDown().whileTrue(new IntakeCommand(true, IntakeMode.BACK));
+	operatorController.y().whileTrue(new IntakeCommand(true, IntakeMode.SENSOR));
+
+}
 
 /**
 * Use this to pass the autonomous command to the main {@link Robot} class.
