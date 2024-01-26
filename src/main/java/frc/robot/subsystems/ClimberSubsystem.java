@@ -19,11 +19,11 @@ public class ClimberSubsystem extends SubsystemBase {
 
 	}
 
-	public void getLeftClimbMotorSpeed(double rps) {
+	public void setLeftClimbMotorSpeed(double rps) {
 		leftClimbMotor.setControl(new VelocityVoltage(rps).withEnableFOC(true));
 	}
 
-	public void getRightClimbMotorSpeed(double rps) {
+	public void setRightClimbMotorSpeed(double rps) {
 		rightClimbMotor.setControl(new VelocityVoltage(rps).withEnableFOC(true));
 
 	}
