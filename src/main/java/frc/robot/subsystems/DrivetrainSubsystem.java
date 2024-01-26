@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.Robot;
 import frc.robot.commands.DriveCommand;
-import frc.robot.constants.DrivetrainConstants;
+import frc.robot.constants.DrivetrainConstant;
 import java.util.Arrays;
 import org.frcteam3539.Byte_Swerve_Lib.control.HolonomicMotionProfiledTrajectoryFollower;
 import org.frcteam3539.Byte_Swerve_Lib.control.PidConstants;
@@ -51,20 +51,20 @@ public DrivetrainSubsystem(
 
 	DrivetrainFeedforwardConstants FEEDFORWARD_CONSTANTS =
 		new DrivetrainFeedforwardConstants(
-			DrivetrainConstants.TranslationkV,
-			DrivetrainConstants.TranslationkA,
-			DrivetrainConstants.TranslationkS);
+			DrivetrainConstant.TranslationkV,
+			DrivetrainConstant.TranslationkA,
+			DrivetrainConstant.TranslationkS);
 
 	follower =
 		new HolonomicMotionProfiledTrajectoryFollower(
 			new PidConstants(
-				DrivetrainConstants.TranslationkP,
-				DrivetrainConstants.TranslationkI,
-				DrivetrainConstants.TranslationkD),
+				DrivetrainConstant.TranslationkP,
+				DrivetrainConstant.TranslationkI,
+				DrivetrainConstant.TranslationkD),
 			new PidConstants(
-				DrivetrainConstants.RotationkP,
-				DrivetrainConstants.RotationkI,
-				DrivetrainConstants.RotationkD),
+				DrivetrainConstant.RotationkP,
+				DrivetrainConstant.RotationkI,
+				DrivetrainConstant.RotationkD),
 			new HolonomicFeedforward(FEEDFORWARD_CONSTANTS));
 
 	setDefaultCommand(new DriveCommand());

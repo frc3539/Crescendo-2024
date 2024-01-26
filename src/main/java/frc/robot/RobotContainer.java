@@ -26,7 +26,12 @@ import frc.robot.subsystems.VisionSubsystem;
  */
 public class RobotContainer {
 
-public DrivetrainConstants drivetrainConstants = new DrivetrainConstants();
+public static DrivetrainConstant drivetrainConstants = new DrivetrainConstant();
+public static ClimberConstants climberConstants = new ClimberConstants();
+public static IDConstants idConstants = new IDConstants();
+public static IntakeConstants intakeConstants = new IntakeConstants();
+public static ShooterConstants shooterConstants = new ShooterConstants();
+public static VisionConstants visionConstants = new VisionConstants();
 
 public static DrivetrainSubsystem drivetrainSubsystem = TunerConstants.DriveTrain;
 public static IntakeSubsystem intakeSubsystem = new IntakeSubsystem();

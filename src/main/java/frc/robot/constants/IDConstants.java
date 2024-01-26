@@ -8,9 +8,9 @@ public IDConstants() {
 	save();
 }
 
-public static int topMotor = 0;
-public static int bottomMotor = 0;
-public static int feedMotor = 0;
+public static int topMotor = 4;
+public static int bottomMotor = 3;
+public static int feedMotor = 5;
 public static int intakeMotorOne = 0;
 public static int intakeMotorTwo = 0;
 public static int intakeMotorThree = 0;
