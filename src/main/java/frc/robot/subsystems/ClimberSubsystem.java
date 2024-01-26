@@ -4,16 +4,35 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.controls.VelocityVoltage;
+import com.ctre.phoenix6.hardware.TalonFX;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.constants.IDConstants;
 
 public class ClimberSubsystem extends SubsystemBase {
-/** Creates a new ClimberSubsystem. */
-public ClimberSubsystem() {}
+	private TalonFX leftClimbMotor, rightClimbMotor;
 
-public void log() {}
+	public ClimberSubsystem() {
+		leftClimbMotor = new TalonFX(IDConstants.leftClimbMotorID, "rio");
+		rightClimbMotor = new TalonFX(IDConstants.rightClimbMotorID, "rio");
 
-@Override
-public void periodic() {
-	// This method will be called once per scheduler run
-}
+	}
+
+	public void getLeftClimbMotorSpeed(double rps) {
+		leftClimbMotor.setControl(new VelocityVoltage(rps).withEnableFOC(true));
+	}
+
+	public void getRightClimbMotorSpeed(double rps) {
+		rightClimbMotor.setControl(new VelocityVoltage(rps).withEnableFOC(true));
+
+	}
+
+	public void log() {
+	}
+
+	@Override
+	public void periodic() {
+		// This method will be called once per scheduler run
+	}
 }
