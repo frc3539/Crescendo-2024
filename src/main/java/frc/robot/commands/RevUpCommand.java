@@ -6,37 +6,38 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
-import frc.robot.constants.ShooterConstants;
 
 public class RevUpCommand extends Command {
-  /** Creates a new RevUpCommand. */
-  public RevUpCommand() {
-    // Use addRequirements() here to declare subsystem dependencies.
-  }
+/** Creates a new RevUpCommand. */
+public RevUpCommand() {
+	// Use addRequirements() here to declare subsystem dependencies.
+}
 
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {
-    RobotContainer.shooterSubsystem.setBottomMotorSpeed(1);
-    RobotContainer.shooterSubsystem.setTopMotorSpeed(-1);
+// Called when the command is initially scheduled.
+@Override
+public void initialize() {
+	// RobotContainer.shooterSubsystem.setBottomMotorSpeed(ShooterConstants.revRps);
+	// RobotContainer.shooterSubsystem.setTopMotorSpeed(-ShooterConstants.revRps);
+	RobotContainer.shooterSubsystem.setBottomMotorVoltage(12);
+	RobotContainer.shooterSubsystem.setTopMotorVoltage(-12);
+}
 
-  }
+// Called every time the scheduler runs while the command is scheduled.
+@Override
+public void execute() {}
 
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-  }
+// Called once the command ends or is interrupted.
+@Override
+public void end(boolean interrupted) {
+	// RobotContainer.shooterSubsystem.setBottomMotorSpeed(0);
+	// RobotContainer.shooterSubsystem.setTopMotorSpeed(0);
+	RobotContainer.shooterSubsystem.setBottomMotorVoltage(0);
+	RobotContainer.shooterSubsystem.setTopMotorVoltage(0);
+}
 
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
-    RobotContainer.shooterSubsystem.setBottomMotorSpeed(ShooterConstants.revRps);
-    RobotContainer.shooterSubsystem.setTopMotorSpeed(-ShooterConstants.revRps);
-  }
-
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
-  }
+// Returns true when the command should end.
+@Override
+public boolean isFinished() {
+	return false;
+}
 }

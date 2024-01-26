@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.controls.VelocityVoltage;
+import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.IDConstants;
@@ -14,26 +15,40 @@ public class ShooterSubsystem extends SubsystemBase {
 private TalonFX topMotor, bottomMotor, feedMotor, angleMotor;
 
 public ShooterSubsystem() {
-	topMotor = new TalonFX(IDConstants.topMotor, "canivore");
-	bottomMotor = new TalonFX(IDConstants.bottomMotor, "canivore");
-	feedMotor = new TalonFX(IDConstants.feedMotor, "canivore");
-	angleMotor = new TalonFX(0, "canivore");
+	topMotor = new TalonFX(IDConstants.topMotor, "rio");
+	bottomMotor = new TalonFX(IDConstants.bottomMotor, "rio");
+	feedMotor = new TalonFX(IDConstants.feedMotor, "rio");
+	angleMotor = new TalonFX(0, "rio");
 }
 
 public void setTopMotorSpeed(double rps) {
 	topMotor.setControl(new VelocityVoltage(rps).withEnableFOC(true));
 }
 
+public void setTopMotorVoltage(double voltage) {
+	topMotor.setControl(new VoltageOut(voltage).withEnableFOC(true));
+}
+
 public void setBottomMotorSpeed(double rps) {
 	bottomMotor.setControl(new VelocityVoltage(rps).withEnableFOC(true));
+}
+
+public void setBottomMotorVoltage(double voltage) {
+	bottomMotor.setControl(new VoltageOut(voltage).withEnableFOC(true));
 }
 
 public void setFeedMotorSpeed(double rps) {
 	feedMotor.setControl(new VelocityVoltage(rps).withEnableFOC(true));
 }
-public void setAngleMotorSpeed(double rps){
+
+public void setFeedMotorVoltage(double voltage) {
+	feedMotor.setControl(new VoltageOut(voltage).withEnableFOC(true));
+}
+
+public void setAngleMotorSpeed(double rps) {
 	angleMotor.setControl(new VelocityVoltage(rps).withEnableFOC(true));
 }
+
 public void log() {}
 
 @Override

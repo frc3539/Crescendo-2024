@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import frc.robot.Robot;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.LedSubsystem;
+// import frc.robot.subsystems.LedSubsystem;
 import org.littletonrobotics.junction.LogFileUtil;
 import org.littletonrobotics.junction.Logger;
 import org.littletonrobotics.junction.networktables.NT4Publisher;
@@ -13,9 +13,9 @@ import org.littletonrobotics.junction.wpilog.WPILOGReader;
 import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 
 public class LogController {
-//  +-----------------------------------+
-//  |  SET ROBOT LOGGING SETTINGS HERE  |
-//  +-----------------------------------+
+// +-----------------------------------+
+// | SET ROBOT LOGGING SETTINGS HERE |
+// +-----------------------------------+
 
 public static boolean USE_LOGGING = true;
 
@@ -27,19 +27,20 @@ static boolean SAVE_TO_FILE = false;
 static String LOG_FILE_PATH = "/media/sda1/";
 static boolean USE_NETWORK_TABLES = true;
 
-//  +---------------------------------+
-//  |  END OF ROBOT LOGGING SETTINGS  |
-//  +---------------------------------+
+// +---------------------------------+
+// | END OF ROBOT LOGGING SETTINGS |
+// +---------------------------------+
 
 DrivetrainSubsystem driveSubsystem;
 IntakeSubsystem intakeSubsystem;
-LedSubsystem leds;
 
-public LogController(DrivetrainSubsystem drive, IntakeSubsystem intake, LedSubsystem leds) {
+// LedSubsystem leds;
+
+public LogController(DrivetrainSubsystem drive, IntakeSubsystem intake) {
 	if (!USE_LOGGING) return;
 	this.driveSubsystem = drive;
 	this.intakeSubsystem = intake;
-	this.leds = leds;
+	// this.leds = leds;
 
 	Logger.recordMetadata("TeamYear", "FRC3539-2024"); // Set a metadata value
 
@@ -56,7 +57,8 @@ public LogController(DrivetrainSubsystem drive, IntakeSubsystem intake, LedSubsy
 			LogFileUtil.addPathSuffix(logPath, "_sim"))); // Save outputs to a new log
 	}
 
-	// logger.disableDeterministicTimestamps() // See "Deterministic Timestamps" in the
+	// logger.disableDeterministicTimestamps() // See "Deterministic Timestamps" in
+	// the
 	// "Understanding Data Flow" page
 	Logger.start(); // Start logging! No more data receivers, replay sources, or metadata values may
 	// be added.

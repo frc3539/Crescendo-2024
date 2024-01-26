@@ -6,33 +6,29 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
-
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.IDConstants;
 
 public class ClimberSubsystem extends SubsystemBase {
-	private TalonFX leftClimbMotor, rightClimbMotor;
+private TalonFX leftClimbMotor, rightClimbMotor;
 
-	public ClimberSubsystem() {
-		leftClimbMotor = new TalonFX(IDConstants.leftClimbMotorID, "rio");
-		rightClimbMotor = new TalonFX(IDConstants.rightClimbMotorID, "rio");
+public ClimberSubsystem() {
+	leftClimbMotor = new TalonFX(IDConstants.leftClimbMotorID, "rio");
+	rightClimbMotor = new TalonFX(IDConstants.rightClimbMotorID, "rio");
+}
 
-	}
+public void setLeftClimbMotorSpeed(double rps) {
+	leftClimbMotor.setControl(new VelocityVoltage(rps).withEnableFOC(true));
+}
 
-	public void setLeftClimbMotorSpeed(double rps) {
-		leftClimbMotor.setControl(new VelocityVoltage(rps).withEnableFOC(true));
-	}
+public void setRightClimbMotorSpeed(double rps) {
+	rightClimbMotor.setControl(new VelocityVoltage(rps).withEnableFOC(true));
+}
 
-	public void setRightClimbMotorSpeed(double rps) {
-		rightClimbMotor.setControl(new VelocityVoltage(rps).withEnableFOC(true));
+public void log() {}
 
-	}
-
-	public void log() {
-	}
-
-	@Override
-	public void periodic() {
-		// This method will be called once per scheduler run
-	}
+@Override
+public void periodic() {
+	// This method will be called once per scheduler run
+}
 }

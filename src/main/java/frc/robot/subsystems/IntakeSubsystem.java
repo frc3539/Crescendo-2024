@@ -6,7 +6,6 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
-
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.IDConstants;
@@ -14,6 +13,7 @@ import frc.robot.constants.IDConstants;
 public class IntakeSubsystem extends SubsystemBase {
 /** Creates a new IntakeSubsystem. */
 private TalonFX groundMotor, kickMotor, grabMotor;
+
 private DigitalInput frontSensor, backSensor;
 
 public IntakeSubsystem() {
@@ -36,14 +36,14 @@ public void setGrabMotorSpeed(double rps) {
 	grabMotor.setControl(new VelocityVoltage(rps).withEnableFOC(true));
 }
 
-public Boolean getSensor(){
-if(frontSensor.get() == true){
+public Boolean getSensor() {
+	if (frontSensor.get() == true) {
 	return true;
-}
-if(backSensor.get() == true){
+	}
+	if (backSensor.get() == true) {
 	return false;
-}
-return null;
+	}
+	return null;
 }
 
 public void log() {}

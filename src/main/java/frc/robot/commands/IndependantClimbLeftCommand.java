@@ -9,32 +9,31 @@ import frc.robot.RobotContainer;
 import frc.robot.constants.ClimberConstants;
 
 public class IndependantClimbLeftCommand extends Command {
-  /** Creates a new independantClimbLeft. */
-  public IndependantClimbLeftCommand() {
-    // Use addRequirements() here to declare subsystem dependencies.
-  }
+/** Creates a new independantClimbLeft. */
+public IndependantClimbLeftCommand() {
+	// Use addRequirements() here to declare subsystem dependencies.
+}
 
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {
-  }
+// Called when the command is initially scheduled.
+@Override
+public void initialize() {}
 
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-    RobotContainer.climberSubsystem
-        .setLeftClimbMotorSpeed(ClimberConstants.maxClimbRps * RobotContainer.operatorController.getLeftTriggerAxis());
-  }
+// Called every time the scheduler runs while the command is scheduled.
+@Override
+public void execute() {
+	RobotContainer.climberSubsystem.setLeftClimbMotorSpeed(
+		ClimberConstants.maxClimbRps * RobotContainer.operatorController.getLeftTriggerAxis());
+}
 
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
-    RobotContainer.climberSubsystem.setLeftClimbMotorSpeed(0);
-  }
+// Called once the command ends or is interrupted.
+@Override
+public void end(boolean interrupted) {
+	RobotContainer.climberSubsystem.setLeftClimbMotorSpeed(0);
+}
 
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
-  }
+// Returns true when the command should end.
+@Override
+public boolean isFinished() {
+	return false;
+}
 }
