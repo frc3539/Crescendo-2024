@@ -8,15 +8,9 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.*;
-import frc.robot.commands.IntakeCommand.IntakeMode;
 import frc.robot.constants.*;
-import frc.robot.generated.TunerConstants;
-import frc.robot.subsystems.ClimberSubsystem;
-import frc.robot.subsystems.DrivetrainSubsystem;
-import frc.robot.subsystems.IntakeSubsystem;
 // import frc.robot.subsystems.LedSubsystem;
-import frc.robot.subsystems.ShooterSubsystem;
-import frc.robot.subsystems.VisionSubsystem;
+import frc.robot.subsystems.*;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -33,10 +27,12 @@ public static IntakeConstants intakeConstants = new IntakeConstants();
 public static ShooterConstants shooterConstants = new ShooterConstants();
 public static VisionConstants visionConstants = new VisionConstants();
 
-public static DrivetrainSubsystem drivetrainSubsystem = TunerConstants.DriveTrain;
+// public static TunerConstants tunerConstants = new TunerConstants(
+
+// public static DrivetrainSubsystem drivetrainSubsystem =
 public static IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
 public static ClimberSubsystem climberSubsystem = new ClimberSubsystem();
-// public static LedSubsystem ledSubsystem = new LedSubsystem(true);
+public static LedSubsystem ledSubsystem = new LedSubsystem(true);
 public static VisionSubsystem visionSubsystem = new VisionSubsystem();
 public static ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
 
@@ -62,11 +58,17 @@ public RobotContainer() {
 private void configureBindings() {
 	operatorController.leftBumper().whileTrue(new RevUpCommand());
 	operatorController.rightBumper().whileTrue(new ShootCommand());
-	operatorController.povUp().whileTrue(new IntakeCommand(true, IntakeMode.FRONT));
-	operatorController.povDown().whileTrue(new IntakeCommand(true, IntakeMode.BACK));
-	operatorController.y().whileTrue(new IntakeCommand(true, IntakeMode.SENSOR));
-	operatorController.leftTrigger().whileTrue(new IndependantClimbLeftCommand());
-	operatorController.rightTrigger().whileTrue(new IndependantClimbRightCommand());
+	// operatorController.povUp().whileTrue(new IntakeCommand(true,
+	// IntakeMode.FRONT));
+	// operatorController.povDown().whileTrue(new IntakeCommand(true,
+	// IntakeMode.BACK));
+	// operatorController.y().whileTrue(new IntakeCommand(true, IntakeMode.SENSOR));
+	// operatorController.leftTrigger().whileTrue(new
+	// IndependantClimbLeftCommand());
+	// operatorController.rightTrigger().whileTrue(new
+	// IndependantClimbRightCommand());
+
+	// drivetrainSubsystem.setDefaultCommand(new DriveCommand());
 }
 
 /**

@@ -62,7 +62,11 @@ public void initialize() {
 
 // Called every time the scheduler runs while the command is scheduled.
 @Override
-public void execute() {}
+public void execute() {
+	if (RobotContainer.shooterSubsystem.getShooterSensor() == true) {
+	end(true);
+	}
+}
 
 // Called once the command ends or is interrupted.
 @Override

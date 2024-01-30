@@ -156,6 +156,6 @@ private static final SwerveModuleConstants BackRight =
 		Units.inchesToMeters(kBackRightYPosInches),
 		kInvertRightSide);
 
-public static final DrivetrainSubsystem DriveTrain =
+public static DrivetrainSubsystem DriveTrain =
 	new DrivetrainSubsystem(DrivetrainConstants, FrontLeft, FrontRight, BackLeft, BackRight);
 }

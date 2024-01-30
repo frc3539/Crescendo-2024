@@ -13,7 +13,6 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.Robot;
-import frc.robot.commands.DriveCommand;
 import frc.robot.constants.DrivetrainConstant;
 import java.util.Arrays;
 import org.frcteam3539.Byte_Swerve_Lib.control.HolonomicMotionProfiledTrajectoryFollower;
@@ -66,8 +65,6 @@ public DrivetrainSubsystem(
 				DrivetrainConstant.RotationkI,
 				DrivetrainConstant.RotationkD),
 			new HolonomicFeedforward(FEEDFORWARD_CONSTANTS));
-
-	setDefaultCommand(new DriveCommand());
 }
 
 public void applyRequest(SwerveRequest request) {

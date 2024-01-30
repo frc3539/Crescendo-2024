@@ -32,4 +32,7 @@ public static int PigeonID = 0;
 public static int CANdleID = 0;
 public static String CandleCanName = "";
 public static String swerveCanbusName = "canivore";
+public static int shooterSensorChannel = 2;
+public static int frontSensorChannel = 0;
+public static int backSensorChannel = 1;
 }

@@ -14,14 +14,15 @@ public class IntakeSubsystem extends SubsystemBase {
 /** Creates a new IntakeSubsystem. */
 private TalonFX groundMotor, kickMotor, grabMotor;
 
-private DigitalInput frontSensor, backSensor;
+private DigitalInput frontSensor, backSensor, chamberSensor;
 
 public IntakeSubsystem() {
 	groundMotor = new TalonFX(IDConstants.intakeMotorOne, "rio");
 	kickMotor = new TalonFX(IDConstants.intakeMotorTwo, "rio");
 	grabMotor = new TalonFX(IDConstants.intakeMotorThree, "rio");
 	frontSensor = new DigitalInput(0);
-	backSensor = new DigitalInput(0);
+	backSensor = new DigitalInput(1);
+	chamberSensor = new DigitalInput(3);
 }
 
 public void setGroundMotorSpeed(double rps) {
@@ -44,6 +45,14 @@ public Boolean getSensor() {
 	return false;
 	}
 	return null;
+}
+
+public boolean getChamberSensor() {
+	if (chamberSensor.get() == true) {
+	return true;
+	} else {
+	return false;
+	}
 }
 
 public void log() {}
