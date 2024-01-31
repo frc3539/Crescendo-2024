@@ -11,54 +11,55 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.IDConstants;
 
 public class IntakeSubsystem extends SubsystemBase {
-/** Creates a new IntakeSubsystem. */
-private TalonFX groundMotor, kickMotor, grabMotor;
+	/** Creates a new IntakeSubsystem. */
+	private TalonFX groundMotor, kickMotor, grabMotor;
 
-private DigitalInput frontSensor, backSensor, chamberSensor;
+	private DigitalInput frontSensor, backSensor, chamberSensor;
 
-public IntakeSubsystem() {
-	groundMotor = new TalonFX(IDConstants.intakeMotorOne, "rio");
-	kickMotor = new TalonFX(IDConstants.intakeMotorTwo, "rio");
-	grabMotor = new TalonFX(IDConstants.intakeMotorThree, "rio");
-	frontSensor = new DigitalInput(0);
-	backSensor = new DigitalInput(1);
-	chamberSensor = new DigitalInput(3);
-}
-
-public void setGroundMotorSpeed(double rps) {
-	groundMotor.setControl(new VelocityVoltage(rps).withEnableFOC(true));
-}
-
-public void setKickMotorSpeed(double rps) {
-	kickMotor.setControl(new VelocityVoltage(rps).withEnableFOC(true));
-}
-
-public void setGrabMotorSpeed(double rps) {
-	grabMotor.setControl(new VelocityVoltage(rps).withEnableFOC(true));
-}
-
-public Boolean getSensor() {
-	if (frontSensor.get() == true) {
-	return true;
+	public IntakeSubsystem() {
+		groundMotor = new TalonFX(IDConstants.groundMotorID, "rio");
+		kickMotor = new TalonFX(IDConstants.kickMotorID, "rio");
+		grabMotor = new TalonFX(IDConstants.grabMotorID, "rio");
+		frontSensor = new DigitalInput(IDConstants.frontSensorChannel);
+		backSensor = new DigitalInput(IDConstants.backSensorChannel);
+		chamberSensor = new DigitalInput(IDConstants.chamberSensorChannel);
 	}
-	if (backSensor.get() == true) {
-	return false;
+
+	public void setGroundMotorSpeed(double rps) {
+		groundMotor.setControl(new VelocityVoltage(rps).withEnableFOC(true));
 	}
-	return null;
-}
 
-public boolean getChamberSensor() {
-	if (chamberSensor.get() == true) {
-	return true;
-	} else {
-	return false;
+	public void setKickMotorSpeed(double rps) {
+		kickMotor.setControl(new VelocityVoltage(rps).withEnableFOC(true));
 	}
-}
 
-public void log() {}
+	public void setGrabMotorSpeed(double rps) {
+		grabMotor.setControl(new VelocityVoltage(rps).withEnableFOC(true));
+	}
 
-@Override
-public void periodic() {
-	// This method will be called once per scheduler run
-}
+	public Boolean getSensor() {
+		if (frontSensor.get() == true) {
+			return true;
+		}
+		if (backSensor.get() == true) {
+			return false;
+		}
+		return null;
+	}
+
+	public boolean getChamberSensor() {
+		if (chamberSensor.get() == true) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public void log() {
+	}
+
+	@Override
+	public void periodic() {
+		// This method will be called once per scheduler run
+	}
 }
