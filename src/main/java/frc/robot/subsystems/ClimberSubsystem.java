@@ -10,11 +10,12 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.IDConstants;
 
 public class ClimberSubsystem extends SubsystemBase {
-private TalonFX leftClimbMotor, rightClimbMotor;
+private TalonFX leftClimbMotor, rightClimbMotor, buddyClimbMotor;
 
 public ClimberSubsystem() {
 	leftClimbMotor = new TalonFX(IDConstants.leftClimbMotorID, "rio");
 	rightClimbMotor = new TalonFX(IDConstants.rightClimbMotorID, "rio");
+	buddyClimbMotor = new TalonFX(IDConstants.buddyClimbMotorID, "rio");
 }
 
 public void setLeftClimbMotorSpeed(double rps) {
@@ -23,6 +24,10 @@ public void setLeftClimbMotorSpeed(double rps) {
 
 public void setRightClimbMotorSpeed(double rps) {
 	rightClimbMotor.setControl(new VelocityVoltage(rps).withEnableFOC(true));
+}
+
+public void setBuddyClimbMotorSpeed(double rps) {
+	buddyClimbMotor.setControl(new VelocityVoltage(rps).withEnableFOC(true));
 }
 
 public void log() {}
