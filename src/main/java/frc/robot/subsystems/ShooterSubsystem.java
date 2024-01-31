@@ -62,6 +62,14 @@ public boolean getShooterSensor() {
 	}
 }
 
+public double getTopMotorSpeed() {
+	return topMotor.getVelocity().getValue();
+}
+
+public double getBottomMotorSpeed() {
+	return bottomMotor.getVelocity().getValue();
+}
+
 public void log() {}
 
 @Override

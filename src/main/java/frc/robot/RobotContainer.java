@@ -8,9 +8,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.*;
+import frc.robot.commands.IntakeCommand.IntakeMode;
 import frc.robot.constants.*;
-// import frc.robot.subsystems.LedSubsystem;
 import frc.robot.subsystems.*;
+import frc.robot.subsystems.LedSubsystem;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -58,15 +59,12 @@ public RobotContainer() {
 private void configureBindings() {
 	operatorController.leftBumper().whileTrue(new RevUpCommand());
 	operatorController.rightBumper().whileTrue(new ShootCommand());
-	// operatorController.povUp().whileTrue(new IntakeCommand(true,
-	// IntakeMode.FRONT));
-	// operatorController.povDown().whileTrue(new IntakeCommand(true,
-	// IntakeMode.BACK));
-	// operatorController.y().whileTrue(new IntakeCommand(true, IntakeMode.SENSOR));
-	// operatorController.leftTrigger().whileTrue(new
-	// IndependantClimbLeftCommand());
-	// operatorController.rightTrigger().whileTrue(new
-	// IndependantClimbRightCommand());
+	operatorController.povUp().whileTrue(new IntakeCommand(true, IntakeMode.FRONT));
+	operatorController.povDown().whileTrue(new IntakeCommand(true, IntakeMode.BACK));
+	operatorController.y().whileTrue(new IntakeCommand(true, IntakeMode.SENSOR));
+	operatorController.leftTrigger().whileTrue(new IndependantClimbLeftCommand());
+	operatorController.rightTrigger().whileTrue(new IndependantClimbRightCommand());
+	operatorController.x().whileTrue(new AutoShootCommand());
 
 	// drivetrainSubsystem.setDefaultCommand(new DriveCommand());
 }
