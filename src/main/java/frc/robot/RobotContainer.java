@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.*;
 import frc.robot.commands.IntakeCommand.IntakeMode;
 import frc.robot.constants.*;
+import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.LedSubsystem;
 
@@ -28,9 +29,9 @@ public static IntakeConstants intakeConstants = new IntakeConstants();
 public static ShooterConstants shooterConstants = new ShooterConstants();
 public static VisionConstants visionConstants = new VisionConstants();
 
-// public static TunerConstants tunerConstants = new TunerConstants(
+public static TunerConstants tunerConstants = new TunerConstants();
 
-// public static DrivetrainSubsystem drivetrainSubsystem =
+public static DrivetrainSubsystem drivetrainSubsystem = TunerConstants.DriveTrain;
 public static IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
 public static ClimberSubsystem climberSubsystem = new ClimberSubsystem();
 public static LedSubsystem ledSubsystem = new LedSubsystem(true);
