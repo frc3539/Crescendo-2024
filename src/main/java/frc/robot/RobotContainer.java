@@ -64,10 +64,10 @@ private void configureBindings() {
 	operatorController.povDown().whileTrue(new IntakeCommand(true, IntakeMode.BACK));
 	operatorController.y().whileTrue(new IntakeCommand(true, IntakeMode.SENSOR));
 	operatorController.leftTrigger().whileTrue(new IndependantClimbLeftCommand());
-	operatorController.rightTrigger().whileTrue(new IndependantClimbRightCommand());
-	operatorController.x().whileTrue(new AutoShootCommand());
+     	operatorController.x().whileTrue(new AutoShootCommand());
+	operatorController.start().whileTrue(new BuddyClimbCommand());
 
-	// drivetrainSubsystem.setDefaultCommand(new DriveCommand());
+	     // drivetrainSubsystem.setDefaultCommand(new DriveCommand());
 }
 
 /**
