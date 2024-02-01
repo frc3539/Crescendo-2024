@@ -30,11 +30,11 @@ public void setBuddyClimbMotorSpeed(double rps) {
 	buddyClimbMotor.setControl(new VelocityVoltage(rps).withEnableFOC(true));
 }
 
-public double getBuddyClimbMotorSpeed(){
+public double getBuddyClimbMotorSpeed() {
 
-return buddyClimbMotor.getVelocity().getValue();
-
+	return buddyClimbMotor.getVelocity().getValue();
 }
+
 public void log() {}
 
 @Override
