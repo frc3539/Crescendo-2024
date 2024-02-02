@@ -4,12 +4,16 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.configs.SlotConfigs;
+import com.ctre.phoenix6.configs.SoftwareLimitSwitchConfigs;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.GravityTypeValue;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.IDConstants;
+import frc.robot.constants.ShooterConstants;
 
 public class ShooterSubsystem extends SubsystemBase {
 /** Creates a new ShooterSubsystem. */
@@ -22,7 +26,24 @@ public ShooterSubsystem() {
 	bottomMotor = new TalonFX(IDConstants.bottomMotor, "rio");
 	feedMotor = new TalonFX(IDConstants.feedMotor, "rio");
 	angleMotor = new TalonFX(0, "rio");
-
+	angleMotor
+		.getConfigurator()
+		.apply(
+			new SoftwareLimitSwitchConfigs()
+				.withForwardSoftLimitEnable(true)
+				.withForwardSoftLimitThreshold(ShooterConstants.angleShooterSoftMax)
+				.withReverseSoftLimitEnable(true)
+				.withReverseSoftLimitThreshold(ShooterConstants.angleShooterSoftMin));
+	angleMotor
+		.getConfigurator()
+		.apply(
+			new SlotConfigs()
+				.withKP(ShooterConstants.angleShooterP)
+				.withKI(ShooterConstants.angleShooterI)
+				.withKD(ShooterConstants.angleShooterD)
+				.withKV(ShooterConstants.angleShooterV)
+				.withKG(ShooterConstants.angleShooterG)
+				.withGravityType(GravityTypeValue.Arm_Cosine));
 	shooterSensor = new DigitalInput(2);
 }
 
@@ -52,6 +73,10 @@ public void setFeedMotorVoltage(double voltage) {
 
 public void setAngleMotorSpeed(double rps) {
 	angleMotor.setControl(new VelocityVoltage(rps).withEnableFOC(true));
+}
+
+public void setShooterAngle(int angle) {
+	// angleMotor.setControl
 }
 
 public boolean getShooterSensor() {
