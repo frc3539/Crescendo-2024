@@ -27,6 +27,25 @@ public ShooterSubsystem() {
 	feedMotor = new TalonFX(IDConstants.feedMotor, "rio");
 	elevatorMotor = new TalonFX(IDConstants.elevatorMotorID, "rio");
 	angleMotor = new TalonFX(IDConstants.angleMotorID, "rio");
+	elevatorMotor
+		.getConfigurator()
+		.apply(
+			new SoftwareLimitSwitchConfigs()
+				.withForwardSoftLimitEnable(true)
+				.withForwardSoftLimitThreshold(ShooterConstants.elevatorSoftMax)
+				.withReverseSoftLimitEnable(true)
+				.withReverseSoftLimitThreshold(ShooterConstants.elevatorSoftMin));
+	elevatorMotor
+		.getConfigurator()
+		.apply(
+			new SlotConfigs()
+				.withKP(ShooterConstants.angleShooterP)
+				.withKI(ShooterConstants.elevatorMotorI)
+				.withKD(ShooterConstants.elevatorMotorD)
+				.withKV(ShooterConstants.elevatorMotorV)
+				.withKG(ShooterConstants.elevatorMotorV)
+				.withGravityType(GravityTypeValue.Elevator_Static));
+
 	angleMotor
 		.getConfigurator()
 		.apply(
