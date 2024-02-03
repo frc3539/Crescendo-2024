@@ -1,6 +1,6 @@
 package frc.robot.constants;
 
-import org.frcteam3539.BulldogLibrary.INIConfiguration.BBConstants;
+import org.bytingbulldogs.bulldoglibrary.INIConfiguration.BBConstants;
 
 public class IDConstants extends BBConstants {
 public IDConstants() {
@@ -11,9 +11,9 @@ public IDConstants() {
 public static int topMotor = 0;
 public static int bottomMotor = 0;
 public static int feedMotor = 0;
-public static int intakeMotorOne = 0;
-public static int intakeMotorTwo = 0;
-public static int intakeMotorThree = 0;
+public static int groundMotorID = 0;
+public static int kickMotorID = 0;
+public static int grabMotorID = 0;
 public static int FLDriveID = 0;
 public static int FLCanCoderID = 0;
 public static int FLSteeringID = 0;
@@ -32,4 +32,11 @@ public static int PigeonID = 0;
 public static int CANdleID = 0;
 public static String CandleCanName = "";
 public static String swerveCanbusName = "canivore";
+public static int buddyClimbMotorID = 0;
+public static int angleMotorID = 0;
+public static int elevatorMotorID = 0;
+public static int shooterSensorChannel = 0;
+public static int frontSensorChannel = 0;
+public static int backSensorChannel = 0;
+public static int chamberSensorChannel = 0;
 }

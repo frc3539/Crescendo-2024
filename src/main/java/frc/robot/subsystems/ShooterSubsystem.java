@@ -17,7 +17,7 @@ import frc.robot.constants.ShooterConstants;
 
 public class ShooterSubsystem extends SubsystemBase {
 /** Creates a new ShooterSubsystem. */
-private TalonFX topMotor, bottomMotor, feedMotor, angleMotor;
+private TalonFX topMotor, bottomMotor, feedMotor, elevatorMotor, angleMotor;
 
 private DigitalInput shooterSensor;
 
@@ -25,7 +25,8 @@ public ShooterSubsystem() {
 	topMotor = new TalonFX(IDConstants.topMotor, "rio");
 	bottomMotor = new TalonFX(IDConstants.bottomMotor, "rio");
 	feedMotor = new TalonFX(IDConstants.feedMotor, "rio");
-	angleMotor = new TalonFX(0, "rio");
+	elevatorMotor = new TalonFX(IDConstants.elevatorMotorID, "rio");
+	angleMotor = new TalonFX(IDConstants.angleMotorID, "rio");
 	angleMotor
 		.getConfigurator()
 		.apply(
@@ -69,6 +70,10 @@ public void setFeedMotorSpeed(double rps) {
 
 public void setFeedMotorVoltage(double voltage) {
 	feedMotor.setControl(new VoltageOut(voltage).withEnableFOC(true));
+}
+
+public void setElevatorMotorSpeed(double rps) {
+	elevatorMotor.setControl(new VelocityVoltage(rps).withEnableFOC(true));
 }
 
 public void setAngleMotorSpeed(double rps) {

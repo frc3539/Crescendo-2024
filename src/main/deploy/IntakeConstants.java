@@ -1,6 +1,6 @@
 package frc.robot.constants;
 
-import org.frcteam3539.BulldogLibrary.INIConfiguration.BBConstants;
+import org.bytingbulldogs.bulldoglibrary.INIConfiguration.BBConstants;
 
 public class IntakeConstants extends BBConstants {
 public IntakeConstants() {

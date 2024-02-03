@@ -1,10 +1,10 @@
 package frc.robot.constants;
 
-import org.frcteam3539.BulldogLibrary.INIConfiguration.BBConstants;
+import org.bytingbulldogs.bulldoglibrary.INIConfiguration.BBConstants;
 
 public class VisionConstants extends BBConstants {
 public VisionConstants() {
-	super("/home/lvuser/IDConstants.ini", true);
+	super("/home/lvuser/VisionConstants.ini", true);
 	save();
 }
 }
