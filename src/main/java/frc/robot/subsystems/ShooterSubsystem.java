@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.configs.HardwareLimitSwitchConfigs;
 import com.ctre.phoenix6.configs.SlotConfigs;
 import com.ctre.phoenix6.configs.SoftwareLimitSwitchConfigs;
 import com.ctre.phoenix6.controls.VelocityVoltage;
@@ -45,6 +46,14 @@ public ShooterSubsystem() {
 				.withKV(ShooterConstants.elevatorMotorV)
 				.withKG(ShooterConstants.elevatorMotorV)
 				.withGravityType(GravityTypeValue.Elevator_Static));
+
+	elevatorMotor
+		.getConfigurator()
+		.apply(
+			new HardwareLimitSwitchConfigs()
+				.withReverseLimitEnable(true)
+				.withReverseLimitAutosetPositionEnable(true)
+				.withReverseLimitAutosetPositionValue(0));
 
 	angleMotor
 		.getConfigurator()
