@@ -7,6 +7,8 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.configs.HardwareLimitSwitchConfigs;
 import com.ctre.phoenix6.configs.SlotConfigs;
 import com.ctre.phoenix6.configs.SoftwareLimitSwitchConfigs;
+import com.ctre.phoenix6.controls.MotionMagicVoltage;
+import com.ctre.phoenix6.controls.StaticBrake;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -44,7 +46,7 @@ public ShooterSubsystem() {
 				.withKI(ShooterConstants.elevatorMotorI)
 				.withKD(ShooterConstants.elevatorMotorD)
 				.withKV(ShooterConstants.elevatorMotorV)
-				.withKG(ShooterConstants.elevatorMotorV)
+				.withKG(ShooterConstants.elevatorMotorG)
 				.withGravityType(GravityTypeValue.Elevator_Static));
 
 	elevatorMotor
@@ -100,16 +102,20 @@ public void setFeedMotorVoltage(double voltage) {
 	feedMotor.setControl(new VoltageOut(voltage).withEnableFOC(true));
 }
 
-public void setElevatorMotorSpeed(double rps) {
-	elevatorMotor.setControl(new VelocityVoltage(rps).withEnableFOC(true));
+public void stopFeedMotor() {
+	feedMotor.setControl(new StaticBrake());
 }
 
-public void setAngleMotorSpeed(double rps) {
-	angleMotor.setControl(new VelocityVoltage(rps).withEnableFOC(true));
+public void stopAngleMotor() {
+	angleMotor.setControl(new StaticBrake());
+}
+
+public void stopElevatorMotor() {
+	elevatorMotor.setControl(new StaticBrake());
 }
 
 public void setShooterAngle(int angle) {
-	// angleMotor.setControl
+	angleMotor.setControl(new MotionMagicVoltage(angle));
 }
 
 public boolean getShooterSensor() {
