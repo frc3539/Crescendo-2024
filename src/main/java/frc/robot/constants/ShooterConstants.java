@@ -25,4 +25,4 @@ public static double elevatorMotorV = 0.0;
 public static double elevatorMotorG = 0.0;
 public static int elevatorSoftMin = 0;
 public static int elevatorSoftMax = 0;
-}
+}
