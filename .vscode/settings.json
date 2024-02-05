@@ -45,5 +45,10 @@
     "editor.codeActionsOnSave": {
       "source.fixAll.spotlessGradle": true
     }
+  },
+  "[gradle][java]": {
+    "editor.codeActionsOnSave": {
+      "source.fixAll.spotlessGradle": "explicit"
+    }
   }
 }

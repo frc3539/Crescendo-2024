@@ -2,12 +2,11 @@ package frc.robot.constants;
 
 import org.frcteam3539.BulldogLibrary.INIConfiguration.BBConstants;
 
-public class DrivetrainConstants extends BBConstants {
+public class DrivetrainConstants extends BBConstants{
 public DrivetrainConstants() {
 	super("/home/lvuser/DrivetrainConstants.ini", true);
 	save();
 }
-
 public static double TranslationkP = 20.0;
 public static double TranslationkI = 0.0;
 public static double TranslationkD = 0.0;
@@ -21,4 +20,4 @@ public static double FLSteerOffset = 0.0;
 public static double FRSteerOffset = 0.0;
 public static double BLSteerOffset = 0.0;
 public static double BRSteerOffset = 0.0;
-}
+}

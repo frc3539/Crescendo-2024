@@ -2,12 +2,11 @@ package frc.robot.constants;
 
 import org.frcteam3539.BulldogLibrary.INIConfiguration.BBConstants;
 
-public class ShooterConstants extends BBConstants {
+public class ShooterConstants extends BBConstants{
 public ShooterConstants() {
 	super("/home/lvuser/ShooterConstants.ini", true);
 	save();
 }
-
 public static double revRps = 0.0;
 public static double shootRps = 0.0;
 public static double elevatorRps = 0.0;
@@ -25,4 +24,4 @@ public static double elevatorMotorV = 0.0;
 public static double elevatorMotorG = 0.0;
 public static int elevatorSoftMin = 0;
 public static int elevatorSoftMax = 0;
-}
+}

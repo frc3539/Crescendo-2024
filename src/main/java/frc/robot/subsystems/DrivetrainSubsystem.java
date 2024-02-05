@@ -13,7 +13,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.Robot;
-import frc.robot.constants.DrivetrainConstant;
+import frc.robot.constants.DrivetrainConstants;
 import java.util.Arrays;
 import org.frcteam3539.Byte_Swerve_Lib.control.HolonomicMotionProfiledTrajectoryFollower;
 import org.frcteam3539.Byte_Swerve_Lib.control.PidConstants;
@@ -50,20 +50,20 @@ public DrivetrainSubsystem(
 
 	DrivetrainFeedforwardConstants FEEDFORWARD_CONSTANTS =
 		new DrivetrainFeedforwardConstants(
-			DrivetrainConstant.TranslationkV,
-			DrivetrainConstant.TranslationkA,
-			DrivetrainConstant.TranslationkS);
+			DrivetrainConstants.TranslationkV,
+			DrivetrainConstants.TranslationkA,
+			DrivetrainConstants.TranslationkS);
 
 	follower =
 		new HolonomicMotionProfiledTrajectoryFollower(
 			new PidConstants(
-				DrivetrainConstant.TranslationkP,
-				DrivetrainConstant.TranslationkI,
-				DrivetrainConstant.TranslationkD),
+				DrivetrainConstants.TranslationkP,
+				DrivetrainConstants.TranslationkI,
+				DrivetrainConstants.TranslationkD),
 			new PidConstants(
-				DrivetrainConstant.RotationkP,
-				DrivetrainConstant.RotationkI,
-				DrivetrainConstant.RotationkD),
+				DrivetrainConstants.RotationkP,
+				DrivetrainConstants.RotationkI,
+				DrivetrainConstants.RotationkD),
 			new HolonomicFeedforward(FEEDFORWARD_CONSTANTS));
 }
 

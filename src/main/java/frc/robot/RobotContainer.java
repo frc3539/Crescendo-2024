@@ -22,7 +22,7 @@ import frc.robot.subsystems.LedSubsystem;
  */
 public class RobotContainer {
 
-public static DrivetrainConstant drivetrainConstants = new DrivetrainConstant();
+public static DrivetrainConstants drivetrainConstants = new DrivetrainConstants();
 public static ClimberConstants climberConstants = new ClimberConstants();
 public static IDConstants idConstants = new IDConstants();
 public static IntakeConstants intakeConstants = new IntakeConstants();
