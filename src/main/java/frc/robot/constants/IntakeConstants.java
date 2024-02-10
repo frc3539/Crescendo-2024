@@ -10,4 +10,4 @@ public IntakeConstants() {
 
 public static double intakeRps = 0;
 public static double kickRps = 0;
-}
+}

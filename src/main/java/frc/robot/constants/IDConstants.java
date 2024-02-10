@@ -39,4 +39,4 @@ public static int shooterSensorChannel = 1;
 public static int frontSensorChannel = 2;
 public static int backSensorChannel = 3;
 public static int chamberSensorChannel = 4;
-}
+}
