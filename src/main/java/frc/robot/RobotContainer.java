@@ -12,7 +12,8 @@ import frc.robot.commands.IntakeCommand.IntakeMode;
 import frc.robot.constants.*;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.*;
-import frc.robot.subsystems.LedSubsystem;
+
+// import frc.robot.subsystems.LedSubsystem;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -31,11 +32,12 @@ public static VisionConstants visionConstants = new VisionConstants();
 
 public static TunerConstants tunerConstants = new TunerConstants();
 
-public static DrivetrainSubsystem drivetrainSubsystem = TunerConstants.DriveTrain;
+// public static DrivetrainSubsystem drivetrainSubsystem = TunerConstants.DriveTrain;
 public static IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
-public static ClimberSubsystem climberSubsystem = new ClimberSubsystem();
-public static LedSubsystem ledSubsystem = new LedSubsystem(true);
-public static VisionSubsystem visionSubsystem = new VisionSubsystem();
+
+// public static ClimberSubsystem climberSubsystem = new ClimberSubsystem();
+// public static LedSubsystem ledSubsystem = new LedSubsystem(true);
+// public static VisionSubsystem visionSubsystem = new VisionSubsystem();
 public static ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
 
 /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -60,12 +62,13 @@ public RobotContainer() {
 private void configureBindings() {
 	operatorController.leftBumper().whileTrue(new RevUpCommand());
 	operatorController.rightBumper().whileTrue(new ShootCommand());
+	// operatorController.povUp().whileTrue(new IntakeCommand());
 	operatorController.povUp().whileTrue(new IntakeCommand(true, IntakeMode.FRONT));
 	operatorController.povDown().whileTrue(new IntakeCommand(true, IntakeMode.BACK));
-	operatorController.y().whileTrue(new IntakeCommand(true, IntakeMode.SENSOR));
-	operatorController.leftTrigger().whileTrue(new IndependantClimbLeftCommand());
-	operatorController.x().whileTrue(new AutoShootCommand());
-	operatorController.start().whileTrue(new BuddyClimbCommand());
+	// operatorController.y().whileTrue(new IntakeCommand(true, IntakeMode.SENSOR));
+	// operatorController.leftTrigger().whileTrue(new IndependantClimbLeftCommand());
+	// operatorController.x().whileTrue(new AutoShootCommand());
+	// operatorController.start().whileTrue(new BuddyClimbCommand());
 
 	// drivetrainSubsystem.setDefaultCommand(new DriveCommand());
 }

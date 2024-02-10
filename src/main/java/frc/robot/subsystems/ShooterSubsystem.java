@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.configs.HardwareLimitSwitchConfigs;
 import com.ctre.phoenix6.configs.SlotConfigs;
 import com.ctre.phoenix6.configs.SoftwareLimitSwitchConfigs;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -24,8 +25,14 @@ private DigitalInput shooterSensor;
 
 public ShooterSubsystem() {
 	topMotor = new TalonFX(IDConstants.topMotor, "rio");
+	topMotor.setInverted(true);
+	topMotor.getConfigurator().apply(new TalonFXConfiguration());
 	bottomMotor = new TalonFX(IDConstants.bottomMotor, "rio");
+	bottomMotor.getConfigurator().apply(new TalonFXConfiguration());
+	bottomMotor.setInverted(true);
 	feedMotor = new TalonFX(IDConstants.feedMotor, "rio");
+	feedMotor.getConfigurator().apply(new TalonFXConfiguration());
+	feedMotor.setInverted(true);
 	elevatorMotor = new TalonFX(IDConstants.elevatorMotorID, "rio");
 	angleMotor = new TalonFX(IDConstants.angleMotorID, "rio");
 	elevatorMotor
@@ -113,11 +120,7 @@ public void setShooterAngle(int angle) {
 }
 
 public boolean getShooterSensor() {
-	if (shooterSensor.get() == true) {
-	return true;
-	} else {
-	return false;
-	}
+	return shooterSensor.get();
 }
 
 public double getTopMotorSpeed() {

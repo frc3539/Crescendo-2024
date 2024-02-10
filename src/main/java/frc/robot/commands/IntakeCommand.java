@@ -18,7 +18,7 @@ public enum IntakeMode {
 boolean intake;
 IntakeMode mode;
 
-/** Creates a new IntakeCommand. */
+// Creates a new IntakeCommand.
 public IntakeCommand(boolean intake, IntakeMode mode) {
 	this.intake = intake;
 	this.mode = mode;
@@ -63,17 +63,25 @@ public void initialize() {
 // Called every time the scheduler runs while the command is scheduled.
 @Override
 public void execute() {
-	if (RobotContainer.shooterSubsystem.getShooterSensor() == true) {
+
+	// RobotContainer.intakeSubsystem.setGroundMotorVoltage(-12);
+	// RobotContainer.intakeSubsystem.setGrabMotorVoltage(12);
+	// RobotContainer.intakeSubsystem.setKickMotorVoltage(-12);
+	/*if (RobotContainer.shooterSubsystem.getShooterSensor() == true) {
 	end(true);
-	}
+	}*/
 }
 
 // Called once the command ends or is interrupted.
 @Override
 public void end(boolean interrupted) {
-	RobotContainer.intakeSubsystem.setGrabMotorSpeed(0);
-	RobotContainer.intakeSubsystem.setGroundMotorSpeed(0);
-	RobotContainer.intakeSubsystem.setKickMotorSpeed(0);
+	// RobotContainer.intakeSubsystem.setGrabMotorSpeed(0);
+	// RobotContainer.intakeSubsystem.setGroundMotorSpeed(0);
+	// RobotContainer.intakeSubsystem.setKickMotorSpeed(0);
+
+	RobotContainer.intakeSubsystem.setGrabMotorVoltage(0);
+	RobotContainer.intakeSubsystem.setGroundMotorVoltage(0);
+	RobotContainer.intakeSubsystem.setKickMotorVoltage(0);
 }
 
 // Returns true when the command should end.

@@ -8,9 +8,9 @@ public IDConstants() {
 	save();
 }
 
-public static int topMotor = 0;
-public static int bottomMotor = 0;
-public static int feedMotor = 0;
+public static int topMotor = 3;
+public static int bottomMotor = 4;
+public static int feedMotor = 5;
 public static int groundMotorID = 0;
 public static int kickMotorID = 0;
 public static int grabMotorID = 0;
@@ -35,8 +35,8 @@ public static String swerveCanbusName = "canivore";
 public static int buddyClimbMotorID = 0;
 public static int angleMotorID = 0;
 public static int elevatorMotorID = 0;
-public static int shooterSensorChannel = 0;
-public static int frontSensorChannel = 0;
-public static int backSensorChannel = 0;
-public static int chamberSensorChannel = 0;
+public static int shooterSensorChannel = 1;
+public static int frontSensorChannel = 2;
+public static int backSensorChannel = 3;
+public static int chamberSensorChannel = 4;
 }
