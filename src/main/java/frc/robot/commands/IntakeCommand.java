@@ -29,20 +29,30 @@ public IntakeCommand(boolean intake, IntakeMode mode) {
 public void initialize() {
 
 	if (intake == true) {
-	RobotContainer.intakeSubsystem.setGroundMotorSpeed(IntakeConstants.intakeRps);
-	RobotContainer.intakeSubsystem.setGrabMotorSpeed(IntakeConstants.intakeRps);
+	// RobotContainer.intakeSubsystem.setGroundMotorSpeed(IntakeConstants.intakeRps);
+	// RobotContainer.intakeSubsystem.setGrabMotorSpeed(IntakeConstants.intakeRps);
+
+	RobotContainer.intakeSubsystem.setGroundMotorVoltage(12);
+	RobotContainer.intakeSubsystem.setGrabMotorVoltage(12);
+
 	} else {
-	RobotContainer.intakeSubsystem.setGroundMotorSpeed(-IntakeConstants.intakeRps);
-	RobotContainer.intakeSubsystem.setGrabMotorSpeed(-IntakeConstants.intakeRps);
+	// RobotContainer.intakeSubsystem.setGroundMotorSpeed(-IntakeConstants.intakeRps);
+	// RobotContainer.intakeSubsystem.setGrabMotorSpeed(-IntakeConstants.intakeRps);
+
+	RobotContainer.intakeSubsystem.setGroundMotorVoltage(-12);
+	RobotContainer.intakeSubsystem.setGrabMotorVoltage(-12);
 	}
 
 	switch (mode) {
 	case FRONT:
-		RobotContainer.intakeSubsystem.setKickMotorSpeed(IntakeConstants.kickRps);
+		// RobotContainer.intakeSubsystem.setKickMotorSpeed(IntakeConstants.kickRps);
+		RobotContainer.intakeSubsystem.setKickMotorVoltage(12);
 		break;
 
 	case BACK:
-		RobotContainer.intakeSubsystem.setKickMotorSpeed(-IntakeConstants.kickRps);
+		// RobotContainer.intakeSubsystem.setKickMotorSpeed(-IntakeConstants.kickRps);
+		RobotContainer.intakeSubsystem.setKickMotorVoltage(-12);
+
 		break;
 
 	case SENSOR:
