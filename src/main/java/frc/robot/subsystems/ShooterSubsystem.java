@@ -4,14 +4,22 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.configs.FeedbackConfigs;
 import com.ctre.phoenix6.configs.HardwareLimitSwitchConfigs;
+import com.ctre.phoenix6.configs.MagnetSensorConfigs;
 import com.ctre.phoenix6.configs.SlotConfigs;
 import com.ctre.phoenix6.configs.SoftwareLimitSwitchConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
+import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.AbsoluteSensorRangeValue;
+import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 import com.ctre.phoenix6.signals.GravityTypeValue;
+import com.ctre.phoenix6.signals.SensorDirectionValue;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.IDConstants;
@@ -21,9 +29,13 @@ public class ShooterSubsystem extends SubsystemBase {
 /** Creates a new ShooterSubsystem. */
 private TalonFX topMotor, bottomMotor, feedMotor, elevatorMotor, angleMotor;
 
+private CANcoder angleCanCoder;
+
 private DigitalInput shooterSensor;
 
 public ShooterSubsystem() {
+
+	angleCanCoder = new CANcoder(IDConstants.angleCanCoderID, "rio");
 	topMotor = new TalonFX(IDConstants.topMotor, "rio");
 	topMotor.setInverted(true);
 	topMotor.getConfigurator().apply(new TalonFXConfiguration());
@@ -35,6 +47,9 @@ public ShooterSubsystem() {
 	feedMotor.setInverted(true);
 	elevatorMotor = new TalonFX(IDConstants.elevatorMotorID, "rio");
 	angleMotor = new TalonFX(IDConstants.angleMotorID, "rio");
+
+	reloadFromConfig();
+
 	elevatorMotor
 		.getConfigurator()
 		.apply(
@@ -43,16 +58,6 @@ public ShooterSubsystem() {
 				.withForwardSoftLimitThreshold(ShooterConstants.elevatorSoftMax)
 				.withReverseSoftLimitEnable(true)
 				.withReverseSoftLimitThreshold(ShooterConstants.elevatorSoftMin));
-	elevatorMotor
-		.getConfigurator()
-		.apply(
-			new SlotConfigs()
-				.withKP(ShooterConstants.angleShooterP)
-				.withKI(ShooterConstants.elevatorMotorI)
-				.withKD(ShooterConstants.elevatorMotorD)
-				.withKV(ShooterConstants.elevatorMotorV)
-				.withKG(ShooterConstants.elevatorMotorG)
-				.withGravityType(GravityTypeValue.Elevator_Static));
 
 	elevatorMotor
 		.getConfigurator()
@@ -70,6 +75,39 @@ public ShooterSubsystem() {
 				.withForwardSoftLimitThreshold(ShooterConstants.angleShooterSoftMax)
 				.withReverseSoftLimitEnable(true)
 				.withReverseSoftLimitThreshold(ShooterConstants.angleShooterSoftMin));
+
+	angleMotor
+		.getConfigurator()
+		.apply(
+			new FeedbackConfigs()
+				.withFeedbackRemoteSensorID(IDConstants.angleCanCoderID)
+				.withRotorToSensorRatio(ShooterConstants.angleMotorToEncoder)
+				.withSensorToMechanismRatio(1)
+				.withFeedbackSensorSource(FeedbackSensorSourceValue.FusedCANcoder));
+
+	shooterSensor = new DigitalInput(2);
+}
+
+public void reloadFromConfig() {
+
+	angleCanCoder
+		.getConfigurator()
+		.apply(
+			new MagnetSensorConfigs()
+				.withAbsoluteSensorRange(AbsoluteSensorRangeValue.Signed_PlusMinusHalf)
+				.withSensorDirection(SensorDirectionValue.CounterClockwise_Positive)
+				.withMagnetOffset(ShooterConstants.shooterAngleOffset));
+	elevatorMotor
+		.getConfigurator()
+		.apply(
+			new SlotConfigs()
+				.withKP(ShooterConstants.angleShooterP)
+				.withKI(ShooterConstants.elevatorMotorI)
+				.withKD(ShooterConstants.elevatorMotorD)
+				.withKV(ShooterConstants.elevatorMotorV)
+				.withKG(ShooterConstants.elevatorMotorG)
+				.withGravityType(GravityTypeValue.Elevator_Static));
+
 	angleMotor
 		.getConfigurator()
 		.apply(
@@ -80,7 +118,10 @@ public ShooterSubsystem() {
 				.withKV(ShooterConstants.angleShooterV)
 				.withKG(ShooterConstants.angleShooterG)
 				.withGravityType(GravityTypeValue.Arm_Cosine));
-	shooterSensor = new DigitalInput(2);
+}
+
+public double getShooterAngle() {
+	return angleCanCoder.getAbsolutePosition().getValue();
 }
 
 public void setTopMotorSpeed(double rps) {
@@ -115,8 +156,8 @@ public void setAngleMotorSpeed(double rps) {
 	angleMotor.setControl(new VelocityVoltage(rps).withEnableFOC(true));
 }
 
-public void setShooterAngle(int angle) {
-	// angleMotor.setControl
+public void setShooterAngle(double angle) {
+	angleMotor.setControl(new MotionMagicVoltage(Units.degreesToRotations(angle)));
 }
 
 public boolean getShooterSensor() {

@@ -25,6 +25,8 @@ public static double elevatorMotorV = 0.0;
 public static double elevatorMotorG = 0.0;
 public static int elevatorSoftMin = 0;
 public static int elevatorSoftMax = 0;
-public static double angleMotorToEncoder = 94.5;
-public static double elevatorMotorToInches = 0.1598888;
+public static double angleMotorToEncoder = 94.5; // Gear ratio between motor and piviot shaft
+public static double elevatorMotorToInches = 0.1598888; // ins. per revolution
+public static double shooterAngleOffset = 0.0;
+public static double minElevatorMoveAngle = 0.0;
 }

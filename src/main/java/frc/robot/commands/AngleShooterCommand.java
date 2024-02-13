@@ -1,40 +1,46 @@
-// // Copyright (c) FIRST and other WPILib contributors.
-// // Open Source Software; you can modify and/or share it under the terms of
-// // the WPILib BSD license file in the root directory of this project.
+// Copyright (c) FIRST and other WPILib contributors.
+// Open Source Software; you can modify and/or share it under the terms of
+// the WPILib BSD license file in the root directory of this project.
 
-// package frc.robot.commands;
+package frc.robot.commands;
 
-// import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.RobotContainer;
 
-// public class AngleShooterCommand extends Command {
+public class AngleShooterCommand extends Command {
 
-// double maxSpeed = 1;
+double angle;
 
-// /** Creates a new AngleShooterCommand. */
-// public AngleShooterCommand() {
-// 	// Use addRequirements() here to declare subsystem dependencies.
-// }
+/** Creates a new AngleShooterCommand. */
+public AngleShooterCommand(double angle) {
+	// Use addRequirements() here to declare subsystem dependencies..a
+	addRequirements(RobotContainer.shooterSubsystem);
+	this.angle = angle;
+}
 
-// // Called when the command is initially scheduled.
-// @Override
-// public void initialize() {}
+// Called when the command is initially scheduled.
+@Override
+public void initialize() {
+	RobotContainer.shooterSubsystem.setShooterAngle(angle);
+}
 
-// // Called every time the scheduler runs while the command is scheduled.
-// @Override
-// public void execute() {
-// 	// RobotContainer.shooterSubsystem.setAngleMotorSpeed(
-// 	// maxSpeed * RobotContainer.operatorController.getLeftY());
-// }
+// Called every time the scheduler runs while the command is scheduled.
+@Override
+public void execute() {
+	// RobotContainer.shooterSubsystem.setAngleMotorSpeed(
+	// maxSpeed * RobotContainer.operatorController.getLeftY());
+}
 
-// // Called once the command ends or is interrupted.
-// @Override
-// public void end(boolean interrupted) {
-// 	// RobotContainer.shooterSubsystem.setAngleMotorSpeed(0);
-// }
+// Called once the command ends or is interrupted.
+@Override
+public void end(boolean interrupted) {
+	// RobotContainer.shooterSubsystem.setAngleMotorSpeed(0);
+}
 
-// // Returns true when the command should end.
-// @Override
-// public boolean isFinished() {
-// 	return false;
-// }
-// }
+// Returns true when the command should end.
+@Override
+public boolean isFinished() {
+	return MathUtil.isNear(angle, RobotContainer.shooterSubsystem.getShooterAngle(), 1.5);
+}
+}
