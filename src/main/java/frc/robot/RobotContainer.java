@@ -38,7 +38,7 @@ public static TunerConstants tunerConstants = new TunerConstants();
 public static DrivetrainSubsystem drivetrainSubsystem = TunerConstants.DriveTrain;
 public static IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
 
-// public static ClimberSubsystem climberSubsystem = new ClimberSubsystem();
+public static ClimberSubsystem climberSubsystem = new ClimberSubsystem();
 // public static LedSubsystem ledSubsystem = new LedSubsystem(true);
 // public static VisionSubsystem visionSubsystem = new VisionSubsystem();
 public static ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
@@ -68,10 +68,10 @@ private void configureBindings() {
 	// operatorController.povUp().whileTrue(new IntakeCommand());
 	operatorController.povUp().whileTrue(new IntakeCommand(true, IntakeMode.FRONT));
 	operatorController.povDown().whileTrue(new IntakeCommand(true, IntakeMode.BACK));
-	// operatorController.y().whileTrue(new IntakeCommand(true, IntakeMode.SENSOR));
+	operatorController.y().whileTrue(new IntakeCommand(true, IntakeMode.SENSOR));
 	// operatorController.leftTrigger().whileTrue(new IndependantClimbLeftCommand());
 	// operatorController.x().whileTrue(new AutoShootCommand());
-	// operatorController.start().whileTrue(new BuddyClimbCommand());
+	operatorController.start().whileTrue(new BuddyClimbCommand());
 
 	// drivetrainSubsystem.setDefaultCommand(new DriveCommand());
 }
