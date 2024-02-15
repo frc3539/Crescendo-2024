@@ -29,4 +29,4 @@ public static double angleMotorToEncoder = 94.5; // Gear ratio between motor and
 public static double elevatorMotorToInches = 0.1598888; // ins. per revolution
 public static double shooterAngleOffset = 0.0;
 public static double minElevatorMoveAngle = 0.0;
-}
+}

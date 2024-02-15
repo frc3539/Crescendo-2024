@@ -12,6 +12,7 @@ import frc.robot.commands.IntakeCommand.IntakeMode;
 import frc.robot.constants.*;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.*;
+import frc.robot.utilities.LogController;
 
 // import frc.robot.subsystems.LedSubsystem;
 
@@ -23,6 +24,8 @@ import frc.robot.subsystems.*;
  */
 public class RobotContainer {
 
+public static LogController logController = new LogController();
+
 public static DrivetrainConstants drivetrainConstants = new DrivetrainConstants();
 public static ClimberConstants climberConstants = new ClimberConstants();
 public static IDConstants idConstants = new IDConstants();
@@ -32,7 +35,7 @@ public static VisionConstants visionConstants = new VisionConstants();
 
 public static TunerConstants tunerConstants = new TunerConstants();
 
-// public static DrivetrainSubsystem drivetrainSubsystem = TunerConstants.DriveTrain;
+public static DrivetrainSubsystem drivetrainSubsystem = TunerConstants.DriveTrain;
 public static IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
 
 // public static ClimberSubsystem climberSubsystem = new ClimberSubsystem();

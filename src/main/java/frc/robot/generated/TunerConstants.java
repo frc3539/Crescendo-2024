@@ -7,6 +7,7 @@ import com.ctre.phoenix6.mechanisms.swerve.SwerveModuleConstants;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModuleConstants.SteerFeedbackType;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModuleConstantsFactory;
 import edu.wpi.first.math.util.Units;
+import frc.robot.subsystems.DrivetrainSubsystem;
 
 // import frc.robot.subsystems.DrivetrainSubsystem;
 
@@ -157,6 +158,6 @@ private static final SwerveModuleConstants BackRight =
 		Units.inchesToMeters(kBackRightYPosInches),
 		kInvertRightSide);
 
-/*public static DrivetrainSubsystem DriveTrain =
-new DrivetrainSubsystem(DrivetrainConstants, FrontLeft, FrontRight, BackLeft, BackRight);*/
+public static DrivetrainSubsystem DriveTrain =
+	new DrivetrainSubsystem(DrivetrainConstants, FrontLeft, FrontRight, BackLeft, BackRight);
 }
