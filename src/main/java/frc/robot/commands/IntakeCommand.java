@@ -6,7 +6,6 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
-import frc.robot.constants.IntakeConstants;
 
 public class IntakeCommand extends Command {
 public enum IntakeMode {
@@ -20,6 +19,7 @@ IntakeMode mode;
 
 // Creates a new IntakeCommand.
 public IntakeCommand(boolean intake, IntakeMode mode) {
+	addRequirements(RobotContainer.intakeSubsystem, RobotContainer.shooterSubsystem);
 	this.intake = intake;
 	this.mode = mode;
 }
@@ -27,13 +27,21 @@ public IntakeCommand(boolean intake, IntakeMode mode) {
 // Called when the command is initially scheduled.
 @Override
 public void initialize() {
+	if (RobotContainer.shooterSubsystem.getShooterSensor() && intake == true) {
+	RobotContainer.intakeSubsystem.setGroundMotorVoltage(0);
+	RobotContainer.intakeSubsystem.setGrabMotorVoltage(0);
+	RobotContainer.intakeSubsystem.setKickMotorVoltage(0);
+	RobotContainer.shooterSubsystem.setFeedMotorVoltage(0);
 
+	return;
+	}
 	if (intake == true) {
 	// RobotContainer.intakeSubsystem.setGroundMotorSpeed(IntakeConstants.intakeRps);
 	// RobotContainer.intakeSubsystem.setGrabMotorSpeed(IntakeConstants.intakeRps);
 
 	RobotContainer.intakeSubsystem.setGroundMotorVoltage(12);
-	RobotContainer.intakeSubsystem.setGrabMotorVoltage(12);
+	RobotContainer.intakeSubsystem.setGrabMotorVoltage(2);
+	RobotContainer.shooterSubsystem.setFeedMotorVoltage(2);
 
 	} else {
 	// RobotContainer.intakeSubsystem.setGroundMotorSpeed(-IntakeConstants.intakeRps);
@@ -41,6 +49,7 @@ public void initialize() {
 
 	RobotContainer.intakeSubsystem.setGroundMotorVoltage(-12);
 	RobotContainer.intakeSubsystem.setGrabMotorVoltage(-12);
+	RobotContainer.shooterSubsystem.setFeedMotorVoltage(-12);
 	}
 
 	switch (mode) {
@@ -58,13 +67,13 @@ public void initialize() {
 	case SENSOR:
 		Boolean sensorReading = RobotContainer.intakeSubsystem.getSensor();
 		if (sensorReading == true) {
-		RobotContainer.intakeSubsystem.setKickMotorSpeed(IntakeConstants.kickRps);
+		RobotContainer.intakeSubsystem.setKickMotorVoltage(12);
 		}
 		if (sensorReading == false) {
-		RobotContainer.intakeSubsystem.setKickMotorSpeed(-IntakeConstants.kickRps);
+		RobotContainer.intakeSubsystem.setKickMotorVoltage(-12);
 		}
 		if (sensorReading == null) {
-		RobotContainer.intakeSubsystem.setKickMotorSpeed(0);
+		RobotContainer.intakeSubsystem.setKickMotorVoltage(0);
 		}
 		break;
 	}
@@ -73,7 +82,13 @@ public void initialize() {
 // Called every time the scheduler runs while the command is scheduled.
 @Override
 public void execute() {
-
+	if (RobotContainer.shooterSubsystem.getShooterSensor() && intake == true) {
+	RobotContainer.intakeSubsystem.setGroundMotorVoltage(0);
+	RobotContainer.intakeSubsystem.setGrabMotorVoltage(0);
+	RobotContainer.intakeSubsystem.setKickMotorVoltage(0);
+	RobotContainer.shooterSubsystem.setFeedMotorVoltage(0);
+	return;
+	}
 	// RobotContainer.intakeSubsystem.setGroundMotorVoltage(-12);
 	// RobotContainer.intakeSubsystem.setGrabMotorVoltage(12);
 	// RobotContainer.intakeSubsystem.setKickMotorVoltage(-12);
@@ -92,6 +107,7 @@ public void end(boolean interrupted) {
 	RobotContainer.intakeSubsystem.setGrabMotorVoltage(0);
 	RobotContainer.intakeSubsystem.setGroundMotorVoltage(0);
 	RobotContainer.intakeSubsystem.setKickMotorVoltage(0);
+	RobotContainer.shooterSubsystem.setFeedMotorVoltage(0);
 }
 
 // Returns true when the command should end.

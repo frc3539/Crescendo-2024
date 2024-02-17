@@ -18,12 +18,14 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.AbsoluteSensorRangeValue;
 import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 import com.ctre.phoenix6.signals.GravityTypeValue;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.signals.SensorDirectionValue;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.IDConstants;
 import frc.robot.constants.ShooterConstants;
+import org.littletonrobotics.junction.Logger;
 
 public class ShooterSubsystem extends SubsystemBase {
 /** Creates a new ShooterSubsystem. */
@@ -37,14 +39,15 @@ public ShooterSubsystem() {
 
 	angleCanCoder = new CANcoder(IDConstants.angleCanCoderID, "rio");
 	topMotor = new TalonFX(IDConstants.topMotor, "rio");
-	topMotor.setInverted(true);
 	topMotor.getConfigurator().apply(new TalonFXConfiguration());
+	topMotor.setInverted(true);
 	bottomMotor = new TalonFX(IDConstants.bottomMotor, "rio");
 	bottomMotor.getConfigurator().apply(new TalonFXConfiguration());
 	bottomMotor.setInverted(true);
 	feedMotor = new TalonFX(IDConstants.feedMotor, "rio");
 	feedMotor.getConfigurator().apply(new TalonFXConfiguration());
 	feedMotor.setInverted(true);
+	feedMotor.setNeutralMode(NeutralModeValue.Brake);
 	elevatorMotor = new TalonFX(IDConstants.elevatorMotorID, "rio");
 	angleMotor = new TalonFX(IDConstants.angleMotorID, "rio");
 
@@ -85,7 +88,7 @@ public ShooterSubsystem() {
 				.withSensorToMechanismRatio(1)
 				.withFeedbackSensorSource(FeedbackSensorSourceValue.FusedCANcoder));
 
-	shooterSensor = new DigitalInput(2);
+	shooterSensor = new DigitalInput(IDConstants.shooterSensorChannel);
 }
 
 public void reloadFromConfig() {
@@ -161,7 +164,7 @@ public void setShooterAngle(double angle) {
 }
 
 public boolean getShooterSensor() {
-	return shooterSensor.get();
+	return !shooterSensor.get();
 }
 
 public double getTopMotorSpeed() {
@@ -172,7 +175,9 @@ public double getBottomMotorSpeed() {
 	return bottomMotor.getVelocity().getValue();
 }
 
-public void log() {}
+public void log() {
+	Logger.recordOutput("/Shooter/Shooter_Sensor", getShooterSensor());
+}
 
 @Override
 public void periodic() {

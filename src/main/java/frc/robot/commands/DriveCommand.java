@@ -19,14 +19,14 @@ double maxRotationalVelocity = RobotContainer.drivetrainSubsystem.maxRotationalV
 
 private final SwerveRequest.FieldCentric driveFieldCentric =
 	new SwerveRequest.FieldCentric()
-		.withDeadband(maxVelocity * 0.05)
-		.withRotationalDeadband(maxRotationalVelocity * 0.05) // Add a 10% deadband
+		.withDeadband(maxVelocity * 0.1)
+		.withRotationalDeadband(maxRotationalVelocity * 0.1) // Add a 10% deadband
 		.withDriveRequestType(DriveRequestType.OpenLoopVoltage); // I want field-centric
 
 private final SwerveRequest.RobotCentric driveRobotCentric =
 	new SwerveRequest.RobotCentric()
-		.withDeadband(maxVelocity * 0.05)
-		.withRotationalDeadband(maxRotationalVelocity * 0.05) // Add a 10% deadband
+		.withDeadband(maxVelocity * 0.1)
+		.withRotationalDeadband(maxRotationalVelocity * 0.1) // Add a 10% deadband
 		.withDriveRequestType(DriveRequestType.OpenLoopVoltage); // I want field-centric
 
 public DriveCommand() {
@@ -45,18 +45,18 @@ public void execute() {
 
 	request =
 		driveFieldCentric
-			.withVelocityX(RobotContainer.driverController.getLeftX() * maxVelocity)
-			.withVelocityY(RobotContainer.driverController.getLeftY() * maxVelocity)
+			.withVelocityX(-RobotContainer.driverController.getLeftY() * maxVelocity)
+			.withVelocityY(-RobotContainer.driverController.getLeftX() * maxVelocity)
 			.withRotationalRate(
-				RobotContainer.driverController.getRightY() * maxRotationalVelocity);
+				-RobotContainer.driverController.getRightX() * maxRotationalVelocity);
 
 	if (RobotContainer.driverController.rightTrigger(0.5).getAsBoolean()) {
 	request =
 		driveRobotCentric
-			.withVelocityX(RobotContainer.driverController.getLeftX() * maxVelocity)
-			.withVelocityY(RobotContainer.driverController.getLeftY() * maxVelocity)
+			.withVelocityX(-RobotContainer.driverController.getLeftY() * maxVelocity)
+			.withVelocityY(-RobotContainer.driverController.getLeftX() * maxVelocity)
 			.withRotationalRate(
-				RobotContainer.driverController.getRightY() * maxRotationalVelocity);
+				-RobotContainer.driverController.getRightX() * maxRotationalVelocity);
 	}
 
 	RobotContainer.drivetrainSubsystem.applyRequest(request);

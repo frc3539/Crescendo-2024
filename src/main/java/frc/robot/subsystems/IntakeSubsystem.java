@@ -8,6 +8,7 @@ import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.IDConstants;
@@ -22,10 +23,15 @@ public IntakeSubsystem() {
 	groundMotor = new TalonFX(IDConstants.groundMotorID, "rio");
 	groundMotor.getConfigurator().apply(new TalonFXConfiguration());
 	groundMotor.setInverted(true);
+	groundMotor.setNeutralMode(NeutralModeValue.Brake);
 	kickMotor = new TalonFX(IDConstants.kickMotorID, "rio");
 	kickMotor.getConfigurator().apply(new TalonFXConfiguration());
 	kickMotor.setInverted(true);
+	kickMotor.setNeutralMode(NeutralModeValue.Brake);
+
 	grabMotor = new TalonFX(IDConstants.grabMotorID, "rio");
+	groundMotor.setNeutralMode(NeutralModeValue.Brake);
+
 	frontSensor = new DigitalInput(IDConstants.frontSensorChannel);
 	backSensor = new DigitalInput(IDConstants.backSensorChannel);
 	chamberSensor = new DigitalInput(IDConstants.chamberSensorChannel);

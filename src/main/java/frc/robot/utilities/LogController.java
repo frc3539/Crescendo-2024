@@ -19,6 +19,7 @@ public static boolean USE_LOGGING = true;
 
 static boolean LOG_DRIVE_SUBSYSTEM = true;
 static boolean LOG_INTAKE_SUBSYSTEM = true;
+static boolean LOG_SHOOTER_SUBSYSTEM = true;
 static boolean LOG_LEDS = true;
 
 static boolean SAVE_TO_FILE = false;
@@ -60,6 +61,7 @@ public void logPeriodic() {
 	if (!USE_LOGGING) return;
 	logDriveSubsystem();
 	logIntakeSubsystem();
+	logShooterSubsystem();
 }
 
 public void logDriveSubsystem() {
@@ -71,5 +73,9 @@ public void logIntakeSubsystem() {
 	if (!LOG_INTAKE_SUBSYSTEM) return;
 	RobotContainer.intakeSubsystem.log();
 }
-// Cameron is a goon
+
+public void logShooterSubsystem() {
+	if (!LOG_SHOOTER_SUBSYSTEM) return;
+	RobotContainer.shooterSubsystem.log();
+}
 }

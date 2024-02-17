@@ -73,7 +73,7 @@ private void configureBindings() {
 	// operatorController.x().whileTrue(new AutoShootCommand());
 	operatorController.start().whileTrue(new BuddyClimbCommand());
 
-	// drivetrainSubsystem.setDefaultCommand(new DriveCommand());
+	drivetrainSubsystem.setDefaultCommand(new DriveCommand());
 }
 
 /**

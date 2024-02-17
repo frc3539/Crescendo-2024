@@ -40,6 +40,7 @@ public void robotInit() {
 */
 @Override
 public void robotPeriodic() {
+	RobotContainer.logController.logPeriodic();
 	// Runs the Scheduler. This is responsible for polling buttons, adding
 	// newly-scheduled
 	// commands, running already-scheduled commands, removing finished or

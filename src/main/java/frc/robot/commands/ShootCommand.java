@@ -22,7 +22,8 @@ public void initialize() {
 // Called every time the scheduler runs while the command is scheduled.
 @Override
 public void execute() {
-	RobotContainer.shooterSubsystem.setFeedMotorVoltage(-12);
+	RobotContainer.shooterSubsystem.setFeedMotorVoltage(12);
+	RobotContainer.intakeSubsystem.setGrabMotorVoltage(12);
 }
 
 // Called once the command ends or is interrupted.
@@ -30,6 +31,7 @@ public void execute() {
 public void end(boolean interrupted) {
 	// RobotContainer.shooterSubsystem.setFeedMotorSpeed(0);
 	RobotContainer.shooterSubsystem.setFeedMotorVoltage(0);
+	RobotContainer.intakeSubsystem.setGrabMotorVoltage(0);
 }
 
 // Returns true when the command should end.
