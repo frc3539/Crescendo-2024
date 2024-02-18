@@ -6,6 +6,8 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
+import frc.robot.constants.ShooterConstants;
+import frc.robot.utilities.BBMath;
 
 public class RevUpCommand extends Command {
 /** Creates a new RevUpCommand. */
@@ -23,8 +25,10 @@ public void initialize() {
 // Called every time the scheduler runs while the command is scheduled.
 @Override
 public void execute() {
-	RobotContainer.shooterSubsystem.setBottomMotorVoltage(-12);
-	RobotContainer.shooterSubsystem.setTopMotorVoltage(-12);
+	RobotContainer.shooterSubsystem.setBottomMotorSpeed(
+		BBMath.getRps(ShooterConstants.shootDps, ShooterConstants.shootWheelDiameter));
+	RobotContainer.shooterSubsystem.setTopMotorSpeed(
+		BBMath.getRps(ShooterConstants.shootDps, ShooterConstants.shootWheelDiameter));
 }
 
 // Called once the command ends or is interrupted.

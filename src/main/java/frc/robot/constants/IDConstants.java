@@ -33,11 +33,11 @@ public static int CANdleID = 40;
 public static String CandleCanName = "";
 public static String swerveCanbusName = "canivore";
 public static int buddyClimbMotorID = 18;
-public static int angleCanCoderID = 0;
+public static int angleCanCoderID = 34;
 public static int angleMotorID = 13;
 public static int elevatorMotorID = 12;
-public static int shooterSensorChannel = 4;
+public static int shooterSensorChannel = 3;
 public static int frontSensorChannel = 2;
-public static int backSensorChannel = 3;
+public static int backSensorChannel = 0;
 public static int chamberSensorChannel = 1;
 }

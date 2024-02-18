@@ -61,6 +61,7 @@ public void disabledPeriodic() {}
 /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
 @Override
 public void autonomousInit() {
+	RobotContainer.shooterSubsystem.initializeArmAngle();
 	autonomousCommand = robotContainer.getAutonomousCommand();
 
 	// schedule the autonomous command (example)
@@ -71,12 +72,12 @@ public void autonomousInit() {
 
 /** This function is called periodically during autonomous. */
 @Override
-public void autonomousPeriodic() {
-	RobotContainer.logController.logPeriodic();
-}
+public void autonomousPeriodic() {}
 
 @Override
 public void teleopInit() {
+	RobotContainer.shooterSubsystem.initializeArmAngle();
+
 	// This makes sure that the autonomous stops running when
 	// teleop starts running. If you want the autonomous to
 	// continue until interrupted by another command, remove
@@ -88,12 +89,12 @@ public void teleopInit() {
 
 /** This function is called periodically during operator control. */
 @Override
-public void teleopPeriodic() {
-	RobotContainer.logController.logPeriodic();
-}
+public void teleopPeriodic() {}
 
 @Override
 public void testInit() {
+	RobotContainer.shooterSubsystem.initializeArmAngle();
+
 	// Cancels all running commands at the start of test mode.
 	CommandScheduler.getInstance().cancelAll();
 }

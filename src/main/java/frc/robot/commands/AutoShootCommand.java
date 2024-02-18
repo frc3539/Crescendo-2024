@@ -4,9 +4,11 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
 import frc.robot.constants.ShooterConstants;
+import frc.robot.utilities.BBMath;
 
 public class AutoShootCommand extends Command {
 /** Creates a new AutoShootCommand. */
@@ -17,8 +19,10 @@ public AutoShootCommand() {
 // Called when the command is initially scheduled.
 @Override
 public void initialize() {
-	RobotContainer.shooterSubsystem.setTopMotorSpeed(ShooterConstants.revRps);
-	RobotContainer.shooterSubsystem.setBottomMotorSpeed(-ShooterConstants.revRps);
+	RobotContainer.shooterSubsystem.setTopMotorSpeed(
+		BBMath.getRps(ShooterConstants.shootDps, ShooterConstants.shootWheelDiameter));
+	RobotContainer.shooterSubsystem.setBottomMotorSpeed(
+		BBMath.getRps(ShooterConstants.shootDps, ShooterConstants.shootWheelDiameter));
 }
 
 // Called every time the scheduler runs while the command is scheduled.
@@ -27,13 +31,20 @@ public void execute() {
 	if (RobotContainer.shooterSubsystem.getShooterSensor() == false) {
 	RobotContainer.shooterSubsystem.setFeedMotorSpeed(0);
 	}
-	if (RobotContainer.shooterSubsystem.getTopMotorSpeed() - ShooterConstants.revRps >= 1) {
+	if (!MathUtil.isNear(
+		BBMath.getRps(ShooterConstants.shootDps, ShooterConstants.shootWheelDiameter),
+		RobotContainer.shooterSubsystem.getTopMotorSpeed(),
+		5)) {
 	return;
 	}
-	if (RobotContainer.shooterSubsystem.getBottomMotorSpeed() + ShooterConstants.revRps >= 1) {
+	if (!MathUtil.isNear(
+		BBMath.getRps(ShooterConstants.shootDps, ShooterConstants.shootWheelDiameter),
+		RobotContainer.shooterSubsystem.getBottomMotorSpeed(),
+		5)) {
 	return;
 	}
-	RobotContainer.shooterSubsystem.setFeedMotorSpeed(ShooterConstants.shootRps);
+	RobotContainer.shooterSubsystem.setFeedMotorSpeed(
+		BBMath.getRps(ShooterConstants.feedDps, ShooterConstants.feedWheelDiameter));
 }
 
 // Called once the command ends or is interrupted.

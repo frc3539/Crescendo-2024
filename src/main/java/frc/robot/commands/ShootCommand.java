@@ -6,6 +6,8 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
+import frc.robot.constants.ShooterConstants;
+import frc.robot.utilities.BBMath;
 
 public class ShootCommand extends Command {
 /** Creates a new ShootCommand. */
@@ -22,8 +24,10 @@ public void initialize() {
 // Called every time the scheduler runs while the command is scheduled.
 @Override
 public void execute() {
-	RobotContainer.shooterSubsystem.setFeedMotorVoltage(12);
-	RobotContainer.intakeSubsystem.setGrabMotorVoltage(12);
+	RobotContainer.shooterSubsystem.setFeedMotorSpeed(
+		BBMath.getRps(ShooterConstants.feedDps, ShooterConstants.feedWheelDiameter));
+	RobotContainer.intakeSubsystem.setChamberMotorSpeed(
+		BBMath.getRps(ShooterConstants.feedDps, ShooterConstants.feedWheelDiameter));
 }
 
 // Called once the command ends or is interrupted.
@@ -31,7 +35,7 @@ public void execute() {
 public void end(boolean interrupted) {
 	// RobotContainer.shooterSubsystem.setFeedMotorSpeed(0);
 	RobotContainer.shooterSubsystem.setFeedMotorVoltage(0);
-	RobotContainer.intakeSubsystem.setGrabMotorVoltage(0);
+	RobotContainer.intakeSubsystem.setChamberMotorVoltage(0);
 }
 
 // Returns true when the command should end.

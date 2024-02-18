@@ -95,7 +95,7 @@ private static final double kFrontLeftYPosInches = 11.625;
 private static final int kFrontRightDriveMotorId = 2;
 private static final int kFrontRightSteerMotorId = 3;
 private static final int kFrontRightEncoderId = 31;
-private static final double kFrontRightEncoderOffset = 0.136474609375;
+private static final double kFrontRightEncoderOffset = 0.4794921875;
 
 private static final double kFrontRightXPosInches = 11.625;
 private static final double kFrontRightYPosInches = -11.625;

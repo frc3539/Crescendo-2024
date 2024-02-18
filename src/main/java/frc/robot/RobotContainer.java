@@ -71,7 +71,11 @@ private void configureBindings() {
 	operatorController.y().whileTrue(new IntakeCommand(true, IntakeMode.SENSOR));
 	// operatorController.leftTrigger().whileTrue(new IndependantClimbLeftCommand());
 	// operatorController.x().whileTrue(new AutoShootCommand());
+	operatorController.a().whileTrue(new AngleShooterCommand(-29.5));
+	operatorController.b().whileTrue(new AngleShooterCommand(40));
+
 	operatorController.start().whileTrue(new BuddyClimbCommand());
+	driverController.start().whileTrue(new ZeroGyroCommand());
 
 	drivetrainSubsystem.setDefaultCommand(new DriveCommand());
 }

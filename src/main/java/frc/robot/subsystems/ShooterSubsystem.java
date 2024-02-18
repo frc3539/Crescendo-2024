@@ -35,21 +35,25 @@ private CANcoder angleCanCoder;
 
 private DigitalInput shooterSensor;
 
+private double requestedElevatorPos = 0;
+private double requestedArmPos = 0;
+
 public ShooterSubsystem() {
 
 	angleCanCoder = new CANcoder(IDConstants.angleCanCoderID, "rio");
 	topMotor = new TalonFX(IDConstants.topMotor, "rio");
 	topMotor.getConfigurator().apply(new TalonFXConfiguration());
-	topMotor.setInverted(true);
+	topMotor.setInverted(false);
 	bottomMotor = new TalonFX(IDConstants.bottomMotor, "rio");
 	bottomMotor.getConfigurator().apply(new TalonFXConfiguration());
-	bottomMotor.setInverted(true);
+	bottomMotor.setInverted(false);
 	feedMotor = new TalonFX(IDConstants.feedMotor, "rio");
 	feedMotor.getConfigurator().apply(new TalonFXConfiguration());
 	feedMotor.setInverted(true);
 	feedMotor.setNeutralMode(NeutralModeValue.Brake);
 	elevatorMotor = new TalonFX(IDConstants.elevatorMotorID, "rio");
 	angleMotor = new TalonFX(IDConstants.angleMotorID, "rio");
+	angleMotor.setInverted(true);
 
 	reloadFromConfig();
 
@@ -104,7 +108,7 @@ public void reloadFromConfig() {
 		.getConfigurator()
 		.apply(
 			new SlotConfigs()
-				.withKP(ShooterConstants.angleShooterP)
+				.withKP(ShooterConstants.elevatorMotorP)
 				.withKI(ShooterConstants.elevatorMotorI)
 				.withKD(ShooterConstants.elevatorMotorD)
 				.withKV(ShooterConstants.elevatorMotorV)
@@ -121,10 +125,23 @@ public void reloadFromConfig() {
 				.withKV(ShooterConstants.angleShooterV)
 				.withKG(ShooterConstants.angleShooterG)
 				.withGravityType(GravityTypeValue.Arm_Cosine));
+
+	topMotor
+		.getConfigurator()
+		.apply(new SlotConfigs().withKP(ShooterConstants.shootP).withKV(ShooterConstants.shootV));
+	bottomMotor
+		.getConfigurator()
+		.apply(new SlotConfigs().withKP(ShooterConstants.shootP).withKV(ShooterConstants.shootV));
+
+	feedMotor
+		.getConfigurator()
+		.apply(new SlotConfigs().withKP(ShooterConstants.feedP).withKV(ShooterConstants.feedV));
 }
 
 public double getShooterAngle() {
-	return angleCanCoder.getAbsolutePosition().getValue();
+	return Units.rotationsToDegrees(
+			angleCanCoder.getAbsolutePosition().getValue() - ShooterConstants.shooterAngleOffset)
+		+ ShooterConstants.restShooterAngle;
 }
 
 public void setTopMotorSpeed(double rps) {
@@ -151,16 +168,15 @@ public void setFeedMotorVoltage(double voltage) {
 	feedMotor.setControl(new VoltageOut(voltage).withEnableFOC(true));
 }
 
-public void setElevatorMotorSpeed(double rps) {
-	elevatorMotor.setControl(new VelocityVoltage(rps).withEnableFOC(true));
-}
-
-public void setAngleMotorSpeed(double rps) {
-	angleMotor.setControl(new VelocityVoltage(rps).withEnableFOC(true));
+public double getFeedMotorSpeed() {
+	return feedMotor.getVelocity().getValue();
 }
 
 public void setShooterAngle(double angle) {
-	angleMotor.setControl(new MotionMagicVoltage(Units.degreesToRotations(angle)));
+	angleMotor.setControl(
+		new MotionMagicVoltage(
+			Units.degreesToRotations(angle - ShooterConstants.restShooterAngle)
+				+ ShooterConstants.shooterAngleOffset));
 }
 
 public boolean getShooterSensor() {
@@ -175,12 +191,43 @@ public double getBottomMotorSpeed() {
 	return bottomMotor.getVelocity().getValue();
 }
 
+public void setElevatoPosition(double request) {
+	requestedElevatorPos = request;
+}
+
+public double getElevatorPosition() {
+	return elevatorMotor.getPosition().getValue() / ShooterConstants.elevatorMotorToInches;
+}
+
+public void initializeArmAngle() {
+	requestedArmPos = angleCanCoder.getAbsolutePosition().getValue();
+}
+
 public void log() {
-	Logger.recordOutput("/Shooter/Shooter_Sensor", getShooterSensor());
+	Logger.recordOutput("/Shooter/ShooterSensor", getShooterSensor());
+	Logger.recordOutput("/Shooter/FeederRPM", getFeedMotorSpeed());
+	Logger.recordOutput("/Shooter/TopShooterRPM", getTopMotorSpeed());
+	Logger.recordOutput("/Shooter/BottomShooterRPM", getBottomMotorSpeed());
+	Logger.recordOutput("/Shooter/ShooterAngle", getShooterAngle());
 }
 
 @Override
 public void periodic() {
-	// This method will be called once per scheduler run
+	boolean isArmReady = false, elevatorRequestToMove = false;
+
+	if (requestedElevatorPos > 0) {
+	elevatorRequestToMove = true;
+	}
+	if (getShooterAngle() > ShooterConstants.minElevatorMoveAngle) {
+	isArmReady = true;
+	}
+	if (elevatorRequestToMove) {
+	elevatorMotor.setControl(
+		new MotionMagicVoltage((requestedElevatorPos / ShooterConstants.elevatorMotorToInches)));
+	}
+	angleMotor.setControl(
+		new MotionMagicVoltage(
+			Units.degreesToRotations(requestedArmPos - ShooterConstants.restShooterAngle)
+				+ ShooterConstants.shooterAngleOffset));
 }
 }
