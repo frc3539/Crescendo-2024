@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
 import frc.robot.constants.IntakeConstants;
@@ -20,6 +21,8 @@ public enum IntakeMode {
 boolean intake;
 IntakeMode mode;
 IntakeMode initialMode;
+Timer intakeTimer = new Timer();
+boolean timerStarted = false;
 
 // Creates a new IntakeCommand.
 public IntakeCommand(boolean intake, IntakeMode mode) {
@@ -67,17 +70,17 @@ public void initialize() {
 // Called every time the scheduler runs while the command is scheduled.
 @Override
 public void execute() {
-	if (RobotContainer.shooterSubsystem.getShooterSensor() && intake == true) {
-	RobotContainer.intakeSubsystem.setGroundMotorVoltage(0);
-	RobotContainer.intakeSubsystem.setChamberMotorVoltage(0);
-	RobotContainer.intakeSubsystem.setKickMotorVoltage(0);
-	RobotContainer.shooterSubsystem.setFeedMotorVoltage(0);
-	return;
-	}
+	// if (RobotContainer.shooterSubsystem.getShooterSensor() && intake == true) {
+	// RobotContainer.intakeSubsystem.setGroundMotorVoltage(0);
+	// RobotContainer.intakeSubsystem.setChamberMotorVoltage(0);
+	// RobotContainer.intakeSubsystem.setKickMotorVoltage(0);
+	// RobotContainer.shooterSubsystem.setFeedMotorVoltage(0);
+	// return;
+	// }
 
 	double multiplier = 1;
 	if (RobotContainer.intakeSubsystem.getChamberSensor()) {
-	multiplier = 0.5;
+	multiplier = 1;
 	RobotContainer.intakeSubsystem.setGroundMotorVoltage(0);
 	}
 
@@ -141,11 +144,22 @@ public void end(boolean interrupted) {
 	RobotContainer.intakeSubsystem.setKickMotorVoltage(0);
 	RobotContainer.shooterSubsystem.setFeedMotorVoltage(0);
 	mode = initialMode;
+	intakeTimer.stop();
+	intakeTimer.reset();
+	timerStarted = false;
 }
 
 // Returns true when the command should end.
 @Override
 public boolean isFinished() {
+	if (RobotContainer.shooterSubsystem.getShooterSensor() && !timerStarted) {
+	intakeTimer.start();
+	timerStarted = true;
+	}
+	if (intakeTimer.advanceIfElapsed(0.05)) {
+	return true;
+	} else {
 	return false;
+	}
 }
 }

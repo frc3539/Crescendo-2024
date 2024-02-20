@@ -4,14 +4,24 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
 import frc.robot.constants.ShooterConstants;
 import frc.robot.utilities.BBMath;
 
 public class RevUpCommand extends Command {
+
+private boolean endOnShoot;
+private double shootSpeed;
+private boolean timerStarted = false;
+private Timer shootTimer = new Timer();
+
 /** Creates a new RevUpCommand. */
-public RevUpCommand() {
+public RevUpCommand(boolean endOnShoot, double shootSpeed) {
+	this.endOnShoot = endOnShoot;
+	this.shootSpeed = shootSpeed;
+
 	// Use addRequirements() here to declare subsystem dependencies.
 }
 
@@ -26,9 +36,9 @@ public void initialize() {
 @Override
 public void execute() {
 	RobotContainer.shooterSubsystem.setBottomMotorSpeed(
-		BBMath.getRps(ShooterConstants.shootDps, ShooterConstants.shootWheelDiameter));
+		BBMath.getRps(shootSpeed, ShooterConstants.shootWheelDiameter));
 	RobotContainer.shooterSubsystem.setTopMotorSpeed(
-		BBMath.getRps(ShooterConstants.shootDps, ShooterConstants.shootWheelDiameter));
+		BBMath.getRps(shootSpeed, ShooterConstants.shootWheelDiameter));
 }
 
 // Called once the command ends or is interrupted.
@@ -38,11 +48,22 @@ public void end(boolean interrupted) {
 	// RobotContainer.shooterSubsystem.setTopMotorSpeed(0);
 	RobotContainer.shooterSubsystem.setBottomMotorVoltage(0);
 	RobotContainer.shooterSubsystem.setTopMotorVoltage(0);
+	shootTimer.stop();
+	shootTimer.reset();
+	timerStarted = false;
 }
 
 // Returns true when the command should end.
 @Override
 public boolean isFinished() {
+	if (!RobotContainer.shooterSubsystem.getShooterSensor() && !timerStarted) {
+	shootTimer.start();
+	timerStarted = true;
+	}
+	if (shootTimer.advanceIfElapsed(1)) {
+	return true;
+	} else {
 	return false;
+	}
 }
 }

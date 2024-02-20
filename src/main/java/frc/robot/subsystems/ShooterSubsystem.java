@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.configs.FeedbackConfigs;
 import com.ctre.phoenix6.configs.HardwareLimitSwitchConfigs;
 import com.ctre.phoenix6.configs.MagnetSensorConfigs;
+import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.ctre.phoenix6.configs.SlotConfigs;
 import com.ctre.phoenix6.configs.SoftwareLimitSwitchConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
@@ -20,6 +21,7 @@ import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.signals.SensorDirectionValue;
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -114,6 +116,12 @@ public void reloadFromConfig() {
 				.withKV(ShooterConstants.elevatorMotorV)
 				.withKG(ShooterConstants.elevatorMotorG)
 				.withGravityType(GravityTypeValue.Elevator_Static));
+	elevatorMotor
+		.getConfigurator()
+		.apply(
+			new MotionMagicConfigs()
+				.withMotionMagicAcceleration(256)
+				.withMotionMagicCruiseVelocity(256));
 
 	angleMotor
 		.getConfigurator()
@@ -136,12 +144,6 @@ public void reloadFromConfig() {
 	feedMotor
 		.getConfigurator()
 		.apply(new SlotConfigs().withKP(ShooterConstants.feedP).withKV(ShooterConstants.feedV));
-}
-
-public double getShooterAngle() {
-	return Units.rotationsToDegrees(
-			angleCanCoder.getAbsolutePosition().getValue() - ShooterConstants.shooterAngleOffset)
-		+ ShooterConstants.restShooterAngle;
 }
 
 public void setTopMotorSpeed(double rps) {
@@ -173,10 +175,7 @@ public double getFeedMotorSpeed() {
 }
 
 public void setShooterAngle(double angle) {
-	angleMotor.setControl(
-		new MotionMagicVoltage(
-			Units.degreesToRotations(angle - ShooterConstants.restShooterAngle)
-				+ ShooterConstants.shooterAngleOffset));
+	requestedArmPos = angle;
 }
 
 public boolean getShooterSensor() {
@@ -196,11 +195,11 @@ public void setElevatoPosition(double request) {
 }
 
 public double getElevatorPosition() {
-	return elevatorMotor.getPosition().getValue() / ShooterConstants.elevatorMotorToInches;
+	return elevatorMotor.getPosition().getValue() * ShooterConstants.elevatorMotorToInches;
 }
 
 public void initializeArmAngle() {
-	requestedArmPos = angleCanCoder.getAbsolutePosition().getValue();
+	requestedArmPos = getShooterAngle();
 }
 
 public void log() {
@@ -211,23 +210,40 @@ public void log() {
 	Logger.recordOutput("/Shooter/ShooterAngle", getShooterAngle());
 }
 
+public double degreesToShooterRotations(double degrees) {
+	return Units.degreesToRotations(degrees - ShooterConstants.restShooterAngle)
+		+ ShooterConstants.shooterAngleOffset;
+}
+
+public double getShooterAngle() {
+	return Units.rotationsToDegrees(
+			angleCanCoder.getAbsolutePosition().getValue() - ShooterConstants.shooterAngleOffset)
+		+ ShooterConstants.restShooterAngle;
+}
+
 @Override
 public void periodic() {
 	boolean isArmReady = false, elevatorRequestToMove = false;
 
-	if (requestedElevatorPos > 0) {
+	if (!MathUtil.isNear(requestedElevatorPos, getElevatorPosition(), 0.2)) {
 	elevatorRequestToMove = true;
 	}
 	if (getShooterAngle() > ShooterConstants.minElevatorMoveAngle) {
 	isArmReady = true;
 	}
-	if (elevatorRequestToMove) {
+	if (elevatorRequestToMove && isArmReady) {
 	elevatorMotor.setControl(
 		new MotionMagicVoltage((requestedElevatorPos / ShooterConstants.elevatorMotorToInches)));
 	}
+	if (elevatorRequestToMove
+		|| (getElevatorPosition() < ShooterConstants.elevatorCollisionHeight
+			&& getElevatorPosition() > 0.2)) {
 	angleMotor.setControl(
 		new MotionMagicVoltage(
-			Units.degreesToRotations(requestedArmPos - ShooterConstants.restShooterAngle)
-				+ ShooterConstants.shooterAngleOffset));
+			degreesToShooterRotations(
+				Math.max(requestedArmPos, ShooterConstants.minElevatorMoveAngle + 2))));
+	} else {
+	angleMotor.setControl(new MotionMagicVoltage(degreesToShooterRotations(requestedArmPos)));
+	}
 }
 }

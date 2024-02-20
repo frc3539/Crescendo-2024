@@ -24,10 +24,17 @@ public void initialize() {
 // Called every time the scheduler runs while the command is scheduled.
 @Override
 public void execute() {
+	if (RobotContainer.shooterSubsystem.getShooterAngle() > 26) {
+	RobotContainer.shooterSubsystem.setFeedMotorSpeed(
+		BBMath.getRps(ShooterConstants.ampDps, ShooterConstants.feedWheelDiameter));
+	RobotContainer.intakeSubsystem.setChamberMotorSpeed(
+		BBMath.getRps(ShooterConstants.ampDps, ShooterConstants.feedWheelDiameter));
+	} else {
 	RobotContainer.shooterSubsystem.setFeedMotorSpeed(
 		BBMath.getRps(ShooterConstants.feedDps, ShooterConstants.feedWheelDiameter));
 	RobotContainer.intakeSubsystem.setChamberMotorSpeed(
 		BBMath.getRps(ShooterConstants.feedDps, ShooterConstants.feedWheelDiameter));
+	}
 }
 
 // Called once the command ends or is interrupted.

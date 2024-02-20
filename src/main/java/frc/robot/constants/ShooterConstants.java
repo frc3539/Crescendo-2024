@@ -8,10 +8,10 @@ public ShooterConstants() {
 	save();
 }
 
-public static double shootDps = 376;
-public static double feedDps = 376;
+public static double shootDps = 1000;
+public static double feedDps = 1000;
 public static double elevatorDps = 0.0;
-public static double angleShooterP = 360;
+public static double angleShooterP = 420;
 public static double angleShooterI = 0.0;
 public static double angleShooterD = 0.0;
 public static double angleShooterV = 12;
@@ -36,4 +36,6 @@ public static double feedWheelDiameter = 4;
 public static double feedP = 0.25;
 public static double feedV = 0.125;
 public static double restShooterAngle = -30; // degrees
+public static double elevatorCollisionHeight = 5; // in inches
+public static double ampDps = 250;
 }

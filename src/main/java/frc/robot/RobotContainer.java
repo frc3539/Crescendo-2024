@@ -63,16 +63,20 @@ public RobotContainer() {
 * joysticks}.
 */
 private void configureBindings() {
-	operatorController.leftBumper().whileTrue(new RevUpCommand());
+	operatorController.leftBumper().whileTrue(new RevUpCommand(false, ShooterConstants.shootDps));
 	operatorController.rightBumper().whileTrue(new ShootCommand());
 	// operatorController.povUp().whileTrue(new IntakeCommand());
 	operatorController.povUp().whileTrue(new IntakeCommand(true, IntakeMode.FRONT));
 	operatorController.povDown().whileTrue(new IntakeCommand(true, IntakeMode.BACK));
-	operatorController.y().whileTrue(new IntakeCommand(true, IntakeMode.SENSOR));
+	operatorController.a().whileTrue(new IntakeCommand(true, IntakeMode.SENSOR));
 	// operatorController.leftTrigger().whileTrue(new IndependantClimbLeftCommand());
 	// operatorController.x().whileTrue(new AutoShootCommand());
-	operatorController.a().whileTrue(new AngleShooterCommand(-29.5));
-	operatorController.b().whileTrue(new AngleShooterCommand(40));
+	// operatorController.a().whileTrue(new AngleShooterCommand(-29.5));
+	operatorController.b().onTrue(new AngleShooterCommand(55));
+	operatorController.y().onTrue(new SetElevatorCommand(2.5));
+	operatorController.x().onTrue(new AmpCommand());
+	// operatorController.povLeft().onTrue(new SetElevatorCommand(0));
+	operatorController.povRight().onTrue(new HomePositionCommand());
 
 	operatorController.start().whileTrue(new BuddyClimbCommand());
 	driverController.start().whileTrue(new ZeroGyroCommand());
