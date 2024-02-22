@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -51,6 +52,7 @@ public static CommandXboxController operatorController = new CommandXboxControll
 public RobotContainer() {
 	// Configure the trigger bindings
 	configureBindings();
+	putCommands();
 }
 
 /**
@@ -69,11 +71,14 @@ private void configureBindings() {
 	operatorController.povUp().whileTrue(new IntakeCommand(true, IntakeMode.FRONT));
 	operatorController.povDown().whileTrue(new IntakeCommand(true, IntakeMode.BACK));
 	operatorController.a().whileTrue(new IntakeCommand(true, IntakeMode.SENSOR));
-	// operatorController.leftTrigger().whileTrue(new IndependantClimbLeftCommand());
+
+	operatorController.leftTrigger(.1).whileTrue(new IndependantClimbLeftCommand());
+	operatorController.rightTrigger(.1).whileTrue(new IndependantClimbRightCommand());
+
 	// operatorController.x().whileTrue(new AutoShootCommand());
 	// operatorController.a().whileTrue(new AngleShooterCommand(-29.5));
 	operatorController.b().onTrue(new AngleShooterCommand(55));
-	operatorController.y().onTrue(new SetElevatorCommand(2.5));
+	operatorController.y().onTrue(new SetElevatorCommand(8));
 	operatorController.x().onTrue(new AmpCommand());
 	// operatorController.povLeft().onTrue(new SetElevatorCommand(0));
 	operatorController.povRight().onTrue(new HomePositionCommand());
@@ -82,6 +87,11 @@ private void configureBindings() {
 	driverController.start().whileTrue(new ZeroGyroCommand());
 
 	drivetrainSubsystem.setDefaultCommand(new DriveCommand());
+}
+
+public void putCommands() {
+	SmartDashboard.putData(new DisableArmBreakModeCommand().ignoringDisable(true));
+	SmartDashboard.putData(new DisableElevatorBreakModeCommand().ignoringDisable(true));
 }
 
 /**

@@ -5,10 +5,8 @@
 package frc.robot.commands;
 
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
-import frc.robot.constants.ShooterConstants;
 
 public class AngleShooterCommand extends Command {
 
@@ -29,9 +27,7 @@ public void initialize() {
 // Called every time the scheduler runs while the command is scheduled.
 @Override
 public void execute() {
-	System.out.println(
-		Units.rotationsToDegrees(0.037 - ShooterConstants.shooterAngleOffset)
-			+ ShooterConstants.restShooterAngle);
+
 	// System.out.println(angle + " " + RobotContainer.shooterSubsystem.getShooterAngle());
 	// RobotContainer.shooterSubsystem.setAngleMotorSpeed(
 	// maxSpeed * RobotContainer.operatorController.getLeftY());

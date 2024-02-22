@@ -56,12 +56,14 @@ public void robotPeriodic() {
 public void disabledInit() {}
 
 @Override
-public void disabledPeriodic() {}
+public void disabledPeriodic() {
+	RobotContainer.shooterSubsystem.initializeArmAngle();
+	RobotContainer.shooterSubsystem.initializeElevatorPosition();
+}
 
 /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
 @Override
 public void autonomousInit() {
-	RobotContainer.shooterSubsystem.initializeArmAngle();
 	autonomousCommand = robotContainer.getAutonomousCommand();
 
 	// schedule the autonomous command (example)
@@ -76,7 +78,6 @@ public void autonomousPeriodic() {}
 
 @Override
 public void teleopInit() {
-	RobotContainer.shooterSubsystem.initializeArmAngle();
 
 	// This makes sure that the autonomous stops running when
 	// teleop starts running. If you want the autonomous to
@@ -93,7 +94,6 @@ public void teleopPeriodic() {}
 
 @Override
 public void testInit() {
-	RobotContainer.shooterSubsystem.initializeArmAngle();
 
 	// Cancels all running commands at the start of test mode.
 	CommandScheduler.getInstance().cancelAll();

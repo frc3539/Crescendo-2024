@@ -54,8 +54,10 @@ public ShooterSubsystem() {
 	feedMotor.setInverted(true);
 	feedMotor.setNeutralMode(NeutralModeValue.Brake);
 	elevatorMotor = new TalonFX(IDConstants.elevatorMotorID, "rio");
+	elevatorMotor.setNeutralMode(NeutralModeValue.Brake);
 	angleMotor = new TalonFX(IDConstants.angleMotorID, "rio");
 	angleMotor.setInverted(true);
+	angleMotor.setNeutralMode(NeutralModeValue.Brake);
 
 	reloadFromConfig();
 
@@ -146,6 +148,22 @@ public void reloadFromConfig() {
 		.apply(new SlotConfigs().withKP(ShooterConstants.feedP).withKV(ShooterConstants.feedV));
 }
 
+public void setArmBreakMode(boolean enabled) {
+	if (enabled) {
+	angleMotor.setNeutralMode(NeutralModeValue.Brake);
+	} else {
+	angleMotor.setNeutralMode(NeutralModeValue.Coast);
+	}
+}
+
+public void setElevatorBreakMode(boolean enabled) {
+	if (enabled) {
+	elevatorMotor.setNeutralMode(NeutralModeValue.Brake);
+	} else {
+	elevatorMotor.setNeutralMode(NeutralModeValue.Coast);
+	}
+}
+
 public void setTopMotorSpeed(double rps) {
 	topMotor.setControl(new VelocityVoltage(rps).withEnableFOC(true));
 }
@@ -200,6 +218,10 @@ public double getElevatorPosition() {
 
 public void initializeArmAngle() {
 	requestedArmPos = getShooterAngle();
+}
+
+public void initializeElevatorPosition() {
+	requestedElevatorPos = getElevatorPosition();
 }
 
 public void log() {
