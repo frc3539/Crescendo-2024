@@ -9,6 +9,7 @@ import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.IDConstants;
 
@@ -31,6 +32,9 @@ public ClimberSubsystem() {
 	rightClimbMotor.getConfigurator().apply(rightOutputConfig);
 	buddyClimbMotor = new TalonFX(IDConstants.buddyClimbMotorID, "rio");
 	buddyClimbMotor.getConfigurator().apply(buddyOutputConfig);
+
+	leftClimbMotor.setNeutralMode(NeutralModeValue.Brake);
+	rightClimbMotor.setNeutralMode(NeutralModeValue.Brake);
 }
 
 public void setLeftClimbMotorSpeed(double rps) {

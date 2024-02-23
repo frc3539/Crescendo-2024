@@ -77,10 +77,10 @@ private void configureBindings() {
 
 	// operatorController.x().whileTrue(new AutoShootCommand());
 	// operatorController.a().whileTrue(new AngleShooterCommand(-29.5));
-	operatorController.b().onTrue(new AngleShooterCommand(55));
+	operatorController.b().onTrue(new SetElevatorCommand(6));
 	operatorController.y().onTrue(new SetElevatorCommand(8));
 	operatorController.x().onTrue(new AmpCommand());
-	// operatorController.povLeft().onTrue(new SetElevatorCommand(0));
+	operatorController.povLeft().onTrue(new AngleShooterCommand(55));
 	operatorController.povRight().onTrue(new HomePositionCommand());
 
 	operatorController.start().whileTrue(new BuddyClimbCommand());
