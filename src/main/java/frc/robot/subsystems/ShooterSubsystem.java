@@ -21,7 +21,6 @@ import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.signals.SensorDirectionValue;
-import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -230,6 +229,9 @@ public void log() {
 	Logger.recordOutput("/Shooter/TopShooterRPM", getTopMotorSpeed());
 	Logger.recordOutput("/Shooter/BottomShooterRPM", getBottomMotorSpeed());
 	Logger.recordOutput("/Shooter/ShooterAngle", getShooterAngle());
+	Logger.recordOutput("/Shooter/TargetShooterAngle", requestedArmPos);
+	Logger.recordOutput("/Shooter/ElevatorPosition", getElevatorPosition());
+	Logger.recordOutput("/Shooter/TargetElevatorPosition", requestedElevatorPos);
 }
 
 public double degreesToShooterRotations(double degrees) {
@@ -245,27 +247,9 @@ public double getShooterAngle() {
 
 @Override
 public void periodic() {
-	boolean isArmReady = false, elevatorRequestToMove = false;
-
-	if (!MathUtil.isNear(requestedElevatorPos, getElevatorPosition(), 0.2)) {
-	elevatorRequestToMove = true;
-	}
-	if (getShooterAngle() > ShooterConstants.minElevatorMoveAngle) {
-	isArmReady = true;
-	}
-	if (elevatorRequestToMove && isArmReady) {
 	elevatorMotor.setControl(
 		new MotionMagicVoltage((requestedElevatorPos / ShooterConstants.elevatorMotorToInches)));
-	}
-	if (elevatorRequestToMove
-		|| (getElevatorPosition() < ShooterConstants.elevatorCollisionHeight
-			&& getElevatorPosition() > 0.2)) {
-	angleMotor.setControl(
-		new MotionMagicVoltage(
-			degreesToShooterRotations(
-				Math.max(requestedArmPos, ShooterConstants.minElevatorMoveAngle + 2))));
-	} else {
+
 	angleMotor.setControl(new MotionMagicVoltage(degreesToShooterRotations(requestedArmPos)));
-	}
 }
 }

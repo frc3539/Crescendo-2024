@@ -98,26 +98,34 @@ public void execute() {
 		// RobotContainer.intakeSubsystem.setKickMotorSpeed(IntakeConstants.kickRps);
 		RobotContainer.intakeSubsystem.setKickMotorSpeed(
 			multiplier
-				* BBMath.getRps(IntakeConstants.intakeDps, IntakeConstants.kickWheelDiameter));
+				* BBMath.getRps(
+					IntakeConstants.intakeDps / IntakeConstants.kickGearRatio,
+					IntakeConstants.kickWheelDiameter));
 		break;
 
 	case BACK:
 		// RobotContainer.intakeSubsystem.setKickMotorSpeed(-IntakeConstants.kickRps);
 		RobotContainer.intakeSubsystem.setKickMotorSpeed(
 			multiplier
-				* -BBMath.getRps(IntakeConstants.intakeDps, IntakeConstants.kickWheelDiameter));
+				* -BBMath.getRps(
+					IntakeConstants.intakeDps / IntakeConstants.kickGearRatio,
+					IntakeConstants.kickWheelDiameter));
 		break;
 
 	case SENSOR:
 		if (RobotContainer.intakeSubsystem.getFrontSensor()) {
 		RobotContainer.intakeSubsystem.setKickMotorSpeed(
 			multiplier
-				* BBMath.getRps(IntakeConstants.intakeDps, IntakeConstants.kickWheelDiameter));
+				* BBMath.getRps(
+					IntakeConstants.intakeDps / IntakeConstants.kickGearRatio,
+					IntakeConstants.kickWheelDiameter));
 		this.mode = IntakeMode.FRONT;
 		} else if (RobotContainer.intakeSubsystem.getBackSensor()) {
 		RobotContainer.intakeSubsystem.setKickMotorSpeed(
 			multiplier
-				* -BBMath.getRps(IntakeConstants.intakeDps, IntakeConstants.kickWheelDiameter));
+				* -BBMath.getRps(
+					IntakeConstants.intakeDps / IntakeConstants.kickGearRatio,
+					IntakeConstants.kickWheelDiameter));
 		this.mode = IntakeMode.BACK;
 		} else {
 		RobotContainer.intakeSubsystem.setKickMotorVoltage(0);

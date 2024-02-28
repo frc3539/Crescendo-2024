@@ -4,22 +4,27 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.BaseStatusSignal;
+import com.ctre.phoenix6.hardware.Pigeon2;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveDrivetrain;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveDrivetrainConstants;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModuleConstants;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.Robot;
 import frc.robot.constants.DrivetrainConstants;
+import frc.robot.constants.IDConstants;
 import java.util.Arrays;
 import org.frcteam3539.Byte_Swerve_Lib.control.HolonomicMotionProfiledTrajectoryFollower;
 import org.frcteam3539.Byte_Swerve_Lib.control.PidConstants;
 import org.frcteam3539.Byte_Swerve_Lib.control.Trajectory;
 import org.frcteam3539.Byte_Swerve_Lib.util.DrivetrainFeedforwardConstants;
 import org.frcteam3539.Byte_Swerve_Lib.util.HolonomicFeedforward;
+import org.littletonrobotics.junction.Logger;
 
 public class DrivetrainSubsystem extends SwerveDrivetrain implements Subsystem {
 /** Creates a new DrivetrainSubsystem. */
@@ -29,6 +34,8 @@ private SwerveRequest swerveRequest = new SwerveRequest.Idle();
 
 public double maxVelocity = 0.0;
 public double maxRotationalVelocity = 0.0;
+
+public Pigeon2 pigeon = new Pigeon2(IDConstants.PigeonID, "canivore");
 
 public DrivetrainSubsystem(
 	SwerveDrivetrainConstants driveTrainConstants, SwerveModuleConstants... modules) {
@@ -79,7 +86,15 @@ public void followPath(Trajectory t) {
 	follower.follow(t);
 }
 
-public void log() {}
+public Rotation2d getRobotRoll() {
+	return Rotation2d.fromDegrees(
+		BaseStatusSignal.getLatencyCompensatedValue(
+			pigeon.getRoll(), pigeon.getAngularVelocityYDevice()));
+}
+
+public void log() {
+	Logger.recordOutput("/DriveTrain/RobotRoll", getRobotRoll().getDegrees());
+}
 
 @Override
 public void periodic() {

@@ -65,7 +65,9 @@ public RobotContainer() {
 * joysticks}.
 */
 private void configureBindings() {
-	operatorController.leftBumper().whileTrue(new RevUpCommand(false, ShooterConstants.shootDps));
+	operatorController
+		.leftBumper()
+		.whileTrue(new RevUpCommand(false, 0.7 * ShooterConstants.shootDps));
 	operatorController.rightBumper().whileTrue(new ShootCommand());
 	// operatorController.povUp().whileTrue(new IntakeCommand());
 	operatorController.povUp().whileTrue(new IntakeCommand(true, IntakeMode.FRONT));
@@ -77,7 +79,7 @@ private void configureBindings() {
 
 	// operatorController.x().whileTrue(new AutoShootCommand());
 	// operatorController.a().whileTrue(new AngleShooterCommand(-29.5));
-	operatorController.b().onTrue(new SetElevatorCommand(6));
+	operatorController.b().whileTrue(new AutoClimbCommand());
 	operatorController.y().onTrue(new SetElevatorCommand(8));
 	operatorController.x().onTrue(new AmpCommand());
 	operatorController.povLeft().onTrue(new AngleShooterCommand(55));
