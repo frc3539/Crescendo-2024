@@ -27,7 +27,7 @@ public static double elevatorSoftMin = 0.0;
 public static double elevatorSoftMax = 50;
 public static double angleMotorToEncoder = 94.5;
 public static double elevatorMotorToInches = 0.1598888;
-public static double shooterAngleOffset = -0.118652;
+public static double shooterAngleOffset = -0.112549;
 public static double minElevatorMoveAngle = 0.0;
 public static double shootP = 0.25;
 public static double shootV = 0.125;
@@ -38,4 +38,4 @@ public static double feedV = 0.125;
 public static double restShooterAngle = -30.0;
 public static double elevatorCollisionHeight = 5.0;
 public static double ampDps = 250.0;
-}
+}

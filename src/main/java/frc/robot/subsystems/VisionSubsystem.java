@@ -5,6 +5,7 @@ import edu.wpi.first.apriltag.AprilTagFieldLayout.OriginPosition;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.VecBuilder;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -14,6 +15,7 @@ import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import frc.robot.RobotContainer;
 import java.util.Optional;
 import org.ejml.simple.SimpleMatrix;
 import org.littletonrobotics.junction.Logger;
@@ -42,15 +44,14 @@ Transform3d robotToFrontRightCam =
 public PhotonCamera backLeftCam;
 Transform3d robotToBackLeftCam =
 	new Transform3d(
-		new Translation3d(-0.1746 - .07 + .02 + 0.08, 0.2885 + 0.05 - .03, 0.3876),
-		new Rotation3d(Math.toRadians(0), 0, Math.toRadians(14)));
+		new Translation3d(-0.3302, 0.2223, 0.3762),
+		new Rotation3d(Math.toRadians(0), Math.toRadians(17), Math.toRadians(190)));
 
 public PhotonCamera backRightCam;
 Transform3d robotToBackRightCam =
 	new Transform3d(
-		new Translation3d(-0.1746 + .05 + .02, -0.2885 - .1 + .05, 0.3876),
-		new Rotation3d(Math.toRadians(0), 0, Math.toRadians(-14)));
-
+		new Translation3d(-0.3302, -0.2223, 0.3762),
+		new Rotation3d(Math.toRadians(0), Math.toRadians(17), Math.toRadians(170)));
 PhotonPoseEstimator frontLeftPhotonPoseEstimator;
 PhotonPoseEstimator frontRightPhotonPoseEstimator;
 PhotonPoseEstimator backLeftPhotonPoseEstimator;
@@ -59,17 +60,14 @@ Optional<EstimatedRobotPose> resultFrontLeft;
 Optional<EstimatedRobotPose> resultFrontRight;
 Optional<EstimatedRobotPose> resultBackLeft;
 Optional<EstimatedRobotPose> resultBackRight;
-boolean useVision = false;
+boolean useVision = true;
 double frontLeftLastTimeStamp = 0;
 double frontRightLastTimeStamp = 0;
 double backLeftLastTimeStamp = 0;
 double backRightLastTimeStamp = 0;
 
-DrivetrainSubsystem driveSub;
-
-public VisionSubsystem(DrivetrainSubsystem driveSub) {
+public VisionSubsystem() {
 	super();
-	this.driveSub = driveSub;
 	try {
 	aprilTagFieldLayout =
 		AprilTagFieldLayout.loadFromResource(AprilTagFields.k2024Crescendo.m_resourceFile);
@@ -79,7 +77,7 @@ public VisionSubsystem(DrivetrainSubsystem driveSub) {
 	aprilTagFieldLayout = null;
 	}
 
-	frontLeftCam = new PhotonCamera("FrontLeftCam");
+	frontLeftCam = new PhotonCamera("FrontLeft");
 	frontLeftPhotonPoseEstimator =
 		new PhotonPoseEstimator(
 			aprilTagFieldLayout,
@@ -87,7 +85,7 @@ public VisionSubsystem(DrivetrainSubsystem driveSub) {
 			frontLeftCam,
 			robotToFrontLeftCam);
 
-	frontRightCam = new PhotonCamera("FrontRightCam");
+	frontRightCam = new PhotonCamera("FrontRight");
 	frontRightPhotonPoseEstimator =
 		new PhotonPoseEstimator(
 			aprilTagFieldLayout,
@@ -95,7 +93,7 @@ public VisionSubsystem(DrivetrainSubsystem driveSub) {
 			frontRightCam,
 			robotToFrontRightCam);
 
-	backLeftCam = new PhotonCamera("BackLeftCam");
+	backLeftCam = new PhotonCamera("BackLeft");
 	backLeftPhotonPoseEstimator =
 		new PhotonPoseEstimator(
 			aprilTagFieldLayout,
@@ -103,7 +101,7 @@ public VisionSubsystem(DrivetrainSubsystem driveSub) {
 			backLeftCam,
 			robotToBackLeftCam);
 
-	backRightCam = new PhotonCamera("BackRightCam");
+	backRightCam = new PhotonCamera("BackRight");
 	backRightPhotonPoseEstimator =
 		new PhotonPoseEstimator(
 			aprilTagFieldLayout,
@@ -136,8 +134,18 @@ public void useVision(boolean useVision) {
 }
 
 public void setVisionWeights(double visionX, double visionY, double visionDeg) {
-	driveSub.setVisionMeasurementStdDevs(
+	RobotContainer.drivetrainSubsystem.setVisionMeasurementStdDevs(
 		VecBuilder.fill(visionX, visionY, Units.degreesToRadians(visionDeg)));
+}
+
+public static void publishPose2d(String key, Pose2d pose) {
+	Logger.recordOutput(
+		key,
+		new double[] {
+		pose.getTranslation().getX(),
+		pose.getTranslation().getY(),
+		pose.getRotation().getRadians()
+		});
 }
 
 Alliance lastAlliance = null;
@@ -165,7 +173,6 @@ public void run() {
 	this.resultBackRight = getEstimatedBackRightGlobalPose();
 
 	if (useVision) {
-
 		double visioncutoff = 10;
 		if (resultFrontLeft.isPresent()) {
 		EstimatedRobotPose camPoseFrontLeft = resultFrontLeft.get();
@@ -196,11 +203,11 @@ public void run() {
 					}));
 
 		if (camPoseFrontLeft.timestampSeconds != frontLeftLastTimeStamp) {
-			Logger.recordOutput(
+			publishPose2d(
 				"/DriveTrain/FrontLeftCamPose", camPoseFrontLeft.estimatedPose.toPose2d());
 
 			if (camPoseFrontLeft.estimatedPose.toPose2d().getX() < visioncutoff) {
-			driveSub.addVisionMeasurement(
+			RobotContainer.drivetrainSubsystem.addVisionMeasurement(
 				camPoseFrontLeft.estimatedPose.toPose2d(),
 				camPoseFrontLeft.timestampSeconds,
 				weights);
@@ -238,11 +245,11 @@ public void run() {
 					}));
 
 		if (camPoseFrontRight.timestampSeconds != frontRightLastTimeStamp) {
-			Logger.recordOutput(
+			publishPose2d(
 				"/DriveTrain/FrontRightCamPose", camPoseFrontRight.estimatedPose.toPose2d());
 
 			if (camPoseFrontRight.estimatedPose.toPose2d().getX() < visioncutoff) {
-			driveSub.addVisionMeasurement(
+			RobotContainer.drivetrainSubsystem.addVisionMeasurement(
 				camPoseFrontRight.estimatedPose.toPose2d(),
 				camPoseFrontRight.timestampSeconds,
 				weights);
@@ -280,11 +287,10 @@ public void run() {
 					}));
 
 		if (camPoseBackLeft.timestampSeconds != backLeftLastTimeStamp) {
-			Logger.recordOutput(
-				"/DriveTrain/BackLeftCamPose", camPoseBackLeft.estimatedPose.toPose2d());
+			publishPose2d("/DriveTrain/BackLeftCamPose", camPoseBackLeft.estimatedPose.toPose2d());
 
 			if (camPoseBackLeft.estimatedPose.toPose2d().getX() < visioncutoff) {
-			driveSub.addVisionMeasurement(
+			RobotContainer.drivetrainSubsystem.addVisionMeasurement(
 				camPoseBackLeft.estimatedPose.toPose2d(),
 				camPoseBackLeft.timestampSeconds,
 				weights);
@@ -322,11 +328,11 @@ public void run() {
 					}));
 
 		if (camPoseBackRight.timestampSeconds != backRightLastTimeStamp) {
-			Logger.recordOutput(
+			publishPose2d(
 				"/DriveTrain/BackRightCamPose", camPoseBackRight.estimatedPose.toPose2d());
 
 			if (camPoseBackRight.estimatedPose.toPose2d().getX() < visioncutoff) {
-			driveSub.addVisionMeasurement(
+			RobotContainer.drivetrainSubsystem.addVisionMeasurement(
 				camPoseBackRight.estimatedPose.toPose2d(),
 				camPoseBackRight.timestampSeconds,
 				weights);

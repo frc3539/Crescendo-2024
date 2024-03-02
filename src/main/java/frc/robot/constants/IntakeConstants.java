@@ -19,4 +19,4 @@ public static double groundWheelDiameter = 2.125;
 public static double kickWheelDiameter = 1.625;
 public static double chamberWheelDiameter = 1.625;
 public static double kickGearRatio = 1.2;
-}
+}

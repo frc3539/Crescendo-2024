@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.*;
+import frc.robot.commands.AutoAlignCommand.TagPosition;
 import frc.robot.commands.IntakeCommand.IntakeMode;
 import frc.robot.constants.*;
 import frc.robot.generated.TunerConstants;
@@ -41,7 +42,7 @@ public static IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
 
 public static ClimberSubsystem climberSubsystem = new ClimberSubsystem();
 // public static LedSubsystem ledSubsystem = new LedSubsystem(true);
-// public static VisionSubsystem visionSubsystem = new VisionSubsystem();
+public static VisionSubsystem visionSubsystem = new VisionSubsystem();
 public static ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
 
 /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -53,6 +54,7 @@ public RobotContainer() {
 	// Configure the trigger bindings
 	configureBindings();
 	putCommands();
+	visionSubsystem.start();
 }
 
 /**
@@ -87,6 +89,7 @@ private void configureBindings() {
 
 	operatorController.start().whileTrue(new BuddyClimbCommand());
 	driverController.start().whileTrue(new ZeroGyroCommand());
+	driverController.y().whileTrue(new AutoAlignCommand(TagPosition.TRAP));
 
 	drivetrainSubsystem.setDefaultCommand(new DriveCommand());
 }

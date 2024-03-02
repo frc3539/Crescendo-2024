@@ -10,6 +10,7 @@ import com.ctre.phoenix6.mechanisms.swerve.SwerveDrivetrain;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveDrivetrainConstants;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModuleConstants;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -74,6 +75,14 @@ public DrivetrainSubsystem(
 			new HolonomicFeedforward(FEEDFORWARD_CONSTANTS));
 }
 
+public HolonomicMotionProfiledTrajectoryFollower getFollower() {
+	return follower;
+}
+
+public Pose2d getPose2d() {
+	return m_odometry.getEstimatedPosition();
+}
+
 public void applyRequest(SwerveRequest request) {
 	this.swerveRequest = request;
 }
@@ -94,6 +103,7 @@ public Rotation2d getRobotRoll() {
 
 public void log() {
 	Logger.recordOutput("/DriveTrain/RobotRoll", getRobotRoll().getDegrees());
+	VisionSubsystem.publishPose2d("/DriveTrain/Pose", getPose2d());
 }
 
 @Override

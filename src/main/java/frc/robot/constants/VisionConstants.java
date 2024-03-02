@@ -7,4 +7,5 @@ public VisionConstants() {
 	super("/home/lvuser/VisionConstants.ini", true);
 	save();
 }
-}
+
+}
