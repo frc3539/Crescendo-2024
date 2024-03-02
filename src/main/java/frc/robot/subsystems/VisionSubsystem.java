@@ -33,12 +33,12 @@ public class VisionSubsystem extends Thread {
 	public PhotonCamera frontLeftCam;
 	Transform3d robotToFrontLeftCam = new Transform3d(
 			new Translation3d(-0.1746 - .07 + .02 + 0.08, 0.2885 + 0.05 - .03, 0.3876),
-			new Rotation3d(Math.toRadians(0), 0, Math.toRadians(14)));
+			new Rotation3d(Math.toRadians(0), 0, Math.toRadians(0)));
 
 	public PhotonCamera frontRightCam;
 	Transform3d robotToFrontRightCam = new Transform3d(
 			new Translation3d(-0.1746 + .05 + .02, -0.2885 - .1 + .05, 0.3876),
-			new Rotation3d(Math.toRadians(0), 0, Math.toRadians(-14)));
+			new Rotation3d(Math.toRadians(0), 0, Math.toRadians(0)));
 	public PhotonCamera backLeftCam;
 	Transform3d robotToBackLeftCam = new Transform3d(new Translation3d(-0.3302, 0.2223, 0.3762),
 			new Rotation3d(Math.toRadians(0), Math.toRadians(17), Math.toRadians(180)));
@@ -59,6 +59,8 @@ public class VisionSubsystem extends Thread {
 	double frontRightLastTimeStamp = 0;
 	double backLeftLastTimeStamp = 0;
 	double backRightLastTimeStamp = 0;
+
+	double visionRatio = 10;
 
 	public VisionSubsystem() {
 		super();
@@ -121,7 +123,9 @@ public class VisionSubsystem extends Thread {
 	}
 
 	Alliance lastAlliance = null;
-
+	public void addVisionMeasurement(Pose2d pose, double timestampSeconds, Matrix<N3, N1> weights) {
+		RobotContainer.drivetrainSubsystem.addVisionMeasurement(pose, timestampSeconds, weights);
+	}
 	@Override
 	public void run() {
 		/* Run as fast as possible, our signals will control the timing */
@@ -145,7 +149,6 @@ public class VisionSubsystem extends Thread {
 			this.resultBackRight = getEstimatedBackRightGlobalPose();
 
 			if (useVision) {
-				double visioncutoff = 10;
 				if (resultFrontLeft.isPresent()) {
 					EstimatedRobotPose camPoseFrontLeft = resultFrontLeft.get();
 
@@ -156,18 +159,15 @@ public class VisionSubsystem extends Thread {
 						sum += resultFrontLeft.get().estimatedPose.toPose2d().getTranslation().getDistance(tagPosition);
 					}
 					sum /= camPoseFrontLeft.targetsUsed.size();
-					double distanceRatio = sum / visioncutoff;
+					double distanceRatio = sum / visionRatio;
 					Matrix<N3, N1> weights = new Matrix<N3, N1>(new SimpleMatrix(new double[]{0.1 + 1.9 * distanceRatio,
 							0.1 + 1.9 * distanceRatio, 5 + 25 * distanceRatio}));
 
 					if (camPoseFrontLeft.timestampSeconds != frontLeftLastTimeStamp) {
 						publishPose2d("/DriveTrain/FrontLeftCamPose", camPoseFrontLeft.estimatedPose.toPose2d());
+						addVisionMeasurement(camPoseFrontLeft.estimatedPose.toPose2d(),
+								camPoseFrontLeft.timestampSeconds, weights);
 
-						if (camPoseFrontLeft.estimatedPose.toPose2d().getX() < visioncutoff) {
-							RobotContainer.drivetrainSubsystem.addVisionMeasurement(
-									camPoseFrontLeft.estimatedPose.toPose2d(), camPoseFrontLeft.timestampSeconds,
-									weights);
-						}
 					}
 					frontLeftLastTimeStamp = camPoseFrontLeft.timestampSeconds;
 				}
@@ -183,18 +183,16 @@ public class VisionSubsystem extends Thread {
 								.getDistance(tagPosition);
 					}
 					sum /= camPoseFrontRight.targetsUsed.size();
-					double distanceRatio = sum / visioncutoff;
+					double distanceRatio = sum / visionRatio;
 					Matrix<N3, N1> weights = new Matrix<N3, N1>(new SimpleMatrix(new double[]{0.1 + 1.9 * distanceRatio,
 							0.1 + 1.9 * distanceRatio, 5 + 25 * distanceRatio}));
 
 					if (camPoseFrontRight.timestampSeconds != frontRightLastTimeStamp) {
 						publishPose2d("/DriveTrain/FrontRightCamPose", camPoseFrontRight.estimatedPose.toPose2d());
+						RobotContainer.drivetrainSubsystem.addVisionMeasurement(
+								camPoseFrontRight.estimatedPose.toPose2d(), camPoseFrontRight.timestampSeconds,
+								weights);
 
-						if (camPoseFrontRight.estimatedPose.toPose2d().getX() < visioncutoff) {
-							RobotContainer.drivetrainSubsystem.addVisionMeasurement(
-									camPoseFrontRight.estimatedPose.toPose2d(), camPoseFrontRight.timestampSeconds,
-									weights);
-						}
 					}
 					frontRightLastTimeStamp = camPoseFrontRight.timestampSeconds;
 				}
@@ -209,18 +207,16 @@ public class VisionSubsystem extends Thread {
 						sum += resultBackLeft.get().estimatedPose.toPose2d().getTranslation().getDistance(tagPosition);
 					}
 					sum /= camPoseBackLeft.targetsUsed.size();
-					double distanceRatio = sum / visioncutoff;
+					double distanceRatio = sum / visionRatio;
 					Matrix<N3, N1> weights = new Matrix<N3, N1>(new SimpleMatrix(new double[]{0.1 + 1.9 * distanceRatio,
 							0.1 + 1.9 * distanceRatio, 5 + 25 * distanceRatio}));
 
 					if (camPoseBackLeft.timestampSeconds != backLeftLastTimeStamp) {
 						publishPose2d("/DriveTrain/BackLeftCamPose", camPoseBackLeft.estimatedPose.toPose2d());
 
-						if (camPoseBackLeft.estimatedPose.toPose2d().getX() < visioncutoff) {
-							RobotContainer.drivetrainSubsystem.addVisionMeasurement(
-									camPoseBackLeft.estimatedPose.toPose2d(), camPoseBackLeft.timestampSeconds,
-									weights);
-						}
+						RobotContainer.drivetrainSubsystem.addVisionMeasurement(
+								camPoseBackLeft.estimatedPose.toPose2d(), camPoseBackLeft.timestampSeconds, weights);
+
 					}
 					backLeftLastTimeStamp = camPoseBackLeft.timestampSeconds;
 				}
@@ -235,18 +231,15 @@ public class VisionSubsystem extends Thread {
 						sum += resultBackRight.get().estimatedPose.toPose2d().getTranslation().getDistance(tagPosition);
 					}
 					sum /= camPoseBackRight.targetsUsed.size();
-					double distanceRatio = sum / visioncutoff;
+					double distanceRatio = sum / visionRatio;
 					Matrix<N3, N1> weights = new Matrix<N3, N1>(new SimpleMatrix(new double[]{0.1 + 1.9 * distanceRatio,
 							0.1 + 1.9 * distanceRatio, 5 + 25 * distanceRatio}));
 
 					if (camPoseBackRight.timestampSeconds != backRightLastTimeStamp) {
 						publishPose2d("/DriveTrain/BackRightCamPose", camPoseBackRight.estimatedPose.toPose2d());
+						RobotContainer.drivetrainSubsystem.addVisionMeasurement(
+								camPoseBackRight.estimatedPose.toPose2d(), camPoseBackRight.timestampSeconds, weights);
 
-						if (camPoseBackRight.estimatedPose.toPose2d().getX() < visioncutoff) {
-							RobotContainer.drivetrainSubsystem.addVisionMeasurement(
-									camPoseBackRight.estimatedPose.toPose2d(), camPoseBackRight.timestampSeconds,
-									weights);
-						}
 					}
 					backRightLastTimeStamp = camPoseBackRight.timestampSeconds;
 				}
