@@ -13,15 +13,13 @@ import frc.robot.constants.ShooterConstants;
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class HomePositionCommand extends SequentialCommandGroup {
-private Command[] commands = {
-	new ParallelCommandGroup(
-		new AngleShooterCommand(ShooterConstants.restShooterAngle), new SetElevatorCommand(0))
-};
+	private Command[] commands = {new ParallelCommandGroup(new AngleShooterCommand(ShooterConstants.restShooterAngle),
+			new SetElevatorCommand(0))};
 
-/** Creates a new HomePositionCommand. */
-public HomePositionCommand() {
-	// Add your commands in the addCommands() call, e.g.
-	// addCommands(new FooCommand(), new BarCommand());
-	addCommands(commands);
-}
+	/** Creates a new HomePositionCommand. */
+	public HomePositionCommand() {
+		// Add your commands in the addCommands() call, e.g.
+		// addCommands(new FooCommand(), new BarCommand());
+		addCommands(commands);
+	}
 }

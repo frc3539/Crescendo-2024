@@ -8,41 +8,42 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
 
 public class AutoClimbCommand extends Command {
-/** Creates a new AutoClimbCommand. */
-public AutoClimbCommand() {
-	// Use addRequirements() here to declare subsystem dependencies.
-}
-
-// Called when the command is initially scheduled.
-@Override
-public void initialize() {}
-
-// Called every time the scheduler runs while the command is scheduled.
-@Override
-public void execute() {
-	if (RobotContainer.drivetrainSubsystem.getRobotRoll().getDegrees() < -2) {
-	RobotContainer.climberSubsystem.setLeftClimbMotorVoltage(2);
-	RobotContainer.climberSubsystem.setRightClimbMotorVoltage(0);
-	} else if (RobotContainer.drivetrainSubsystem.getRobotRoll().getDegrees() > 2) {
-	RobotContainer.climberSubsystem.setLeftClimbMotorVoltage(0);
-	RobotContainer.climberSubsystem.setRightClimbMotorVoltage(2);
-	} else {
-	RobotContainer.climberSubsystem.setLeftClimbMotorVoltage(2);
-	RobotContainer.climberSubsystem.setRightClimbMotorVoltage(2);
+	/** Creates a new AutoClimbCommand. */
+	public AutoClimbCommand() {
+		// Use addRequirements() here to declare subsystem dependencies.
 	}
-}
 
-// Called once the command ends or is interrupted.
-@Override
-public void end(boolean interrupted) {
+	// Called when the command is initially scheduled.
+	@Override
+	public void initialize() {
+	}
 
-	RobotContainer.climberSubsystem.setLeftClimbMotorVoltage(0);
-	RobotContainer.climberSubsystem.setRightClimbMotorVoltage(0);
-}
+	// Called every time the scheduler runs while the command is scheduled.
+	@Override
+	public void execute() {
+		if (RobotContainer.drivetrainSubsystem.getRobotRoll().getDegrees() < -2) {
+			RobotContainer.climberSubsystem.setLeftClimbMotorVoltage(2);
+			RobotContainer.climberSubsystem.setRightClimbMotorVoltage(0);
+		} else if (RobotContainer.drivetrainSubsystem.getRobotRoll().getDegrees() > 2) {
+			RobotContainer.climberSubsystem.setLeftClimbMotorVoltage(0);
+			RobotContainer.climberSubsystem.setRightClimbMotorVoltage(2);
+		} else {
+			RobotContainer.climberSubsystem.setLeftClimbMotorVoltage(2);
+			RobotContainer.climberSubsystem.setRightClimbMotorVoltage(2);
+		}
+	}
 
-// Returns true when the command should end.
-@Override
-public boolean isFinished() {
-	return false;
-}
+	// Called once the command ends or is interrupted.
+	@Override
+	public void end(boolean interrupted) {
+
+		RobotContainer.climberSubsystem.setLeftClimbMotorVoltage(0);
+		RobotContainer.climberSubsystem.setRightClimbMotorVoltage(0);
+	}
+
+	// Returns true when the command should end.
+	@Override
+	public boolean isFinished() {
+		return false;
+	}
 }

@@ -17,73 +17,65 @@ import org.frcteam3539.Byte_Swerve_Lib.control.Trajectory;
 import org.frcteam3539.Byte_Swerve_Lib.control.TrajectoryConstraint;
 
 public class AutoAlignCommand extends Command {
-/** Wrapper command to generate a trajectory to the nearest Stage Pose */
-public enum TagPosition {
-	TRAP,
-	CLIMB,
-	SPEAKER,
-	AMP,
-	SOURCE
-}
-
-public List<Pose2d> points = new ArrayList<Pose2d>();
-
-public AutoAlignCommand(TagPosition position) {
-
-	switch (position) {
-	case AMP:
-		points.add(new Pose2d(1, 1, Rotation2d.fromDegrees(-60)));
-		break;
-	case SPEAKER:
-		points.add(new Pose2d(1, 1, Rotation2d.fromDegrees(-60)));
-		break;
-	case TRAP:
-		points.add(new Pose2d(4.961, 4.216, Rotation2d.fromDegrees(120)));
-		break;
-	case CLIMB:
-		points.add(new Pose2d(1, 1, Rotation2d.fromDegrees(-60)));
-		break;
-	case SOURCE:
-		points.add(new Pose2d(1, 1, Rotation2d.fromDegrees(-60)));
-		break;
+	/** Wrapper command to generate a trajectory to the nearest Stage Pose */
+	public enum TagPosition {
+		TRAP, CLIMB, SPEAKER, AMP, SOURCE
 	}
-}
 
-// Called when the command is initially scheduled.
-@Override
-public void initialize() {
-	Pose2d robotPose = RobotContainer.drivetrainSubsystem.getPose2d();
+	public List<Pose2d> points = new ArrayList<Pose2d>();
 
-	Pose2d target = robotPose.nearest(points);
+	public AutoAlignCommand(TagPosition position) {
 
-	// Generate trajectory command to nearest coordinate
-	RobotContainer.drivetrainSubsystem
-		.getFollower()
-		.follow(
-			new Trajectory(
-				new SimplePathBuilder(robotPose).lineTo(target).build(),
-				new TrajectoryConstraint[] {
-				(TrajectoryConstraint) new MaxAccelerationConstraint(1),
-				(TrajectoryConstraint) new MaxVelocityConstraint(1)
-				},
-				.05));
-}
+		switch (position) {
+			case AMP :
+				points.add(new Pose2d(1, 1, Rotation2d.fromDegrees(-60)));
+				break;
+			case SPEAKER :
+				points.add(new Pose2d(1, 1, Rotation2d.fromDegrees(-60)));
+				break;
+			case TRAP :
+				points.add(new Pose2d(4.216, 4.961, Rotation2d.fromDegrees(120)));
+				break;
+			case CLIMB :
+				points.add(new Pose2d(1, 1, Rotation2d.fromDegrees(-60)));
+				break;
+			case SOURCE :
+				points.add(new Pose2d(1, 1, Rotation2d.fromDegrees(-60)));
+				break;
+		}
+	}
 
-// Indicate vision and start the trajectory command
+	// Called when the command is initially scheduled.
+	@Override
+	public void initialize() {
+		Pose2d robotPose = RobotContainer.drivetrainSubsystem.getPose2d();
 
-// Called every time the scheduler runs while the command is scheduled.
-@Override
-public void execute() {}
+		Pose2d target = robotPose.nearest(points);
 
-// Called once the command ends or is interrupted.
-@Override
-public void end(boolean interrupted) {
-	RobotContainer.drivetrainSubsystem.getFollower().cancel();
-}
+		// Generate trajectory command to nearest coordinate
+		RobotContainer.drivetrainSubsystem.getFollower()
+				.follow(new Trajectory(new SimplePathBuilder(robotPose).lineTo(target).build(),
+						new TrajectoryConstraint[]{(TrajectoryConstraint) new MaxAccelerationConstraint(1),
+								(TrajectoryConstraint) new MaxVelocityConstraint(1)},
+						.05));
+	}
 
-// Returns true when the command should end.
-@Override
-public boolean isFinished() {
-	return RobotContainer.drivetrainSubsystem.getFollower().getCurrentTrajectory().isEmpty();
-}
+	// Indicate vision and start the trajectory command
+
+	// Called every time the scheduler runs while the command is scheduled.
+	@Override
+	public void execute() {
+	}
+
+	// Called once the command ends or is interrupted.
+	@Override
+	public void end(boolean interrupted) {
+		RobotContainer.drivetrainSubsystem.getFollower().cancel();
+	}
+
+	// Returns true when the command should end.
+	@Override
+	public boolean isFinished() {
+		return RobotContainer.drivetrainSubsystem.getFollower().getCurrentTrajectory().isEmpty();
+	}
 }

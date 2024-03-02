@@ -10,29 +10,29 @@ import org.frcteam3539.Byte_Swerve_Lib.control.Trajectory;
 
 public class FollowTrajectoryCommand extends Command {
 
-private final DrivetrainSubsystem drivetrain;
+	private final DrivetrainSubsystem drivetrain;
 
-private final Trajectory trajectory;
+	private final Trajectory trajectory;
 
-public FollowTrajectoryCommand(DrivetrainSubsystem drivetrain, Trajectory trajectory) {
-	this.drivetrain = drivetrain;
-	this.trajectory = trajectory;
+	public FollowTrajectoryCommand(DrivetrainSubsystem drivetrain, Trajectory trajectory) {
+		this.drivetrain = drivetrain;
+		this.trajectory = trajectory;
 
-	addRequirements(drivetrain);
-}
+		addRequirements(drivetrain);
+	}
 
-@Override
-public void initialize() {
-	drivetrain.getFollower().follow(trajectory);
-}
+	@Override
+	public void initialize() {
+		drivetrain.getFollower().follow(trajectory);
+	}
 
-@Override
-public void end(boolean interrupted) {
-	drivetrain.getFollower().cancel();
-}
+	@Override
+	public void end(boolean interrupted) {
+		drivetrain.getFollower().cancel();
+	}
 
-@Override
-public boolean isFinished() {
-	return drivetrain.getFollower().getCurrentTrajectory().isEmpty();
-}
+	@Override
+	public boolean isFinished() {
+		return drivetrain.getFollower().getCurrentTrajectory().isEmpty();
+	}
 }

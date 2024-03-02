@@ -6,9 +6,10 @@ package frc.robot.utilities;
 
 /** Add your docs here. */
 public class BBMath {
-public BBMath() {}
+	public BBMath() {
+	}
 
-public static double getRps(double dps, double wheelDiameter) {
-	return dps / (java.lang.Math.PI * wheelDiameter);
-}
+	public static double getRps(double dps, double wheelDiameter) {
+		return dps / (java.lang.Math.PI * wheelDiameter);
+	}
 }

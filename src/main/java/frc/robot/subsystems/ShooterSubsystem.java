@@ -29,227 +29,186 @@ import frc.robot.constants.ShooterConstants;
 import org.littletonrobotics.junction.Logger;
 
 public class ShooterSubsystem extends SubsystemBase {
-/** Creates a new ShooterSubsystem. */
-private TalonFX topMotor, bottomMotor, feedMotor, elevatorMotor, angleMotor;
+	/** Creates a new ShooterSubsystem. */
+	private TalonFX topMotor, bottomMotor, feedMotor, elevatorMotor, angleMotor;
 
-private CANcoder angleCanCoder;
+	private CANcoder angleCanCoder;
 
-private DigitalInput shooterSensor;
+	private DigitalInput shooterSensor;
 
-private double requestedElevatorPos = 0;
-private double requestedArmPos = 0;
+	private double requestedElevatorPos = 0;
+	private double requestedArmPos = 0;
 
-public ShooterSubsystem() {
+	public ShooterSubsystem() {
 
-	angleCanCoder = new CANcoder(IDConstants.angleCanCoderID, "rio");
-	topMotor = new TalonFX(IDConstants.topMotor, "rio");
-	topMotor.getConfigurator().apply(new TalonFXConfiguration());
-	topMotor.setInverted(false);
-	bottomMotor = new TalonFX(IDConstants.bottomMotor, "rio");
-	bottomMotor.getConfigurator().apply(new TalonFXConfiguration());
-	bottomMotor.setInverted(false);
-	feedMotor = new TalonFX(IDConstants.feedMotor, "rio");
-	feedMotor.getConfigurator().apply(new TalonFXConfiguration());
-	feedMotor.setInverted(true);
-	feedMotor.setNeutralMode(NeutralModeValue.Brake);
-	elevatorMotor = new TalonFX(IDConstants.elevatorMotorID, "rio");
-	elevatorMotor.setNeutralMode(NeutralModeValue.Brake);
-	angleMotor = new TalonFX(IDConstants.angleMotorID, "rio");
-	angleMotor.setInverted(true);
-	angleMotor.setNeutralMode(NeutralModeValue.Brake);
+		angleCanCoder = new CANcoder(IDConstants.angleCanCoderID, "rio");
+		topMotor = new TalonFX(IDConstants.topMotor, "rio");
+		topMotor.getConfigurator().apply(new TalonFXConfiguration());
+		topMotor.setInverted(false);
+		bottomMotor = new TalonFX(IDConstants.bottomMotor, "rio");
+		bottomMotor.getConfigurator().apply(new TalonFXConfiguration());
+		bottomMotor.setInverted(false);
+		feedMotor = new TalonFX(IDConstants.feedMotor, "rio");
+		feedMotor.getConfigurator().apply(new TalonFXConfiguration());
+		feedMotor.setInverted(true);
+		feedMotor.setNeutralMode(NeutralModeValue.Brake);
+		elevatorMotor = new TalonFX(IDConstants.elevatorMotorID, "rio");
+		elevatorMotor.setNeutralMode(NeutralModeValue.Brake);
+		angleMotor = new TalonFX(IDConstants.angleMotorID, "rio");
+		angleMotor.setInverted(true);
+		angleMotor.setNeutralMode(NeutralModeValue.Brake);
 
-	reloadFromConfig();
+		reloadFromConfig();
 
-	elevatorMotor
-		.getConfigurator()
-		.apply(
-			new SoftwareLimitSwitchConfigs()
-				.withForwardSoftLimitEnable(true)
-				.withForwardSoftLimitThreshold(ShooterConstants.elevatorSoftMax)
-				.withReverseSoftLimitEnable(true)
+		elevatorMotor.getConfigurator().apply(new SoftwareLimitSwitchConfigs().withForwardSoftLimitEnable(true)
+				.withForwardSoftLimitThreshold(ShooterConstants.elevatorSoftMax).withReverseSoftLimitEnable(true)
 				.withReverseSoftLimitThreshold(ShooterConstants.elevatorSoftMin));
 
-	elevatorMotor
-		.getConfigurator()
-		.apply(
-			new HardwareLimitSwitchConfigs()
-				.withReverseLimitEnable(true)
-				.withReverseLimitAutosetPositionEnable(true)
-				.withReverseLimitAutosetPositionValue(0));
+		elevatorMotor.getConfigurator().apply(new HardwareLimitSwitchConfigs().withReverseLimitEnable(true)
+				.withReverseLimitAutosetPositionEnable(true).withReverseLimitAutosetPositionValue(0));
 
-	angleMotor
-		.getConfigurator()
-		.apply(
-			new SoftwareLimitSwitchConfigs()
-				.withForwardSoftLimitEnable(true)
-				.withForwardSoftLimitThreshold(ShooterConstants.angleShooterSoftMax)
-				.withReverseSoftLimitEnable(true)
+		angleMotor.getConfigurator().apply(new SoftwareLimitSwitchConfigs().withForwardSoftLimitEnable(true)
+				.withForwardSoftLimitThreshold(ShooterConstants.angleShooterSoftMax).withReverseSoftLimitEnable(true)
 				.withReverseSoftLimitThreshold(ShooterConstants.angleShooterSoftMin));
 
-	angleMotor
-		.getConfigurator()
-		.apply(
-			new FeedbackConfigs()
-				.withFeedbackRemoteSensorID(IDConstants.angleCanCoderID)
-				.withRotorToSensorRatio(ShooterConstants.angleMotorToEncoder)
-				.withSensorToMechanismRatio(1)
-				.withFeedbackSensorSource(FeedbackSensorSourceValue.FusedCANcoder));
+		angleMotor.getConfigurator()
+				.apply(new FeedbackConfigs().withFeedbackRemoteSensorID(IDConstants.angleCanCoderID)
+						.withRotorToSensorRatio(ShooterConstants.angleMotorToEncoder).withSensorToMechanismRatio(1)
+						.withFeedbackSensorSource(FeedbackSensorSourceValue.FusedCANcoder));
 
-	shooterSensor = new DigitalInput(IDConstants.shooterSensorChannel);
-}
-
-public void reloadFromConfig() {
-
-	angleCanCoder
-		.getConfigurator()
-		.apply(
-			new MagnetSensorConfigs()
-				.withAbsoluteSensorRange(AbsoluteSensorRangeValue.Signed_PlusMinusHalf)
-				.withSensorDirection(SensorDirectionValue.CounterClockwise_Positive)
-				.withMagnetOffset(ShooterConstants.shooterAngleOffset));
-	elevatorMotor
-		.getConfigurator()
-		.apply(
-			new SlotConfigs()
-				.withKP(ShooterConstants.elevatorMotorP)
-				.withKI(ShooterConstants.elevatorMotorI)
-				.withKD(ShooterConstants.elevatorMotorD)
-				.withKV(ShooterConstants.elevatorMotorV)
-				.withKG(ShooterConstants.elevatorMotorG)
-				.withGravityType(GravityTypeValue.Elevator_Static));
-	elevatorMotor
-		.getConfigurator()
-		.apply(
-			new MotionMagicConfigs()
-				.withMotionMagicAcceleration(256)
-				.withMotionMagicCruiseVelocity(256));
-
-	angleMotor
-		.getConfigurator()
-		.apply(
-			new SlotConfigs()
-				.withKP(ShooterConstants.angleShooterP)
-				.withKI(ShooterConstants.angleShooterI)
-				.withKD(ShooterConstants.angleShooterD)
-				.withKV(ShooterConstants.angleShooterV)
-				.withKG(ShooterConstants.angleShooterG)
-				.withGravityType(GravityTypeValue.Arm_Cosine));
-
-	topMotor
-		.getConfigurator()
-		.apply(new SlotConfigs().withKP(ShooterConstants.shootP).withKV(ShooterConstants.shootV));
-	bottomMotor
-		.getConfigurator()
-		.apply(new SlotConfigs().withKP(ShooterConstants.shootP).withKV(ShooterConstants.shootV));
-
-	feedMotor
-		.getConfigurator()
-		.apply(new SlotConfigs().withKP(ShooterConstants.feedP).withKV(ShooterConstants.feedV));
-}
-
-public void setArmBreakMode(boolean enabled) {
-	if (enabled) {
-	angleMotor.setNeutralMode(NeutralModeValue.Brake);
-	} else {
-	angleMotor.setNeutralMode(NeutralModeValue.Coast);
+		shooterSensor = new DigitalInput(IDConstants.shooterSensorChannel);
 	}
-}
 
-public void setElevatorBreakMode(boolean enabled) {
-	if (enabled) {
-	elevatorMotor.setNeutralMode(NeutralModeValue.Brake);
-	} else {
-	elevatorMotor.setNeutralMode(NeutralModeValue.Coast);
+	public void reloadFromConfig() {
+
+		angleCanCoder.getConfigurator()
+				.apply(new MagnetSensorConfigs().withAbsoluteSensorRange(AbsoluteSensorRangeValue.Signed_PlusMinusHalf)
+						.withSensorDirection(SensorDirectionValue.CounterClockwise_Positive)
+						.withMagnetOffset(ShooterConstants.shooterAngleOffset));
+		elevatorMotor.getConfigurator()
+				.apply(new SlotConfigs().withKP(ShooterConstants.elevatorMotorP).withKI(ShooterConstants.elevatorMotorI)
+						.withKD(ShooterConstants.elevatorMotorD).withKV(ShooterConstants.elevatorMotorV)
+						.withKG(ShooterConstants.elevatorMotorG).withGravityType(GravityTypeValue.Elevator_Static));
+		elevatorMotor.getConfigurator()
+				.apply(new MotionMagicConfigs().withMotionMagicAcceleration(256).withMotionMagicCruiseVelocity(256));
+
+		angleMotor.getConfigurator()
+				.apply(new SlotConfigs().withKP(ShooterConstants.angleShooterP).withKI(ShooterConstants.angleShooterI)
+						.withKD(ShooterConstants.angleShooterD).withKV(ShooterConstants.angleShooterV)
+						.withKG(ShooterConstants.angleShooterG).withGravityType(GravityTypeValue.Arm_Cosine));
+
+		topMotor.getConfigurator()
+				.apply(new SlotConfigs().withKP(ShooterConstants.shootP).withKV(ShooterConstants.shootV));
+		bottomMotor.getConfigurator()
+				.apply(new SlotConfigs().withKP(ShooterConstants.shootP).withKV(ShooterConstants.shootV));
+
+		feedMotor.getConfigurator()
+				.apply(new SlotConfigs().withKP(ShooterConstants.feedP).withKV(ShooterConstants.feedV));
 	}
-}
 
-public void setTopMotorSpeed(double rps) {
-	topMotor.setControl(new VelocityVoltage(rps).withEnableFOC(true));
-}
+	public void setArmBreakMode(boolean enabled) {
+		if (enabled) {
+			angleMotor.setNeutralMode(NeutralModeValue.Brake);
+		} else {
+			angleMotor.setNeutralMode(NeutralModeValue.Coast);
+		}
+	}
 
-public void setTopMotorVoltage(double voltage) {
-	topMotor.setControl(new VoltageOut(voltage).withEnableFOC(true));
-}
+	public void setElevatorBreakMode(boolean enabled) {
+		if (enabled) {
+			elevatorMotor.setNeutralMode(NeutralModeValue.Brake);
+		} else {
+			elevatorMotor.setNeutralMode(NeutralModeValue.Coast);
+		}
+	}
 
-public void setBottomMotorSpeed(double rps) {
-	bottomMotor.setControl(new VelocityVoltage(rps).withEnableFOC(true));
-}
+	public void setTopMotorSpeed(double rps) {
+		topMotor.setControl(new VelocityVoltage(rps).withEnableFOC(true));
+	}
 
-public void setBottomMotorVoltage(double voltage) {
-	bottomMotor.setControl(new VoltageOut(voltage).withEnableFOC(true));
-}
+	public void setTopMotorVoltage(double voltage) {
+		topMotor.setControl(new VoltageOut(voltage).withEnableFOC(true));
+	}
 
-public void setFeedMotorSpeed(double rps) {
-	feedMotor.setControl(new VelocityVoltage(rps).withEnableFOC(true));
-}
+	public void setBottomMotorSpeed(double rps) {
+		bottomMotor.setControl(new VelocityVoltage(rps).withEnableFOC(true));
+	}
 
-public void setFeedMotorVoltage(double voltage) {
-	feedMotor.setControl(new VoltageOut(voltage).withEnableFOC(true));
-}
+	public void setBottomMotorVoltage(double voltage) {
+		bottomMotor.setControl(new VoltageOut(voltage).withEnableFOC(true));
+	}
 
-public double getFeedMotorSpeed() {
-	return feedMotor.getVelocity().getValue();
-}
+	public void setFeedMotorSpeed(double rps) {
+		feedMotor.setControl(new VelocityVoltage(rps).withEnableFOC(true));
+	}
 
-public void setShooterAngle(double angle) {
-	requestedArmPos = angle;
-}
+	public void setFeedMotorVoltage(double voltage) {
+		feedMotor.setControl(new VoltageOut(voltage).withEnableFOC(true));
+	}
 
-public boolean getShooterSensor() {
-	return !shooterSensor.get();
-}
+	public double getFeedMotorSpeed() {
+		return feedMotor.getVelocity().getValue();
+	}
 
-public double getTopMotorSpeed() {
-	return topMotor.getVelocity().getValue();
-}
+	public void setShooterAngle(double angle) {
+		requestedArmPos = angle;
+	}
 
-public double getBottomMotorSpeed() {
-	return bottomMotor.getVelocity().getValue();
-}
+	public boolean getShooterSensor() {
+		return !shooterSensor.get();
+	}
 
-public void setElevatoPosition(double request) {
-	requestedElevatorPos = request;
-}
+	public double getTopMotorSpeed() {
+		return topMotor.getVelocity().getValue();
+	}
 
-public double getElevatorPosition() {
-	return elevatorMotor.getPosition().getValue() * ShooterConstants.elevatorMotorToInches;
-}
+	public double getBottomMotorSpeed() {
+		return bottomMotor.getVelocity().getValue();
+	}
 
-public void initializeArmAngle() {
-	requestedArmPos = getShooterAngle();
-}
+	public void setElevatoPosition(double request) {
+		requestedElevatorPos = request;
+	}
 
-public void initializeElevatorPosition() {
-	requestedElevatorPos = getElevatorPosition();
-}
+	public double getElevatorPosition() {
+		return elevatorMotor.getPosition().getValue() * ShooterConstants.elevatorMotorToInches;
+	}
 
-public void log() {
-	Logger.recordOutput("/Shooter/ShooterSensor", getShooterSensor());
-	Logger.recordOutput("/Shooter/FeederRPM", getFeedMotorSpeed());
-	Logger.recordOutput("/Shooter/TopShooterRPM", getTopMotorSpeed());
-	Logger.recordOutput("/Shooter/BottomShooterRPM", getBottomMotorSpeed());
-	Logger.recordOutput("/Shooter/ShooterAngle", getShooterAngle());
-	Logger.recordOutput("/Shooter/TargetShooterAngle", requestedArmPos);
-	Logger.recordOutput("/Shooter/ElevatorPosition", getElevatorPosition());
-	Logger.recordOutput("/Shooter/TargetElevatorPosition", requestedElevatorPos);
-}
+	public void initializeArmAngle() {
+		requestedArmPos = getShooterAngle();
+	}
 
-public double degreesToShooterRotations(double degrees) {
-	return Units.degreesToRotations(degrees - ShooterConstants.restShooterAngle)
-		+ ShooterConstants.shooterAngleOffset;
-}
+	public void initializeElevatorPosition() {
+		requestedElevatorPos = getElevatorPosition();
+	}
 
-public double getShooterAngle() {
-	return Units.rotationsToDegrees(
-			angleCanCoder.getAbsolutePosition().getValue() - ShooterConstants.shooterAngleOffset)
-		+ ShooterConstants.restShooterAngle;
-}
+	public void log() {
+		Logger.recordOutput("/Shooter/ShooterSensor", getShooterSensor());
+		Logger.recordOutput("/Shooter/FeederRPM", getFeedMotorSpeed());
+		Logger.recordOutput("/Shooter/TopShooterRPM", getTopMotorSpeed());
+		Logger.recordOutput("/Shooter/BottomShooterRPM", getBottomMotorSpeed());
+		Logger.recordOutput("/Shooter/ShooterAngle", getShooterAngle());
+		Logger.recordOutput("/Shooter/TargetShooterAngle", requestedArmPos);
+		Logger.recordOutput("/Shooter/ElevatorPosition", getElevatorPosition());
+		Logger.recordOutput("/Shooter/TargetElevatorPosition", requestedElevatorPos);
+	}
 
-@Override
-public void periodic() {
-	elevatorMotor.setControl(
-		new MotionMagicVoltage((requestedElevatorPos / ShooterConstants.elevatorMotorToInches)));
+	public double degreesToShooterRotations(double degrees) {
+		return Units.degreesToRotations(degrees - ShooterConstants.restShooterAngle)
+				+ ShooterConstants.shooterAngleOffset;
+	}
 
-	angleMotor.setControl(new MotionMagicVoltage(degreesToShooterRotations(requestedArmPos)));
-}
+	public double getShooterAngle() {
+		return Units.rotationsToDegrees(
+				angleCanCoder.getAbsolutePosition().getValue() - ShooterConstants.shooterAngleOffset)
+				+ ShooterConstants.restShooterAngle;
+	}
+
+	@Override
+	public void periodic() {
+		elevatorMotor
+				.setControl(new MotionMagicVoltage((requestedElevatorPos / ShooterConstants.elevatorMotorToInches)));
+
+		angleMotor.setControl(new MotionMagicVoltage(degreesToShooterRotations(requestedArmPos)));
+	}
 }

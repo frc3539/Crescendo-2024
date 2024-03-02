@@ -10,10 +10,10 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class TrapCommand extends SequentialCommandGroup {
-/** Creates a new TrapCommand. */
-public TrapCommand() {
-	// Add your commands in the addCommands() call, e.g.
-	// addCommands(new FooCommand(), new BarCommand());
-	addCommands();
-}
+	/** Creates a new TrapCommand. */
+	public TrapCommand() {
+		// Add your commands in the addCommands() call, e.g.
+		// addCommands(new FooCommand(), new BarCommand());
+		addCommands();
+	}
 }

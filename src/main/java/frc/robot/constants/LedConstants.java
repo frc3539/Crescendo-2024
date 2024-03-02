@@ -9,10 +9,10 @@ import java.awt.Color;
 /** Add your docs here. */
 public class LedConstants {
 
-public static int maxBrightness = 0;
-public static int flashSpeed = 0;
-public static int numLights = 0;
-public static Color Green = new Color(0, 255, 0);
-public static Color Orange = new Color(255, 100, 0);
-public static Color Blue = new Color(0, 0, 255);
+	public static int maxBrightness = 0;
+	public static int flashSpeed = 0;
+	public static int numLights = 0;
+	public static Color Green = new Color(0, 255, 0);
+	public static Color Orange = new Color(255, 100, 0);
+	public static Color Blue = new Color(0, 0, 255);
 }

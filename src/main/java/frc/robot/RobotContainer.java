@@ -19,93 +19,95 @@ import frc.robot.utilities.LogController;
 // import frc.robot.subsystems.LedSubsystem;
 
 /**
- * This class is where the bulk of the robot should be declared. Since Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
- * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
- * subsystems, commands, and trigger mappings) should be declared here.
+ * This class is where the bulk of the robot should be declared. Since
+ * Command-based is a "declarative" paradigm, very little robot logic should
+ * actually be handled in the {@link Robot} periodic methods (other than the
+ * scheduler calls). Instead, the structure of the robot (including subsystems,
+ * commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
 
-public static LogController logController = new LogController();
+	public static LogController logController = new LogController();
 
-public static DrivetrainConstants drivetrainConstants = new DrivetrainConstants();
-public static ClimberConstants climberConstants = new ClimberConstants();
-public static IDConstants idConstants = new IDConstants();
-public static IntakeConstants intakeConstants = new IntakeConstants();
-public static ShooterConstants shooterConstants = new ShooterConstants();
-public static VisionConstants visionConstants = new VisionConstants();
+	public static DrivetrainConstants drivetrainConstants = new DrivetrainConstants();
+	public static ClimberConstants climberConstants = new ClimberConstants();
+	public static IDConstants idConstants = new IDConstants();
+	public static IntakeConstants intakeConstants = new IntakeConstants();
+	public static ShooterConstants shooterConstants = new ShooterConstants();
+	public static VisionConstants visionConstants = new VisionConstants();
 
-public static TunerConstants tunerConstants = new TunerConstants();
+	public static TunerConstants tunerConstants = new TunerConstants();
 
-public static DrivetrainSubsystem drivetrainSubsystem = TunerConstants.DriveTrain;
-public static IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
+	public static DrivetrainSubsystem drivetrainSubsystem = TunerConstants.DriveTrain;
+	public static IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
 
-public static ClimberSubsystem climberSubsystem = new ClimberSubsystem();
-// public static LedSubsystem ledSubsystem = new LedSubsystem(true);
-public static VisionSubsystem visionSubsystem = new VisionSubsystem();
-public static ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
+	public static ClimberSubsystem climberSubsystem = new ClimberSubsystem();
+	// public static LedSubsystem ledSubsystem = new LedSubsystem(true);
+	public static VisionSubsystem visionSubsystem = new VisionSubsystem();
+	public static ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
 
-/** The container for the robot. Contains subsystems, OI devices, and commands. */
-public static CommandXboxController driverController = new CommandXboxController(1);
+	/**
+	 * The container for the robot. Contains subsystems, OI devices, and commands.
+	 */
+	public static CommandXboxController driverController = new CommandXboxController(1);
 
-public static CommandXboxController operatorController = new CommandXboxController(0);
+	public static CommandXboxController operatorController = new CommandXboxController(0);
 
-public RobotContainer() {
-	// Configure the trigger bindings
-	configureBindings();
-	putCommands();
-	visionSubsystem.start();
-}
+	public RobotContainer() {
+		// Configure the trigger bindings
+		configureBindings();
+		putCommands();
+		visionSubsystem.start();
+	}
 
-/**
-* Use this method to define your trigger->command mappings. Triggers can be created via the
-* {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with an arbitrary
-* predicate, or via the named factories in {@link
-* edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for {@link
-* CommandXboxController Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller
-* PS4} controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
-* joysticks}.
-*/
-private void configureBindings() {
-	operatorController
-		.leftBumper()
-		.whileTrue(new RevUpCommand(false, 0.7 * ShooterConstants.shootDps));
-	operatorController.rightBumper().whileTrue(new ShootCommand());
-	// operatorController.povUp().whileTrue(new IntakeCommand());
-	operatorController.povUp().whileTrue(new IntakeCommand(true, IntakeMode.FRONT));
-	operatorController.povDown().whileTrue(new IntakeCommand(true, IntakeMode.BACK));
-	operatorController.a().whileTrue(new IntakeCommand(true, IntakeMode.SENSOR));
+	/**
+	 * Use this method to define your trigger->command mappings. Triggers can be
+	 * created via the {@link Trigger#Trigger(java.util.function.BooleanSupplier)}
+	 * constructor with an arbitrary predicate, or via the named factories in
+	 * {@link edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses
+	 * for {@link CommandXboxController
+	 * Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller PS4}
+	 * controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick
+	 * Flight joysticks}.
+	 */
+	private void configureBindings() {
+		operatorController.leftBumper().whileTrue(new RevUpCommand(false, 0.7 * ShooterConstants.shootDps));
+		operatorController.rightBumper().whileTrue(new ShootCommand());
+		// operatorController.povUp().whileTrue(new IntakeCommand());
+		operatorController.povUp().whileTrue(new IntakeCommand(true, IntakeMode.FRONT));
+		operatorController.povDown().whileTrue(new IntakeCommand(true, IntakeMode.BACK));
+		operatorController.a().whileTrue(new IntakeCommand(true, IntakeMode.SENSOR));
 
-	operatorController.leftTrigger(.1).whileTrue(new IndependantClimbLeftCommand());
-	operatorController.rightTrigger(.1).whileTrue(new IndependantClimbRightCommand());
+		operatorController.leftTrigger(.1).whileTrue(new IndependantClimbLeftCommand());
+		operatorController.rightTrigger(.1).whileTrue(new IndependantClimbRightCommand());
 
-	// operatorController.x().whileTrue(new AutoShootCommand());
-	// operatorController.a().whileTrue(new AngleShooterCommand(-29.5));
-	operatorController.b().whileTrue(new AutoClimbCommand());
-	operatorController.y().onTrue(new SetElevatorCommand(8));
-	operatorController.x().onTrue(new AmpCommand());
-	operatorController.povLeft().onTrue(new AngleShooterCommand(55));
-	operatorController.povRight().onTrue(new HomePositionCommand());
+		// operatorController.x().whileTrue(new AutoShootCommand());
+		// operatorController.a().whileTrue(new AngleShooterCommand(-29.5));
+		operatorController.b().whileTrue(new AutoClimbCommand());
+		operatorController.y().onTrue(new SetElevatorCommand(8));
+		operatorController.x().onTrue(new AmpCommand());
+		operatorController.povLeft().onTrue(new AngleShooterCommand(55));
+		operatorController.povRight().onTrue(new HomePositionCommand());
 
-	operatorController.start().whileTrue(new BuddyClimbCommand());
-	driverController.start().whileTrue(new ZeroGyroCommand());
-	driverController.y().whileTrue(new AutoAlignCommand(TagPosition.TRAP));
+		operatorController.start().whileTrue(new BuddyClimbCommand());
+		driverController.start().whileTrue(new ZeroGyroCommand());
+		driverController.y().whileTrue(new AutoAlignCommand(TagPosition.TRAP));
 
-	drivetrainSubsystem.setDefaultCommand(new DriveCommand());
-}
+		drivetrainSubsystem.setDefaultCommand(new DriveCommand());
+	}
 
-public void putCommands() {
-	SmartDashboard.putData(new DisableArmBreakModeCommand().ignoringDisable(true));
-	SmartDashboard.putData(new DisableElevatorBreakModeCommand().ignoringDisable(true));
-}
+	public void putCommands() {
+		SmartDashboard.putData(new DisableArmBreakModeCommand().ignoringDisable(true));
+		SmartDashboard.putData(new DisableElevatorBreakModeCommand().ignoringDisable(true));
+	}
 
-/**
-* Use this to pass the autonomous command to the main {@link Robot} class.
-*
-* @return the command to run in autonomous
-*/
-public Command getAutonomousCommand() {
-	// An example command will be run in autonomous
-	return null;
-}
+	/**
+	 * Use this to pass the autonomous command to the main {@link Robot} class.
+	 *
+	 * @return the command to run in autonomous
+	 */
+	public Command getAutonomousCommand() {
+		// An example command will be run in autonomous
+		return null;
+	}
 }

@@ -9,30 +9,31 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
 
 public class DisableArmBreakModeCommand extends Command {
-/** Creates a new DisableArmBreakModeCommand. */
-public DisableArmBreakModeCommand() {
-	// Use addRequirements() here to declare subsystem dependencies.
-}
+	/** Creates a new DisableArmBreakModeCommand. */
+	public DisableArmBreakModeCommand() {
+		// Use addRequirements() here to declare subsystem dependencies.
+	}
 
-// Called when the command is initially scheduled.
-@Override
-public void initialize() {
-	RobotContainer.shooterSubsystem.setArmBreakMode(false);
-}
+	// Called when the command is initially scheduled.
+	@Override
+	public void initialize() {
+		RobotContainer.shooterSubsystem.setArmBreakMode(false);
+	}
 
-// Called every time the scheduler runs while the command is scheduled.
-@Override
-public void execute() {}
+	// Called every time the scheduler runs while the command is scheduled.
+	@Override
+	public void execute() {
+	}
 
-// Called once the command ends or is interrupted.
-@Override
-public void end(boolean interrupted) {
-	RobotContainer.shooterSubsystem.setArmBreakMode(true);
-}
+	// Called once the command ends or is interrupted.
+	@Override
+	public void end(boolean interrupted) {
+		RobotContainer.shooterSubsystem.setArmBreakMode(true);
+	}
 
-// Returns true when the command should end.
-@Override
-public boolean isFinished() {
-	return DriverStation.isEnabled();
-}
+	// Returns true when the command should end.
+	@Override
+	public boolean isFinished() {
+		return DriverStation.isEnabled();
+	}
 }

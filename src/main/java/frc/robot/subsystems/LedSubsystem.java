@@ -20,106 +20,106 @@
 // CANdle candle;
 
 // public LedSubsystem(boolean enabled) {
-// 	this.candle = new CANdle(IDConstants.CANdleID, IDConstants.CandleCanName);
-// 	candle.configLEDType(LEDStripType.RGB);
-// 	candle.configBrightnessScalar(LedConstants.maxBrightness);
+// this.candle = new CANdle(IDConstants.CANdleID, IDConstants.CandleCanName);
+// candle.configLEDType(LEDStripType.RGB);
+// candle.configBrightnessScalar(LedConstants.maxBrightness);
 // }
 
 // public enum LEDState {
-// 	ON,
-// 	OFF,
-// 	READY,
-// 	INTAKING,
-// 	SHOOTING,
-// 	PREPARED,
-// 	CLIMBING,
-// 	AUTO
+// ON,
+// OFF,
+// READY,
+// INTAKING,
+// SHOOTING,
+// PREPARED,
+// CLIMBING,
+// AUTO
 // }
 
 // public LEDState state;
 
 // public void setLEDs(LEDState state) {
-// 	if (!enabled || this.state == state) return;
-// 	this.state = state;
-// 	switch (state) {
-// 	case OFF:
-// 		candle.animate(null);
-// 		candle.setLEDs(0, 0, 0);
-// 		break;
-// 	case ON:
-// 		candle.animate(null);
-// 		candle.setLEDs(
-// 			LedConstants.Green.getRed(),
-// 			LedConstants.Green.getGreen(),
-// 			LedConstants.Green.getBlue());
+// if (!enabled || this.state == state) return;
+// this.state = state;
+// switch (state) {
+// case OFF:
+// candle.animate(null);
+// candle.setLEDs(0, 0, 0);
+// break;
+// case ON:
+// candle.animate(null);
+// candle.setLEDs(
+// LedConstants.Green.getRed(),
+// LedConstants.Green.getGreen(),
+// LedConstants.Green.getBlue());
 
-// 		break;
+// break;
 
-// 	case READY:
-// 		candle.animate(
-// 			new LarsonAnimation(
-// 				LedConstants.Green.getRed(),
-// 				LedConstants.Green.getGreen(),
-// 				LedConstants.Green.getBlue(),
-// 				0,
-// 				0.5,
-// 				LedConstants.numLights,
-// 				BounceMode.Back,
-// 				6));
-// 		break;
-// 	case INTAKING:
-// 		candle.animate(
-// 			new StrobeAnimation(
-// 				LedConstants.Orange.getRed(),
-// 				LedConstants.Orange.getGreen(),
-// 				LedConstants.Orange.getBlue(),
-// 				0,
-// 				LedConstants.flashSpeed,
-// 				LedConstants.numLights));
-// 		break;
+// case READY:
+// candle.animate(
+// new LarsonAnimation(
+// LedConstants.Green.getRed(),
+// LedConstants.Green.getGreen(),
+// LedConstants.Green.getBlue(),
+// 0,
+// 0.5,
+// LedConstants.numLights,
+// BounceMode.Back,
+// 6));
+// break;
+// case INTAKING:
+// candle.animate(
+// new StrobeAnimation(
+// LedConstants.Orange.getRed(),
+// LedConstants.Orange.getGreen(),
+// LedConstants.Orange.getBlue(),
+// 0,
+// LedConstants.flashSpeed,
+// LedConstants.numLights));
+// break;
 
-// 	case SHOOTING:
-// 		candle.animate(
-// 			new ColorFlowAnimation(
-// 				LedConstants.Orange.getRed(),
-// 				LedConstants.Orange.getGreen(),
-// 				LedConstants.Orange.getBlue(),
-// 				0,
-// 				LedConstants.flashSpeed,
-// 				LedConstants.numLights,
-// 				null));
-// 		break;
+// case SHOOTING:
+// candle.animate(
+// new ColorFlowAnimation(
+// LedConstants.Orange.getRed(),
+// LedConstants.Orange.getGreen(),
+// LedConstants.Orange.getBlue(),
+// 0,
+// LedConstants.flashSpeed,
+// LedConstants.numLights,
+// null));
+// break;
 
-// 	case PREPARED:
-// 		candle.animate(null);
-// 		candle.setLEDs(
-// 			LedConstants.Orange.getRed(),
-// 			LedConstants.Orange.getGreen(),
-// 			LedConstants.Orange.getBlue());
+// case PREPARED:
+// candle.animate(null);
+// candle.setLEDs(
+// LedConstants.Orange.getRed(),
+// LedConstants.Orange.getGreen(),
+// LedConstants.Orange.getBlue());
 
-// 		break;
+// break;
 
-// 	case CLIMBING:
-// 		break;
+// case CLIMBING:
+// break;
 
-// 	case AUTO:
-// 		candle.animate(
-// 			new StrobeAnimation(
-// 				LedConstants.Blue.getRed(),
-// 				LedConstants.Blue.getGreen(),
-// 				LedConstants.Blue.getBlue(),
-// 				0,
-// 				LedConstants.flashSpeed,
-// 				LedConstants.numLights));
-// 		break;
+// case AUTO:
+// candle.animate(
+// new StrobeAnimation(
+// LedConstants.Blue.getRed(),
+// LedConstants.Blue.getGreen(),
+// LedConstants.Blue.getBlue(),
+// 0,
+// LedConstants.flashSpeed,
+// LedConstants.numLights));
+// break;
 
-// 	default:
-// 		break;
-// 	}
+// default:
+// break;
+// }
 // }
 
 // @Override
 // public void periodic() {
-// 	// This method will be called once per scheduler run
+// // This method will be called once per scheduler run
 // }
 // }

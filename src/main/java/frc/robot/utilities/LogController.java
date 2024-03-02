@@ -11,71 +11,76 @@ import org.littletonrobotics.junction.wpilog.WPILOGReader;
 import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 
 public class LogController {
-// +-----------------------------------+
-// | SET ROBOT LOGGING SETTINGS HERE :> |
-// +-----------------------------------
+	// +-----------------------------------+
+	// | SET ROBOT LOGGING SETTINGS HERE :> |
+	// +-----------------------------------
 
-public static boolean USE_LOGGING = true;
+	public static boolean USE_LOGGING = true;
 
-static boolean LOG_DRIVE_SUBSYSTEM = true;
-static boolean LOG_INTAKE_SUBSYSTEM = true;
-static boolean LOG_SHOOTER_SUBSYSTEM = true;
-static boolean LOG_LEDS = true;
+	static boolean LOG_DRIVE_SUBSYSTEM = true;
+	static boolean LOG_INTAKE_SUBSYSTEM = true;
+	static boolean LOG_SHOOTER_SUBSYSTEM = true;
+	static boolean LOG_LEDS = true;
 
-static boolean SAVE_TO_FILE = false;
-static String LOG_FILE_PATH = "/media/sda1/";
-static boolean USE_NETWORK_TABLES = true;
+	static boolean SAVE_TO_FILE = false;
+	static String LOG_FILE_PATH = "/media/sda1/";
+	static boolean USE_NETWORK_TABLES = true;
 
-// +---------------------------------+
-// | END OF ROBOT LOGGING SETTINGS |
-// +---------------------------------+
+	// +---------------------------------+
+	// | END OF ROBOT LOGGING SETTINGS |
+	// +---------------------------------+
 
-public LogController() {
-	if (!USE_LOGGING) return;
+	public LogController() {
+		if (!USE_LOGGING)
+			return;
 
-	Logger.recordMetadata("TeamYear", "FRC3539-2024"); // Set a metadata value
+		Logger.recordMetadata("TeamYear", "FRC3539-2024"); // Set a metadata value
 
-	if (Robot.isReal()) {
-	if (SAVE_TO_FILE) Logger.addDataReceiver(new WPILOGWriter(LOG_FILE_PATH));
-	if (USE_NETWORK_TABLES) Logger.addDataReceiver(new NT4Publisher());
-	} else {
-	String logPath =
-		LogFileUtil
-			.findReplayLog(); // Pull the replay log from AdvantageScope (or prompt the user)
-	Logger.setReplaySource(new WPILOGReader(logPath)); // Read replay log
-	Logger.addDataReceiver(
-		new WPILOGWriter(
-			LogFileUtil.addPathSuffix(logPath, "_sim"))); // Save outputs to a new log
+		if (Robot.isReal()) {
+			if (SAVE_TO_FILE)
+				Logger.addDataReceiver(new WPILOGWriter(LOG_FILE_PATH));
+			if (USE_NETWORK_TABLES)
+				Logger.addDataReceiver(new NT4Publisher());
+		} else {
+			String logPath = LogFileUtil.findReplayLog(); // Pull the replay log from AdvantageScope (or prompt the
+															// user)
+			Logger.setReplaySource(new WPILOGReader(logPath)); // Read replay log
+			Logger.addDataReceiver(new WPILOGWriter(LogFileUtil.addPathSuffix(logPath, "_sim"))); // Save outputs to a
+																									// new log
+		}
+
+		// logger.disableDeterministicTimestamps() // See "Deterministic Timestamps" in
+		// the
+		// "Understanding Data Flow" page
+		Logger.start(); // Start logging! No more data receivers, replay sources, or metadata values may
+		// be added.
+
+		DriverStation.startDataLog(DataLogManager.getLog());
 	}
 
-	// logger.disableDeterministicTimestamps() // See "Deterministic Timestamps" in
-	// the
-	// "Understanding Data Flow" page
-	Logger.start(); // Start logging! No more data receivers, replay sources, or metadata values may
-	// be added.
+	public void logPeriodic() {
+		if (!USE_LOGGING)
+			return;
+		logDriveSubsystem();
+		logIntakeSubsystem();
+		logShooterSubsystem();
+	}
 
-	DriverStation.startDataLog(DataLogManager.getLog());
-}
+	public void logDriveSubsystem() {
+		if (!LOG_DRIVE_SUBSYSTEM)
+			return;
+		RobotContainer.drivetrainSubsystem.log();
+	}
 
-public void logPeriodic() {
-	if (!USE_LOGGING) return;
-	logDriveSubsystem();
-	logIntakeSubsystem();
-	logShooterSubsystem();
-}
+	public void logIntakeSubsystem() {
+		if (!LOG_INTAKE_SUBSYSTEM)
+			return;
+		RobotContainer.intakeSubsystem.log();
+	}
 
-public void logDriveSubsystem() {
-	if (!LOG_DRIVE_SUBSYSTEM) return;
-	RobotContainer.drivetrainSubsystem.log();
-}
-
-public void logIntakeSubsystem() {
-	if (!LOG_INTAKE_SUBSYSTEM) return;
-	RobotContainer.intakeSubsystem.log();
-}
-
-public void logShooterSubsystem() {
-	if (!LOG_SHOOTER_SUBSYSTEM) return;
-	RobotContainer.shooterSubsystem.log();
-}
+	public void logShooterSubsystem() {
+		if (!LOG_SHOOTER_SUBSYSTEM)
+			return;
+		RobotContainer.shooterSubsystem.log();
+	}
 }

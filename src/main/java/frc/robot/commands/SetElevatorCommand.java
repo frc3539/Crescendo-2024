@@ -9,33 +9,36 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
 
 public class SetElevatorCommand extends Command {
-/** Creates a new SetElevatorCommand. */
-double height;
+	/** Creates a new SetElevatorCommand. */
+	double height;
 
-/** Creates a new AngleShooterCommand. */
-public SetElevatorCommand(double height) {
-	// Use addRequirements() here to declare subsystem dependencies..a
-	this.height = height;
-}
+	/** Creates a new AngleShooterCommand. */
+	public SetElevatorCommand(double height) {
+		// Use addRequirements() here to declare subsystem dependencies..a
+		this.height = height;
+	}
 
-// Called when the command is initially scheduled.
-@Override
-public void initialize() {
-	RobotContainer.shooterSubsystem.setElevatoPosition(height);
-}
+	// Called when the command is initially scheduled.
+	@Override
+	public void initialize() {
+		RobotContainer.shooterSubsystem.setElevatoPosition(height);
+	}
 
-// Called every time the scheduler runs while the command is scheduled.
-@Override
-public void execute() {}
+	// Called every time the scheduler runs while the command is scheduled.
+	@Override
+	public void execute() {
+	}
 
-// Called once the command ends or is interrupted.
-@Override
-public void end(boolean interrupted) {}
+	// Called once the command ends or is interrupted.
+	@Override
+	public void end(boolean interrupted) {
+	}
 
-// Returns true when the command should end.
-@Override
-public boolean isFinished() {
-	// System.out.println(height + " " + RobotContainer.shooterSubsystem.getElevatorPosition());
-	return MathUtil.isNear(height, RobotContainer.shooterSubsystem.getElevatorPosition(), 0.2);
-}
+	// Returns true when the command should end.
+	@Override
+	public boolean isFinished() {
+		// System.out.println(height + " " +
+		// RobotContainer.shooterSubsystem.getElevatorPosition());
+		return MathUtil.isNear(height, RobotContainer.shooterSubsystem.getElevatorPosition(), 0.2);
+	}
 }
