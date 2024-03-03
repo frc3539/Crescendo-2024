@@ -53,6 +53,9 @@ public class RobotContainer {
 
 	public static CommandXboxController operatorController = new CommandXboxController(0);
 
+	public static Trigger rightDriverTrigger = driverController.rightTrigger(0.5);
+	public static Trigger rightDriverBumper = driverController.rightBumper();
+
 	public RobotContainer() {
 		// Configure the trigger bindings
 		configureBindings();

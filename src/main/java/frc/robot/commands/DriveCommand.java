@@ -9,12 +9,11 @@ import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.RobotContainer;
+import frc.robot.constants.DrivetrainConstants;
 
 public class DriveCommand extends Command {
 	/** Creates a new DriveCommand. */
-	Trigger rightTrigger = RobotContainer.driverController.rightTrigger(0.5);
 
 	double maxVelocity = RobotContainer.drivetrainSubsystem.maxVelocity;
 
@@ -43,14 +42,27 @@ public class DriveCommand extends Command {
 
 		SwerveRequest request = new SwerveRequest.Idle();
 
-		request = driveFieldCentric.withVelocityX(-RobotContainer.driverController.getLeftY() * maxVelocity)
-				.withVelocityY(-RobotContainer.driverController.getLeftX() * maxVelocity)
-				.withRotationalRate(-RobotContainer.driverController.getRightX() * maxRotationalVelocity);
+		double speedMultiplier = DrivetrainConstants.speedMultiplier;
+		double rotationSpeedMultiplier = DrivetrainConstants.rotationSpeedMultiplier;
 
-		if (rightTrigger.getAsBoolean()) {
-			request = driveRobotCentric.withVelocityX(-RobotContainer.driverController.getLeftY() * maxVelocity)
-					.withVelocityY(-RobotContainer.driverController.getLeftX() * maxVelocity)
-					.withRotationalRate(-RobotContainer.driverController.getRightX() * maxRotationalVelocity);
+		if (RobotContainer.rightDriverTrigger.getAsBoolean()) // Turbo
+		{
+			speedMultiplier = DrivetrainConstants.turboSpeedMultiplier;
+			rotationSpeedMultiplier = DrivetrainConstants.turboRotationSpeedMultiplier;
+		}
+
+		if (RobotContainer.rightDriverBumper.getAsBoolean()) { // Robot Centric
+			request = driveRobotCentric
+					.withVelocityX(-RobotContainer.driverController.getLeftY() * maxVelocity * speedMultiplier)
+					.withVelocityY(-RobotContainer.driverController.getLeftX() * maxVelocity * speedMultiplier)
+					.withRotationalRate(-RobotContainer.driverController.getRightX() * maxRotationalVelocity
+							* rotationSpeedMultiplier);
+		} else {
+			request = driveFieldCentric
+					.withVelocityX(-RobotContainer.driverController.getLeftY() * maxVelocity * speedMultiplier)
+					.withVelocityY(-RobotContainer.driverController.getLeftX() * maxVelocity * speedMultiplier)
+					.withRotationalRate(-RobotContainer.driverController.getRightX() * maxRotationalVelocity
+							* rotationSpeedMultiplier);
 		}
 
 		RobotContainer.drivetrainSubsystem.applyRequest(request);

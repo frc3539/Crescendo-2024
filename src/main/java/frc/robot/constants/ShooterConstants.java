@@ -38,4 +38,4 @@ public class ShooterConstants extends BBConstants {
 	public static double restShooterAngle = -30.0;
 	public static double elevatorCollisionHeight = 5.0;
 	public static double ampDps = 250.0;
-}
+}

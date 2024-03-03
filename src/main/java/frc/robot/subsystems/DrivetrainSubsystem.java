@@ -41,7 +41,7 @@ public class DrivetrainSubsystem extends SwerveDrivetrain implements Subsystem {
 	public DrivetrainSubsystem(SwerveDrivetrainConstants driveTrainConstants, SwerveModuleConstants... modules) {
 		super(driveTrainConstants, modules);
 
-		maxVelocity = modules[0].SpeedAt12VoltsMps * DrivetrainConstants.speedMultiplier;
+		maxVelocity = modules[0].SpeedAt12VoltsMps;
 
 		Translation2d[] moduleLocations = new Translation2d[ModuleCount];
 
@@ -50,7 +50,7 @@ public class DrivetrainSubsystem extends SwerveDrivetrain implements Subsystem {
 		}
 
 		double dtRadius = new Translation2d().nearest(Arrays.asList(moduleLocations)).getDistance(new Translation2d());
-		maxRotationalVelocity = (maxVelocity / dtRadius) * DrivetrainConstants.rotationSpeedMultiplier;
+		maxRotationalVelocity = (maxVelocity / dtRadius);
 
 		DrivetrainFeedforwardConstants FEEDFORWARD_CONSTANTS = new DrivetrainFeedforwardConstants(
 				DrivetrainConstants.TranslationkV, DrivetrainConstants.TranslationkA,
