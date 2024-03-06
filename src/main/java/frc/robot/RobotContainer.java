@@ -4,10 +4,12 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.autons.BlueShootDrive;
 import frc.robot.commands.*;
 import frc.robot.commands.AutoAlignCommand.TagPosition;
 import frc.robot.commands.IntakeCommand.IntakeMode;
@@ -55,11 +57,15 @@ public class RobotContainer {
 
 	public static Trigger rightDriverTrigger = driverController.rightTrigger(0.5);
 	public static Trigger rightDriverBumper = driverController.rightBumper();
+	public static Trigger driverButtonA = driverController.a();
+
+	public static SendableChooser<Command> chooser = new SendableChooser<Command>();
 
 	public RobotContainer() {
 		// Configure the trigger bindings
 		configureBindings();
 		putCommands();
+		putAutons();
 		visionSubsystem.start();
 	}
 
@@ -72,7 +78,13 @@ public class RobotContainer {
 	 * Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller PS4}
 	 * controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick
 	 * Flight joysticks}.
+	 *
 	 */
+	private void putAutons() {
+		chooser.setDefaultOption("Blue Shoot and Drive", new BlueShootDrive());
+
+		SmartDashboard.putData(chooser);
+	}
 	private void configureBindings() {
 		operatorController.leftBumper().whileTrue(new RevUpCommand(false, 0.7 * ShooterConstants.shootDps));
 		operatorController.rightBumper().whileTrue(new ShootCommand());
@@ -84,10 +96,10 @@ public class RobotContainer {
 		operatorController.leftTrigger(.1).whileTrue(new IndependantClimbLeftCommand());
 		operatorController.rightTrigger(.1).whileTrue(new IndependantClimbRightCommand());
 
-		// operatorController.x().whileTrue(new AutoShootCommand());
+		operatorController.b().whileTrue(new AutoShootCommand());
 		// operatorController.a().whileTrue(new AngleShooterCommand(-29.5));
-		operatorController.b().whileTrue(new AutoClimbCommand());
-		operatorController.y().onTrue(new SetElevatorCommand(8));
+		operatorController.y().whileTrue(new AutoClimbCommand());
+		// operatorController.y().onTrue(new SetElevatorCommand(8));
 		operatorController.x().onTrue(new AmpCommand());
 		operatorController.povLeft().onTrue(new AngleShooterCommand(55));
 		operatorController.povRight().onTrue(new HomePositionCommand());
@@ -111,6 +123,6 @@ public class RobotContainer {
 	 */
 	public Command getAutonomousCommand() {
 		// An example command will be run in autonomous
-		return null;
+		return chooser.getSelected();
 	}
 }

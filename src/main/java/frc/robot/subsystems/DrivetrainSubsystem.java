@@ -96,6 +96,11 @@ public class DrivetrainSubsystem extends SwerveDrivetrain implements Subsystem {
 	public void log() {
 		Logger.recordOutput("/DriveTrain/RobotRoll", getRobotRoll().getDegrees());
 		VisionSubsystem.publishPose2d("/DriveTrain/Pose", getPose2d());
+
+		Pose2d trajectory = follower.getLastState() != null
+				? follower.getLastState().getPathState().getPose2d()
+				: new Pose2d(-1, -1, new Rotation2d(0));
+		Logger.recordOutput("/DriveTrain/Trajectory", trajectory);
 	}
 
 	@Override

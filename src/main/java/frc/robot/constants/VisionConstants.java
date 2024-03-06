@@ -7,4 +7,5 @@ public class VisionConstants extends BBConstants {
 		super("/home/lvuser/VisionConstants.ini", true);
 		save();
 	}
+
 }

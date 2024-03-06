@@ -4,13 +4,15 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
-import frc.robot.constants.ShooterConstants;
-import frc.robot.utilities.BBMath;
 
 public class AutoShootCommand extends Command {
+
+	Translation2d blueSpeakerCoordinate = new Translation2d(0, 5.55);
+	Translation2d redSpeakerCoordinate = new Translation2d(0, 2.67);
+
 	/** Creates a new AutoShootCommand. */
 	public AutoShootCommand() {
 		// Use addRequirements() here to declare subsystem dependencies.
@@ -19,28 +21,38 @@ public class AutoShootCommand extends Command {
 	// Called when the command is initially scheduled.
 	@Override
 	public void initialize() {
-		RobotContainer.shooterSubsystem
-				.setTopMotorSpeed(BBMath.getRps(ShooterConstants.shootDps, ShooterConstants.shootWheelDiameter));
-		RobotContainer.shooterSubsystem
-				.setBottomMotorSpeed(BBMath.getRps(ShooterConstants.shootDps, ShooterConstants.shootWheelDiameter));
+		// RobotContainer.shooterSubsystem
+		// .setTopMotorSpeed(BBMath.getRps(ShooterConstants.shootDps,
+		// ShooterConstants.shootWheelDiameter));
+		// RobotContainer.shooterSubsystem
+		// .setBottomMotorSpeed(BBMath.getRps(ShooterConstants.shootDps,
+		// ShooterConstants.shootWheelDiameter));
 	}
 
 	// Called every time the scheduler runs while the command is scheduled.
 	@Override
 	public void execute() {
-		if (RobotContainer.shooterSubsystem.getShooterSensor() == false) {
-			RobotContainer.shooterSubsystem.setFeedMotorSpeed(0);
-		}
-		if (!MathUtil.isNear(BBMath.getRps(ShooterConstants.shootDps, ShooterConstants.shootWheelDiameter),
-				RobotContainer.shooterSubsystem.getTopMotorSpeed(), 5)) {
-			return;
-		}
-		if (!MathUtil.isNear(BBMath.getRps(ShooterConstants.shootDps, ShooterConstants.shootWheelDiameter),
-				RobotContainer.shooterSubsystem.getBottomMotorSpeed(), 5)) {
-			return;
-		}
-		RobotContainer.shooterSubsystem
-				.setFeedMotorSpeed(BBMath.getRps(ShooterConstants.feedDps, ShooterConstants.feedWheelDiameter));
+		// if (RobotContainer.shooterSubsystem.getShooterSensor() == false) {
+		// RobotContainer.shooterSubsystem.setFeedMotorSpeed(0);
+		// }
+		// if (!MathUtil.isNear(BBMath.getRps(ShooterConstants.shootDps,
+		// ShooterConstants.shootWheelDiameter),
+		// RobotContainer.shooterSubsystem.getTopMotorSpeed(), 5)) {
+		// return;
+		// }
+		// if (!MathUtil.isNear(BBMath.getRps(ShooterConstants.shootDps,
+		// ShooterConstants.shootWheelDiameter),
+		// RobotContainer.shooterSubsystem.getBottomMotorSpeed(), 5)) {
+		// return;
+		// }
+		// RobotContainer.shooterSubsystem
+		// .setFeedMotorSpeed(BBMath.getRps(ShooterConstants.feedDps,
+		// ShooterConstants.feedWheelDiameter));
+		double distanceToTarget = RobotContainer.drivetrainSubsystem.getPose2d().getTranslation()
+				.getDistance(blueSpeakerCoordinate);
+		double angleToTarget = -Math.atan2(1.664, distanceToTarget) * 180 / Math.PI;
+
+		RobotContainer.shooterSubsystem.setShooterAngle(angleToTarget);
 	}
 
 	// Called once the command ends or is interrupted.

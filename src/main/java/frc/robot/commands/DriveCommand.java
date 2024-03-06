@@ -5,7 +5,12 @@
 package frc.robot.commands;
 
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
+
+import org.frcteam3539.Byte_Swerve_Lib.control.PidConstants;
+import org.frcteam3539.Byte_Swerve_Lib.control.PidController;
+
 import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
+
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -13,22 +18,32 @@ import frc.robot.RobotContainer;
 import frc.robot.constants.DrivetrainConstants;
 
 public class DriveCommand extends Command {
+	Translation2d blueSpeakerCoordinate = new Translation2d(0, 5.55);
+	Translation2d redSpeakerCoordinate = new Translation2d(0, 2.67);
 	/** Creates a new DriveCommand. */
+	private PidController rotationController;
 
 	double maxVelocity = RobotContainer.drivetrainSubsystem.maxVelocity;
 
 	double maxRotationalVelocity = RobotContainer.drivetrainSubsystem.maxRotationalVelocity;
 
 	private final SwerveRequest.FieldCentric driveFieldCentric = new SwerveRequest.FieldCentric()
-			.withDeadband(maxVelocity * 0.1).withRotationalDeadband(maxRotationalVelocity * 0.1) // Add a 10% deadband
+			.withDeadband(maxVelocity * 0.1).withRotationalDeadband(maxRotationalVelocity * 0.01) // Add a 10% deadband
 			.withDriveRequestType(DriveRequestType.OpenLoopVoltage); // I want field-centric
 
 	private final SwerveRequest.RobotCentric driveRobotCentric = new SwerveRequest.RobotCentric()
-			.withDeadband(maxVelocity * 0.1).withRotationalDeadband(maxRotationalVelocity * 0.1) // Add a 10% deadband
+			.withDeadband(maxVelocity * 0.1).withRotationalDeadband(maxRotationalVelocity * 0.01) // Add a 10% deadband
 			.withDriveRequestType(DriveRequestType.OpenLoopVoltage); // I want field-centric
 
 	public DriveCommand() {
 		addRequirements(RobotContainer.drivetrainSubsystem);
+
+		rotationController = new PidController(new PidConstants(DrivetrainConstants.RotationkP,
+				DrivetrainConstants.RotationkI, DrivetrainConstants.RotationkD));
+
+		rotationController.setInputRange(-Math.PI, Math.PI);
+		rotationController.setOutputRange(-1, 1);
+		rotationController.setContinuous(true);
 	}
 
 	// Called when the command is initially scheduled.
@@ -63,6 +78,18 @@ public class DriveCommand extends Command {
 					.withVelocityY(-RobotContainer.driverController.getLeftX() * maxVelocity * speedMultiplier)
 					.withRotationalRate(-RobotContainer.driverController.getRightX() * maxRotationalVelocity
 							* rotationSpeedMultiplier);
+		}
+		if (RobotContainer.driverButtonA.getAsBoolean()) {
+
+			rotationController.setSetpoint(RobotContainer.drivetrainSubsystem.getPose2d().getTranslation()
+					.minus(blueSpeakerCoordinate).getAngle().getRadians());
+			driveRobotCentric.withRotationalRate(rotationController
+					.calculate(RobotContainer.drivetrainSubsystem.getPose2d().getRotation().getRadians(), 0.02)
+					* maxRotationalVelocity * .3);
+			driveFieldCentric.withRotationalRate(rotationController
+					.calculate(RobotContainer.drivetrainSubsystem.getPose2d().getRotation().getRadians(), 0.02)
+					* maxRotationalVelocity * .3);
+
 		}
 
 		RobotContainer.drivetrainSubsystem.applyRequest(request);

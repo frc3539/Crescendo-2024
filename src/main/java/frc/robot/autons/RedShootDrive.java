@@ -20,7 +20,7 @@ import org.frcteam3539.Byte_Swerve_Lib.io.BBMPLoader;
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class RedShootDrive extends SequentialCommandGroup {
-	BBMPLoader loader = new BBMPLoader("Profile_1.txt", false);
+	BBMPLoader loader = new BBMPLoader("/home/lvuser/profiles/Profile_1.txt", false);
 
 	private Command[] sequence = {
 			new InstantCommand(() -> RobotContainer.drivetrainSubsystem.seedFieldRelative(loader.getFirstTrajectory())),
