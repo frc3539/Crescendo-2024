@@ -56,14 +56,17 @@ public class RevUpCommand extends Command {
 	// Returns true when the command should end.
 	@Override
 	public boolean isFinished() {
-		// if (!RobotContainer.shooterSubsystem.getShooterSensor() && !timerStarted) {
-		// shootTimer.start();
-		// timerStarted = true;
-		// }
-		// if (shootTimer.advanceIfElapsed(1)) {
-		// return true;
-		// } else {
-		return false;
-		// }
+		if (!endOnShoot) {
+			return false;
+		}
+		if (!RobotContainer.shooterSubsystem.getShooterSensor() && !timerStarted) {
+			shootTimer.start();
+			timerStarted = true;
+		}
+		if (shootTimer.advanceIfElapsed(1)) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 }

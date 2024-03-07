@@ -10,7 +10,9 @@ import frc.robot.RobotContainer;
 
 public class AutoShootCommand extends Command {
 
-	Translation2d blueSpeakerCoordinate = new Translation2d(0, 5.55);
+	double targetZOffset = -0.0254;
+
+	Translation2d blueSpeakerCoordinate = new Translation2d(0.2286, 5.55);
 	Translation2d redSpeakerCoordinate = new Translation2d(0, 2.67);
 
 	/** Creates a new AutoShootCommand. */
@@ -50,9 +52,12 @@ public class AutoShootCommand extends Command {
 		// ShooterConstants.feedWheelDiameter));
 		double distanceToTarget = RobotContainer.drivetrainSubsystem.getPose2d().getTranslation()
 				.getDistance(blueSpeakerCoordinate);
-		double angleToTarget = -Math.atan2(1.664, distanceToTarget) * 180 / Math.PI;
+		double angleToTarget = (Math.atan2(0.64135 - 2.0452 + targetZOffset, distanceToTarget - 0.3048 - 0.2286)
+				+ Math.toRadians(3 - Math.min(Math.max(0, distanceToTarget - 0.3048 - 1.8288) * 0.2, 2))) * 180
+				/ Math.PI;
 
 		RobotContainer.shooterSubsystem.setShooterAngle(angleToTarget);
+		org.littletonrobotics.junction.Logger.recordOutput("/Drivetrain/EstimatedAngle", angleToTarget);
 	}
 
 	// Called once the command ends or is interrupted.

@@ -13,8 +13,8 @@ import frc.robot.constants.ShooterConstants;
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class AmpCommand extends SequentialCommandGroup {
-	private Command[] commands = {new ParallelCommandGroup(new AngleShooterCommand(55), new SetElevatorCommand(2.5),
-			new RevUpCommand(true, ShooterConstants.ampDps)), new HomePositionCommand()};
+	private Command[] commands = {new ParallelCommandGroup(new AngleShooterCommand(45), new SetElevatorCommand(2.5),
+			new RevUpCommand(false, ShooterConstants.ampDps))};
 
 	/** Creates a new AmpCommand. */
 	public AmpCommand() {
@@ -23,4 +23,5 @@ public class AmpCommand extends SequentialCommandGroup {
 		// addCommands(new FooCommand(), new BarCommand());
 		addCommands(commands);
 	}
+
 }

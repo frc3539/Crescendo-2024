@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.autons.BlueShootDrive;
@@ -86,7 +87,7 @@ public class RobotContainer {
 		SmartDashboard.putData(chooser);
 	}
 	private void configureBindings() {
-		operatorController.leftBumper().whileTrue(new RevUpCommand(false, 0.7 * ShooterConstants.shootDps));
+		operatorController.leftBumper().whileTrue(new RevUpCommand(false, ShooterConstants.shootDps));
 		operatorController.rightBumper().whileTrue(new ShootCommand());
 		// operatorController.povUp().whileTrue(new IntakeCommand());
 		operatorController.povUp().whileTrue(new IntakeCommand(true, IntakeMode.FRONT));
@@ -100,7 +101,9 @@ public class RobotContainer {
 		// operatorController.a().whileTrue(new AngleShooterCommand(-29.5));
 		operatorController.y().whileTrue(new AutoClimbCommand());
 		// operatorController.y().onTrue(new SetElevatorCommand(8));
-		operatorController.x().onTrue(new AmpCommand());
+		operatorController.x().whileTrue(new AmpCommand().finallyDo(() -> {
+			CommandScheduler.getInstance().schedule(new HomePositionCommand());
+		}));
 		operatorController.povLeft().onTrue(new AngleShooterCommand(55));
 		operatorController.povRight().onTrue(new HomePositionCommand());
 

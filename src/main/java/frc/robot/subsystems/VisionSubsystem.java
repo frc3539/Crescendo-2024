@@ -40,12 +40,12 @@ public class VisionSubsystem extends Thread {
 			new Translation3d(-0.1746 + .05 + .02, -0.2885 - .1 + .05, 0.3876),
 			new Rotation3d(Math.toRadians(0), 0, Math.toRadians(0)));
 	public PhotonCamera backLeftCam;
-	Transform3d robotToBackLeftCam = new Transform3d(new Translation3d(-0.3302, 0.2223, 0.3762),
-			new Rotation3d(Math.toRadians(0), Math.toRadians(17), Math.toRadians(180)));
+	Transform3d robotToBackLeftCam = new Transform3d(new Translation3d(-0.3302, 0.2286, 0.381),
+			new Rotation3d(Math.toRadians(0), Math.toRadians(-18), Math.toRadians(180)));
 
 	public PhotonCamera backRightCam;
-	Transform3d robotToBackRightCam = new Transform3d(new Translation3d(-0.3302, -0.2223, 0.3762),
-			new Rotation3d(Math.toRadians(0), Math.toRadians(17), Math.toRadians(180)));
+	Transform3d robotToBackRightCam = new Transform3d(new Translation3d(-0.3302, -0.2286, 0.381),
+			new Rotation3d(Math.toRadians(0), Math.toRadians(-11), Math.toRadians(180)));
 	PhotonPoseEstimator frontLeftPhotonPoseEstimator;
 	PhotonPoseEstimator frontRightPhotonPoseEstimator;
 	PhotonPoseEstimator backLeftPhotonPoseEstimator;
