@@ -213,7 +213,7 @@ public class VisionSubsystem extends Thread {
 
 					if (camPoseBackLeft.timestampSeconds != backLeftLastTimeStamp) {
 						publishPose2d("/DriveTrain/BackLeftCamPose", camPoseBackLeft.estimatedPose.toPose2d());
-
+						Logger.recordOutput("/Vision/BackLeftWeights", weights.toString());
 						RobotContainer.drivetrainSubsystem.addVisionMeasurement(
 								camPoseBackLeft.estimatedPose.toPose2d(), camPoseBackLeft.timestampSeconds, weights);
 
@@ -237,6 +237,7 @@ public class VisionSubsystem extends Thread {
 
 					if (camPoseBackRight.timestampSeconds != backRightLastTimeStamp) {
 						publishPose2d("/DriveTrain/BackRightCamPose", camPoseBackRight.estimatedPose.toPose2d());
+						Logger.recordOutput("/Vision/BackRightWeights", weights.toString());
 						RobotContainer.drivetrainSubsystem.addVisionMeasurement(
 								camPoseBackRight.estimatedPose.toPose2d(), camPoseBackRight.timestampSeconds, weights);
 

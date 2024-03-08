@@ -11,8 +11,8 @@ public class ShooterConstants extends BBConstants {
 	public static double shootDps = 1000.0;
 	public static double feedDps = 1000.0; //
 	public static double elevatorDps = 0.0; //
-	public static double angleShooterP = 420.0; //
-	public static double angleShooterI = 0.0; //
+	public static double angleShooterP = 380.0;
+	public static double angleShooterI = 0.0;
 	public static double angleShooterD = 0.0; //
 	public static double angleShooterV = 12.0; //
 	public static double angleShooterG = 0.24; //
@@ -35,7 +35,7 @@ public class ShooterConstants extends BBConstants {
 	public static double feedWheelDiameter = 4.0; //
 	public static double feedP = 0.25; //
 	public static double feedV = 0.125; //
-	public static double restShooterAngle = -35.0;
+	public static double restShooterAngle = -55.0; //
 	public static double elevatorCollisionHeight = 5.0; //
 	public static double ampDps = 250.0; //
 }

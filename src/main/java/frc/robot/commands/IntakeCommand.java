@@ -78,8 +78,8 @@ public class IntakeCommand extends Command {
 
 		double multiplier = 1;
 		if (RobotContainer.intakeSubsystem.getChamberSensor()) {
-			multiplier = 1;
-			RobotContainer.intakeSubsystem.setGroundMotorVoltage(0);
+			multiplier = 0.5;
+			// RobotContainer.intakeSubsystem.setGroundMotorVoltage(0);
 		}
 
 		if (RobotContainer.intakeSubsystem.getChamberSensor() && intake == true) {
@@ -152,7 +152,7 @@ public class IntakeCommand extends Command {
 			intakeTimer.start();
 			timerStarted = true;
 		}
-		if (intakeTimer.advanceIfElapsed(0.05)) {
+		if (intakeTimer.advanceIfElapsed(IntakeConstants.intakeShutOffDelay)) {
 			return true;
 		} else {
 			return false;

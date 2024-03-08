@@ -97,7 +97,9 @@ public class RobotContainer {
 		operatorController.leftTrigger(.1).whileTrue(new IndependantClimbLeftCommand());
 		operatorController.rightTrigger(.1).whileTrue(new IndependantClimbRightCommand());
 
-		operatorController.b().whileTrue(new AutoShootCommand());
+		operatorController.b().whileTrue(new AutoShootCommand().finallyDo(() -> {
+			CommandScheduler.getInstance().schedule(new HomePositionCommand());
+		}));
 		// operatorController.a().whileTrue(new AngleShooterCommand(-29.5));
 		operatorController.y().whileTrue(new AutoClimbCommand());
 		// operatorController.y().onTrue(new SetElevatorCommand(8));
@@ -117,6 +119,8 @@ public class RobotContainer {
 	public void putCommands() {
 		SmartDashboard.putData(new DisableArmBreakModeCommand().ignoringDisable(true));
 		SmartDashboard.putData(new DisableElevatorBreakModeCommand().ignoringDisable(true));
+		SmartDashboard.putData(new DisableClimberBreakModeCommand().ignoringDisable(true));
+
 	}
 
 	/**

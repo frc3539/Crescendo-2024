@@ -65,6 +65,15 @@ public class ClimberSubsystem extends SubsystemBase {
 
 		return buddyClimbMotor.getVelocity().getValue();
 	}
+	public void setClimberBreakMode(boolean enabled) {
+		if (enabled) {
+			leftClimbMotor.setNeutralMode(NeutralModeValue.Brake);
+			rightClimbMotor.setNeutralMode(NeutralModeValue.Brake);
+		} else {
+			leftClimbMotor.setNeutralMode(NeutralModeValue.Coast);
+			rightClimbMotor.setNeutralMode(NeutralModeValue.Coast);
+		}
+	}
 
 	public void log() {
 	}

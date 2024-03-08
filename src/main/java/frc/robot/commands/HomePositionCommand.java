@@ -14,7 +14,7 @@ import frc.robot.constants.ShooterConstants;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class HomePositionCommand extends SequentialCommandGroup {
 	private Command[] commands = {new ParallelCommandGroup(new AngleShooterCommand(ShooterConstants.restShooterAngle),
-			new SetElevatorCommand(0))};
+			new SetElevatorCommand(0), new EndShootCommand())};
 
 	/** Creates a new HomePositionCommand. */
 	public HomePositionCommand() {
