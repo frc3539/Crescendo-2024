@@ -11,30 +11,35 @@ import com.ctre.phoenix.led.LarsonAnimation;
 import com.ctre.phoenix.led.LarsonAnimation.BounceMode;
 import com.ctre.phoenix.led.StrobeAnimation;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotContainer;
 import frc.robot.constants.IDConstants;
 import frc.robot.constants.LedConstants;
 
 public class LedSubsystem extends SubsystemBase {
 
+	boolean intaking;
 	boolean enabled;
 	CANdle candle;
 
 	public LedSubsystem(boolean enabled) {
+		this.enabled = enabled;
+
 		this.candle = new CANdle(IDConstants.CANdleID, IDConstants.CandleCanName);
-		candle.configLEDType(LEDStripType.RGB);
+		candle.configLEDType(LEDStripType.GRB);
 		candle.configBrightnessScalar(LedConstants.maxBrightness);
+		candle.animate(null);
+		candle.setLEDs(0, 255, 0, 0, 0, LedConstants.numLights);
 	}
 
 	public enum LEDState {
-		ON, OFF, READY, INTAKING, SHOOTING, PREPARED, CLIMBING, AUTO
+		ON, OFF, READY, INTAKING, INTAKING_EMPTY, SHOOTING, PREPARED, CLIMBING, AUTO
 	}
 
 	public LEDState state;
 
 	public void setLEDs(LEDState state) {
-		if (!enabled || this.state == state)
+		if (!enabled)
 			return;
-		this.state = state;
 		switch (state) {
 			case OFF :
 				candle.animate(null);
@@ -55,6 +60,9 @@ public class LedSubsystem extends SubsystemBase {
 				candle.animate(new StrobeAnimation(LedConstants.Orange.getRed(), LedConstants.Orange.getGreen(),
 						LedConstants.Orange.getBlue(), 0, LedConstants.flashSpeed, LedConstants.numLights));
 				break;
+			case INTAKING_EMPTY :
+				candle.animate(new StrobeAnimation(0, 255, 0, 0, LedConstants.flashSpeed, LedConstants.numLights));
+				break;
 
 			case SHOOTING :
 				candle.animate(new ColorFlowAnimation(LedConstants.Orange.getRed(), LedConstants.Orange.getGreen(),
@@ -64,7 +72,7 @@ public class LedSubsystem extends SubsystemBase {
 			case PREPARED :
 				candle.animate(null);
 				candle.setLEDs(LedConstants.Orange.getRed(), LedConstants.Orange.getGreen(),
-						LedConstants.Orange.getBlue());
+						LedConstants.Orange.getBlue(), 0, 0, LedConstants.numLights);
 
 				break;
 
@@ -80,9 +88,34 @@ public class LedSubsystem extends SubsystemBase {
 				break;
 		}
 	}
+	public void setIntaking(boolean intaking) {
+		this.intaking = intaking;
+	}
 
 	@Override
 	public void periodic() {
 		// This method will be called once per scheduler run
+		// setLEDs(LEDState.READY);
+		if (RobotContainer.shooterSubsystem.getShooterSensor()) {
+			setLEDs(LEDState.PREPARED);
+			return;
+		} else {
+			if (RobotContainer.intakeSubsystem.getChamberSensor()) {
+				setLEDs(LEDState.INTAKING);
+				return;
+			}
+		}
+		if (this.intaking) {
+			if (RobotContainer.intakeSubsystem.getChamberSensor()) {
+
+				setLEDs(LEDState.INTAKING);
+				return;
+			} else {
+				setLEDs(LEDState.INTAKING_EMPTY);
+				return;
+			}
+		}
+
+		setLEDs(LEDState.ON);
 	}
 }

@@ -8,7 +8,7 @@ public class ClimberConstants extends BBConstants {
 		save();
 	}
 
-	public static double buddyClimbRps = 0.0; //
-	public static double buddyClimbThreshold = 10.0; //
-	public static double maxClimbRps = 0.0; //
+	public static double buddyClimbRps = 0.0;
+	public static double buddyClimbThreshold = 10.0;
+	public static double maxClimbRps = 0.0;
 }

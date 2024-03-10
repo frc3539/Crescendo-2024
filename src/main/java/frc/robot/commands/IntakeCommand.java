@@ -16,16 +16,16 @@ public class IntakeCommand extends Command {
 		FRONT, BACK, SENSOR;
 	}
 
-	boolean intake;
+	boolean intaking;
 	IntakeMode mode;
 	IntakeMode initialMode;
 	Timer intakeTimer = new Timer();
 	boolean timerStarted = false;
 
 	// Creates a new IntakeCommand.
-	public IntakeCommand(boolean intake, IntakeMode mode) {
+	public IntakeCommand(boolean intaking, IntakeMode mode) {
 		addRequirements(RobotContainer.intakeSubsystem, RobotContainer.shooterSubsystem);
-		this.intake = intake;
+		this.intaking = intaking;
 		this.mode = mode;
 		this.initialMode = mode;
 	}
@@ -33,7 +33,9 @@ public class IntakeCommand extends Command {
 	// Called when the command is initially scheduled.
 	@Override
 	public void initialize() {
-		if (RobotContainer.shooterSubsystem.getShooterSensor() && intake == true) {
+		RobotContainer.ledSubsystem.setIntaking(true);
+
+		if (RobotContainer.shooterSubsystem.getShooterSensor() && intaking == true) {
 			RobotContainer.intakeSubsystem.setGroundMotorVoltage(0);
 			RobotContainer.intakeSubsystem.setChamberMotorVoltage(0);
 			RobotContainer.intakeSubsystem.setKickMotorVoltage(0);
@@ -41,7 +43,7 @@ public class IntakeCommand extends Command {
 
 			return;
 		}
-		if (intake == true) {
+		if (intaking == true) {
 			// RobotContainer.intakeSubsystem.setGroundMotorSpeed(IntakeConstants.intakeRps);
 			// RobotContainer.intakeSubsystem.setGrabMotorSpeed(IntakeConstants.intakeRps);
 
@@ -62,12 +64,17 @@ public class IntakeCommand extends Command {
 					BBMath.getRps(-IntakeConstants.intakeDps, IntakeConstants.chamberWheelDiameter));
 			RobotContainer.shooterSubsystem
 					.setFeedMotorSpeed(BBMath.getRps(-IntakeConstants.intakeDps, ShooterConstants.feedWheelDiameter));
+			RobotContainer.intakeSubsystem.setKickMotorSpeed(BBMath.getRps(
+					IntakeConstants.intakeDps / IntakeConstants.kickGearRatio, IntakeConstants.kickWheelDiameter));
 		}
 	}
 
 	// Called every time the scheduler runs while the command is scheduled.
 	@Override
 	public void execute() {
+		if (!intaking) {
+			return;
+		}
 		// if (RobotContainer.shooterSubsystem.getShooterSensor() && intake == true) {
 		// RobotContainer.intakeSubsystem.setGroundMotorVoltage(0);
 		// RobotContainer.intakeSubsystem.setChamberMotorVoltage(0);
@@ -82,7 +89,7 @@ public class IntakeCommand extends Command {
 			// RobotContainer.intakeSubsystem.setGroundMotorVoltage(0);
 		}
 
-		if (RobotContainer.intakeSubsystem.getChamberSensor() && intake == true) {
+		if (RobotContainer.intakeSubsystem.getChamberSensor() && intaking == true) {
 			RobotContainer.intakeSubsystem.setChamberMotorSpeed(
 					multiplier * BBMath.getRps(IntakeConstants.intakeDps, IntakeConstants.chamberWheelDiameter));
 			RobotContainer.shooterSubsystem.setFeedMotorSpeed(
@@ -134,6 +141,7 @@ public class IntakeCommand extends Command {
 		// RobotContainer.intakeSubsystem.setGrabMotorSpeed(0);
 		// RobotContainer.intakeSubsystem.setGroundMotorSpeed(0);
 		// RobotContainer.intakeSubsystem.setKickMotorSpeed(0);
+		RobotContainer.ledSubsystem.setIntaking(false);
 
 		RobotContainer.intakeSubsystem.setChamberMotorVoltage(0);
 		RobotContainer.intakeSubsystem.setGroundMotorVoltage(0);
@@ -148,6 +156,9 @@ public class IntakeCommand extends Command {
 	// Returns true when the command should end.
 	@Override
 	public boolean isFinished() {
+		if (!intaking) {
+			return false;
+		}
 		if (RobotContainer.shooterSubsystem.getShooterSensor() && !timerStarted) {
 			intakeTimer.start();
 			timerStarted = true;

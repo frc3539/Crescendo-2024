@@ -20,6 +20,8 @@ public class LogController {
 	static boolean LOG_DRIVE_SUBSYSTEM = true;
 	static boolean LOG_INTAKE_SUBSYSTEM = true;
 	static boolean LOG_SHOOTER_SUBSYSTEM = true;
+	static boolean LOG_VISION_SUBSYSTEM = true;
+
 	static boolean LOG_LEDS = true;
 
 	static boolean SAVE_TO_FILE = false;
@@ -64,6 +66,7 @@ public class LogController {
 		logDriveSubsystem();
 		logIntakeSubsystem();
 		logShooterSubsystem();
+		logVisionSubsystem();
 	}
 
 	public void logDriveSubsystem() {
@@ -82,5 +85,10 @@ public class LogController {
 		if (!LOG_SHOOTER_SUBSYSTEM)
 			return;
 		RobotContainer.shooterSubsystem.log();
+	}
+	public void logVisionSubsystem() {
+		if (!LOG_VISION_SUBSYSTEM)
+			return;
+		RobotContainer.visionSubsystem.log();
 	}
 }

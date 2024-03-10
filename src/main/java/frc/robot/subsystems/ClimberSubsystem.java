@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.IDConstants;
 
 public class ClimberSubsystem extends SubsystemBase {
-	private TalonFX leftClimbMotor, rightClimbMotor, buddyClimbMotor;
+	private TalonFX leftClimbMotor, rightClimbMotor;
 
 	public ClimberSubsystem() {
 		MotorOutputConfigs rightOutputConfig = new MotorOutputConfigs();
@@ -30,8 +30,8 @@ public class ClimberSubsystem extends SubsystemBase {
 		leftClimbMotor.getConfigurator().apply(leftOutputConfig);
 		rightClimbMotor = new TalonFX(IDConstants.rightClimbMotorID, "rio");
 		rightClimbMotor.getConfigurator().apply(rightOutputConfig);
-		buddyClimbMotor = new TalonFX(IDConstants.buddyClimbMotorID, "rio");
-		buddyClimbMotor.getConfigurator().apply(buddyOutputConfig);
+		// buddyClimbMotor = new TalonFX(IDConstants.buddyClimbMotorID, "rio");
+		// buddyClimbMotor.getConfigurator().apply(buddyOutputConfig);
 
 		leftClimbMotor.setNeutralMode(NeutralModeValue.Brake);
 		rightClimbMotor.setNeutralMode(NeutralModeValue.Brake);
@@ -53,18 +53,18 @@ public class ClimberSubsystem extends SubsystemBase {
 		rightClimbMotor.setControl(new VoltageOut(voltage).withEnableFOC(true));
 	}
 
-	public void setBuddyClimbMotorSpeed(double rps) {
-		buddyClimbMotor.setControl(new VelocityVoltage(rps).withEnableFOC(true));
-	}
+	// public void setBuddyClimbMotorSpeed(double rps) {
+	// buddyClimbMotor.setControl(new VelocityVoltage(rps).withEnableFOC(true));
+	// }
 
-	public void setBuddyClimbMotorVoltage(double voltage) {
-		buddyClimbMotor.setControl(new VoltageOut(voltage).withEnableFOC(true));
-	}
+	// public void setBuddyClimbMotorVoltage(double voltage) {
+	// buddyClimbMotor.setControl(new VoltageOut(voltage).withEnableFOC(true));
+	// }
 
-	public double getBuddyClimbMotorSpeed() {
+	// public double getBuddyClimbMotorSpeed() {
 
-		return buddyClimbMotor.getVelocity().getValue();
-	}
+	// return buddyClimbMotor.getVelocity().getValue();
+	// }
 	public void setClimberBreakMode(boolean enabled) {
 		if (enabled) {
 			leftClimbMotor.setNeutralMode(NeutralModeValue.Brake);

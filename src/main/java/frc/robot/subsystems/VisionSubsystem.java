@@ -32,20 +32,21 @@ public class VisionSubsystem extends Thread {
 
 	public PhotonCamera frontLeftCam;
 	Transform3d robotToFrontLeftCam = new Transform3d(
-			new Translation3d(-0.1746 - .07 + .02 + 0.08, 0.2885 + 0.05 - .03, 0.3876),
+			new Translation3d(-0.1746 - .07 + .02 + 0.08, 0.2885 + 0.05 - .03, 0.5461),
 			new Rotation3d(Math.toRadians(0), 0, Math.toRadians(0)));
 
 	public PhotonCamera frontRightCam;
 	Transform3d robotToFrontRightCam = new Transform3d(
-			new Translation3d(-0.1746 + .05 + .02, -0.2885 - .1 + .05, 0.3876),
+			new Translation3d(-0.1746 + .05 + .02, -0.2885 - .1 + .05, 0.5544),
 			new Rotation3d(Math.toRadians(0), 0, Math.toRadians(0)));
 	public PhotonCamera backLeftCam;
-	Transform3d robotToBackLeftCam = new Transform3d(new Translation3d(-0.3302, 0.2286, 0.381),
-			new Rotation3d(Math.toRadians(0), Math.toRadians(-18), Math.toRadians(180)));
+	Transform3d robotToBackLeftCam = new Transform3d(new Translation3d(-0.3302, 0.2286, 0.53975),
+			new Rotation3d(Math.toRadians(0), Math.toRadians(-16.5), Math.toRadians(180)));
 
 	public PhotonCamera backRightCam;
-	Transform3d robotToBackRightCam = new Transform3d(new Translation3d(-0.3302, -0.2286, 0.381),
-			new Rotation3d(Math.toRadians(0), Math.toRadians(-11), Math.toRadians(180)));
+	Transform3d robotToBackRightCam = new Transform3d(new Translation3d(-0.3302, -0.2286, 0.53975),
+			new Rotation3d(Math.toRadians(0), Math.toRadians(-16.3), Math.toRadians(180)));
+
 	PhotonPoseEstimator frontLeftPhotonPoseEstimator;
 	PhotonPoseEstimator frontRightPhotonPoseEstimator;
 	PhotonPoseEstimator backLeftPhotonPoseEstimator;
@@ -125,6 +126,14 @@ public class VisionSubsystem extends Thread {
 	Alliance lastAlliance = null;
 	public void addVisionMeasurement(Pose2d pose, double timestampSeconds, Matrix<N3, N1> weights) {
 		RobotContainer.drivetrainSubsystem.addVisionMeasurement(pose, timestampSeconds, weights);
+	}
+
+	public void log() {
+		Logger.recordOutput("/Vision/BackLeft/Connected", backLeftCam.isConnected());
+		Logger.recordOutput("/Vision/BackRight/Connected", backRightCam.isConnected());
+		Logger.recordOutput("/Vision/FrontLeft/Connected", frontLeftCam.isConnected());
+		Logger.recordOutput("/Vision/FrontRight/Connected", frontRightCam.isConnected());
+
 	}
 	@Override
 	public void run() {

@@ -27,7 +27,7 @@ import org.frcteam3539.Byte_Swerve_Lib.util.DrivetrainFeedforwardConstants;
 import org.frcteam3539.Byte_Swerve_Lib.util.HolonomicFeedforward;
 import org.littletonrobotics.junction.Logger;
 
-public class DrivetrainSubsystem extends SwerveDrivetrain implements Subsystem {
+public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsystem {
 	/** Creates a new DrivetrainSubsystem. */
 	private final HolonomicMotionProfiledTrajectoryFollower follower;
 
@@ -38,7 +38,7 @@ public class DrivetrainSubsystem extends SwerveDrivetrain implements Subsystem {
 
 	public Pigeon2 pigeon = new Pigeon2(IDConstants.PigeonID, "canivore");
 
-	public DrivetrainSubsystem(SwerveDrivetrainConstants driveTrainConstants, SwerveModuleConstants... modules) {
+	public CommandSwerveDrivetrain(SwerveDrivetrainConstants driveTrainConstants, SwerveModuleConstants... modules) {
 		super(driveTrainConstants, modules);
 
 		maxVelocity = modules[0].SpeedAt12VoltsMps;

@@ -87,14 +87,20 @@ public class IntakeSubsystem extends SubsystemBase {
 	}
 
 	public boolean getChamberSensor() {
+		if (IntakeConstants.invertSensors == 1)
+			return chamberSensor.get();
 		return !chamberSensor.get();
 	}
 
 	public boolean getFrontSensor() {
+		if (IntakeConstants.invertSensors == 1)
+			return frontSensor.get();
 		return !frontSensor.get();
 	}
 
 	public boolean getBackSensor() {
+		if (IntakeConstants.invertSensors == 1)
+			return backSensor.get();
 		return !backSensor.get();
 	}
 
@@ -102,9 +108,9 @@ public class IntakeSubsystem extends SubsystemBase {
 		Logger.recordOutput("/Intake/FrontSensor", getFrontSensor());
 		Logger.recordOutput("/Intake/BackSensor", getBackSensor());
 		Logger.recordOutput("/Intake/ChamberSensor", getChamberSensor());
-		Logger.recordOutput("/Intake/GroundRPM", getGroundMotorSpeed());
-		Logger.recordOutput("/Intake/KickRPM", getKickMotorSpeed());
-		Logger.recordOutput("/Intake/ChamberRPM", getChamberMotorSpeed());
+		Logger.recordOutput("/Intake/GroundRPS", getGroundMotorSpeed());
+		Logger.recordOutput("/Intake/KickRPS", getKickMotorSpeed());
+		Logger.recordOutput("/Intake/ChamberRPS", getChamberMotorSpeed());
 	}
 
 	@Override

@@ -25,6 +25,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.IDConstants;
+import frc.robot.constants.IntakeConstants;
 import frc.robot.constants.ShooterConstants;
 import org.littletonrobotics.junction.Logger;
 
@@ -93,6 +94,9 @@ public class ShooterSubsystem extends SubsystemBase {
 				.apply(new MotionMagicConfigs().withMotionMagicAcceleration(256).withMotionMagicCruiseVelocity(256));
 
 		angleMotor.getConfigurator()
+				.apply(new MotionMagicConfigs().withMotionMagicAcceleration(1.0).withMotionMagicCruiseVelocity(1.0));
+
+		angleMotor.getConfigurator()
 				.apply(new SlotConfigs().withKP(ShooterConstants.angleShooterP).withKI(ShooterConstants.angleShooterI)
 						.withKD(ShooterConstants.angleShooterD).withKV(ShooterConstants.angleShooterV)
 						.withKG(ShooterConstants.angleShooterG).withGravityType(GravityTypeValue.Arm_Cosine));
@@ -155,6 +159,8 @@ public class ShooterSubsystem extends SubsystemBase {
 	}
 
 	public boolean getShooterSensor() {
+		if (IntakeConstants.invertSensors == 1)
+			return shooterSensor.get();
 		return !shooterSensor.get();
 	}
 
@@ -184,9 +190,9 @@ public class ShooterSubsystem extends SubsystemBase {
 
 	public void log() {
 		Logger.recordOutput("/Shooter/ShooterSensor", getShooterSensor());
-		Logger.recordOutput("/Shooter/FeederRPM", getFeedMotorSpeed());
-		Logger.recordOutput("/Shooter/TopShooterRPM", getTopMotorSpeed());
-		Logger.recordOutput("/Shooter/BottomShooterRPM", getBottomMotorSpeed());
+		Logger.recordOutput("/Shooter/FeederRPS", getFeedMotorSpeed());
+		Logger.recordOutput("/Shooter/TopShooterRPS", getTopMotorSpeed());
+		Logger.recordOutput("/Shooter/BottomShooterRPS", getBottomMotorSpeed());
 		Logger.recordOutput("/Shooter/ShooterAngle", getShooterAngle());
 		Logger.recordOutput("/Shooter/TargetShooterAngle", requestedArmPos);
 		Logger.recordOutput("/Shooter/ElevatorPosition", getElevatorPosition());
@@ -195,12 +201,12 @@ public class ShooterSubsystem extends SubsystemBase {
 
 	public double degreesToShooterRotations(double degrees) {
 		return Units.degreesToRotations(degrees - ShooterConstants.restShooterAngle)
-				+ ShooterConstants.shooterAngleOffset;
+				+ ShooterConstants.shooterRestingRotations;
 	}
 
 	public double getShooterAngle() {
 		return Units.rotationsToDegrees(
-				angleCanCoder.getAbsolutePosition().getValue() - ShooterConstants.shooterAngleOffset)
+				angleCanCoder.getAbsolutePosition().getValue() - ShooterConstants.shooterRestingRotations)
 				+ ShooterConstants.restShooterAngle;
 	}
 

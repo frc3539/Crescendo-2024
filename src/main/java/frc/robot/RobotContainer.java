@@ -16,10 +16,10 @@ import frc.robot.commands.AutoAlignCommand.TagPosition;
 import frc.robot.commands.IntakeCommand.IntakeMode;
 import frc.robot.constants.*;
 import frc.robot.generated.TunerConstants;
+import frc.robot.generated.TunerConstantsComp;
 import frc.robot.subsystems.*;
 import frc.robot.utilities.LogController;
-
-// import frc.robot.subsystems.LedSubsystem;
+import frc.robot.subsystems.LedSubsystem;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -41,11 +41,11 @@ public class RobotContainer {
 
 	public static TunerConstants tunerConstants = new TunerConstants();
 
-	public static DrivetrainSubsystem drivetrainSubsystem = TunerConstants.DriveTrain;
+	public static CommandSwerveDrivetrain drivetrainSubsystem = TunerConstantsComp.DriveTrain; // TunerConstants.DriveTrain
 	public static IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
 
 	public static ClimberSubsystem climberSubsystem = new ClimberSubsystem();
-	// public static LedSubsystem ledSubsystem = new LedSubsystem(true);
+	public static LedSubsystem ledSubsystem = new LedSubsystem(true);
 	public static VisionSubsystem visionSubsystem = new VisionSubsystem();
 	public static ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
 
@@ -93,6 +93,7 @@ public class RobotContainer {
 		operatorController.povUp().whileTrue(new IntakeCommand(true, IntakeMode.FRONT));
 		operatorController.povDown().whileTrue(new IntakeCommand(true, IntakeMode.BACK));
 		operatorController.a().whileTrue(new IntakeCommand(true, IntakeMode.SENSOR));
+		operatorController.back().whileTrue(new IntakeCommand(false, IntakeMode.BACK));
 
 		operatorController.leftTrigger(.1).whileTrue(new IndependantClimbLeftCommand());
 		operatorController.rightTrigger(.1).whileTrue(new IndependantClimbRightCommand());
@@ -109,7 +110,7 @@ public class RobotContainer {
 		operatorController.povLeft().onTrue(new AngleShooterCommand(55));
 		operatorController.povRight().onTrue(new HomePositionCommand());
 
-		operatorController.start().whileTrue(new BuddyClimbCommand());
+		// operatorController.start().whileTrue(new BuddyClimbCommand());
 		driverController.start().whileTrue(new ZeroGyroCommand());
 		driverController.y().whileTrue(new AutoAlignCommand(TagPosition.TRAP));
 
