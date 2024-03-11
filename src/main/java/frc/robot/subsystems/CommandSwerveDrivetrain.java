@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.BaseStatusSignal;
+import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.hardware.Pigeon2;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveDrivetrain;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveDrivetrainConstants;
@@ -47,6 +48,10 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
 
 		for (int i = 0; i < modules.length; i++) {
 			moduleLocations[i] = new Translation2d(modules[i].LocationX, modules[i].LocationY);
+			this.Modules[i].getDriveMotor().getConfigurator()
+					.apply(new CurrentLimitsConfigs().withSupplyCurrentLimit(50).withSupplyCurrentLimitEnable(true)
+							.withSupplyCurrentThreshold(50).withSupplyTimeThreshold(1)
+							.withStatorCurrentLimit(modules[i].SlipCurrent).withStatorCurrentLimitEnable(true));
 		}
 
 		double dtRadius = new Translation2d().nearest(Arrays.asList(moduleLocations)).getDistance(new Translation2d());
