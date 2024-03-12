@@ -139,6 +139,12 @@ public class VisionSubsystem extends Thread {
 	public void run() {
 		/* Run as fast as possible, our signals will control the timing */
 		while (true) {
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			// Vision Calculations
 			if (DriverStation.getAlliance().isPresent()) {
 				if (DriverStation.getAlliance().get() == Alliance.Blue && lastAlliance != Alliance.Blue)
@@ -168,7 +174,7 @@ public class VisionSubsystem extends Thread {
 						sum += resultFrontLeft.get().estimatedPose.toPose2d().getTranslation().getDistance(tagPosition);
 					}
 					sum /= camPoseFrontLeft.targetsUsed.size();
-					double distanceRatio = sum / visionRatio;
+					double distanceRatio = sum;
 					Matrix<N3, N1> weights = new Matrix<N3, N1>(new SimpleMatrix(new double[]{0.1 + 1.9 * distanceRatio,
 							0.1 + 1.9 * distanceRatio, 5 + 25 * distanceRatio}));
 
@@ -192,7 +198,7 @@ public class VisionSubsystem extends Thread {
 								.getDistance(tagPosition);
 					}
 					sum /= camPoseFrontRight.targetsUsed.size();
-					double distanceRatio = sum / visionRatio;
+					double distanceRatio = sum;
 					Matrix<N3, N1> weights = new Matrix<N3, N1>(new SimpleMatrix(new double[]{0.1 + 1.9 * distanceRatio,
 							0.1 + 1.9 * distanceRatio, 5 + 25 * distanceRatio}));
 
@@ -216,7 +222,7 @@ public class VisionSubsystem extends Thread {
 						sum += resultBackLeft.get().estimatedPose.toPose2d().getTranslation().getDistance(tagPosition);
 					}
 					sum /= camPoseBackLeft.targetsUsed.size();
-					double distanceRatio = sum / visionRatio;
+					double distanceRatio = sum;
 					Matrix<N3, N1> weights = new Matrix<N3, N1>(new SimpleMatrix(new double[]{0.1 + 1.9 * distanceRatio,
 							0.1 + 1.9 * distanceRatio, 5 + 25 * distanceRatio}));
 
@@ -240,7 +246,7 @@ public class VisionSubsystem extends Thread {
 						sum += resultBackRight.get().estimatedPose.toPose2d().getTranslation().getDistance(tagPosition);
 					}
 					sum /= camPoseBackRight.targetsUsed.size();
-					double distanceRatio = sum / visionRatio;
+					double distanceRatio = sum;
 					Matrix<N3, N1> weights = new Matrix<N3, N1>(new SimpleMatrix(new double[]{0.1 + 1.9 * distanceRatio,
 							0.1 + 1.9 * distanceRatio, 5 + 25 * distanceRatio}));
 

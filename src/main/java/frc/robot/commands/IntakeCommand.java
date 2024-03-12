@@ -24,7 +24,6 @@ public class IntakeCommand extends Command {
 
 	// Creates a new IntakeCommand.
 	public IntakeCommand(boolean intaking, IntakeMode mode) {
-		addRequirements(RobotContainer.intakeSubsystem, RobotContainer.shooterSubsystem);
 		this.intaking = intaking;
 		this.mode = mode;
 		this.initialMode = mode;

@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.autons.Blue4Piece;
 import frc.robot.autons.BlueShootDrive;
 import frc.robot.commands.*;
 import frc.robot.commands.AutoAlignCommand.TagPosition;
@@ -83,6 +84,7 @@ public class RobotContainer {
 	 */
 	private void putAutons() {
 		chooser.setDefaultOption("Blue Shoot and Drive", new BlueShootDrive());
+		chooser.addOption("Blue 4 Piece Center", new Blue4Piece());
 
 		SmartDashboard.putData(chooser);
 	}

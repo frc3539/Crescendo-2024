@@ -21,15 +21,22 @@ import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.signals.SensorDirectionValue;
+
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotContainer;
 import frc.robot.constants.IDConstants;
 import frc.robot.constants.IntakeConstants;
 import frc.robot.constants.ShooterConstants;
 import org.littletonrobotics.junction.Logger;
 
 public class ShooterSubsystem extends SubsystemBase {
+	double targetZOffset = -0.0254;
+
+	Translation2d blueSpeakerCoordinate = new Translation2d(0, 5.55);
+	Translation2d redSpeakerCoordinate = new Translation2d(0, 2.67);
 	/** Creates a new ShooterSubsystem. */
 	private TalonFX topMotor, bottomMotor, feedMotor, elevatorMotor, angleMotor;
 
@@ -187,6 +194,22 @@ public class ShooterSubsystem extends SubsystemBase {
 	public void initializeElevatorPosition() {
 		requestedElevatorPos = getElevatorPosition();
 	}
+	public double getEstimatedShooterAngle() {
+		double distanceToTarget = RobotContainer.drivetrainSubsystem.getPose2d().getTranslation()
+				.getDistance(blueSpeakerCoordinate);
+		org.littletonrobotics.junction.Logger.recordOutput("/Drivetrain/DistanceToTarget", distanceToTarget);
+		// double angleToTarget = (Math.atan2(0.64135 - 2.0452 + targetZOffset,
+		// distanceToTarget - 0.3048 - 0.2286)
+		// + Math.toRadians(0 - Math.min(Math.max(0, distanceToTarget - 0.3048 - 1) * 1,
+		// 10))) * 180 / Math.PI;
+
+		double angleToTarget = -101 + 42.6667 * distanceToTarget - 8.25 * Math.pow(distanceToTarget, 2)
+				+ 0.5833 * Math.pow(distanceToTarget, 3);
+		angleToTarget = Math.max(angleToTarget, -55);
+
+		return angleToTarget;
+
+	}
 
 	public void log() {
 		Logger.recordOutput("/Shooter/ShooterSensor", getShooterSensor());
@@ -197,6 +220,7 @@ public class ShooterSubsystem extends SubsystemBase {
 		Logger.recordOutput("/Shooter/TargetShooterAngle", requestedArmPos);
 		Logger.recordOutput("/Shooter/ElevatorPosition", getElevatorPosition());
 		Logger.recordOutput("/Shooter/TargetElevatorPosition", requestedElevatorPos);
+		org.littletonrobotics.junction.Logger.recordOutput("/Drivetrain/EstimatedAngle", getEstimatedShooterAngle());
 	}
 
 	public double degreesToShooterRotations(double degrees) {
