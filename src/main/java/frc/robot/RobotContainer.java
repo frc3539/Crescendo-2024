@@ -11,8 +11,13 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.autons.Blue4Piece;
+import frc.robot.autons.BlueRightFar;
 import frc.robot.autons.BlueShootDrive;
 import frc.robot.autons.BlueShootLeft;
+import frc.robot.autons.Red4Piece;
+import frc.robot.autons.RedLeftFar;
+import frc.robot.autons.RedShootDrive;
+import frc.robot.autons.RedShootRight;
 import frc.robot.commands.*;
 import frc.robot.commands.AutoAlignCommand.TagPosition;
 import frc.robot.commands.IntakeCommand.IntakeMode;
@@ -87,6 +92,12 @@ public class RobotContainer {
 		chooser.setDefaultOption("Blue Shoot and Drive", new BlueShootDrive());
 		chooser.addOption("Blue 4 Piece Center", new Blue4Piece());
 		chooser.addOption("Blue Shoot Left", new BlueShootLeft());
+		chooser.addOption("Blue Shoot Right Far", new BlueRightFar());
+
+		chooser.addOption("Red Shoot and Drive", new RedShootDrive());
+		chooser.addOption("Red 4 Piece Center", new Red4Piece());
+		chooser.addOption("Red Shoot Right", new RedShootRight());
+		chooser.addOption("Red Shoot Left Far", new RedLeftFar());
 
 		SmartDashboard.putData(chooser);
 	}

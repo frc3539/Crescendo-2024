@@ -5,7 +5,7 @@
   "paths": [
     {
       "name": "Path 1",
-      "id": "d6395b7e-d912-4b0a-8236-03ff4ce2bcbc",
+      "id": "75cfe742-c881-427d-9cde-9a6135d4d46d",
       "isSpline": true,
       "maxVelocity": 2.0,
       "maxAcceleration": 1.0,
