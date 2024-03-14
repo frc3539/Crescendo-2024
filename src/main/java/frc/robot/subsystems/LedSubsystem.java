@@ -19,6 +19,7 @@ public class LedSubsystem extends SubsystemBase {
 
 	boolean intaking;
 	boolean enabled;
+	boolean aligning;
 	CANdle candle;
 
 	public LedSubsystem(boolean enabled) {
@@ -91,9 +92,16 @@ public class LedSubsystem extends SubsystemBase {
 	public void setIntaking(boolean intaking) {
 		this.intaking = intaking;
 	}
+	public void setAligning(boolean aligning) {
+		this.aligning = aligning;
+	}
 
 	@Override
 	public void periodic() {
+		if (aligning) {
+			setLEDs(LEDState.AUTO);
+			return;
+		}
 		// This method will be called once per scheduler run
 		// setLEDs(LEDState.READY);
 		if (RobotContainer.shooterSubsystem.getShooterSensor()) {

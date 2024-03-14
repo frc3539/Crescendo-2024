@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.autons.Blue4Piece;
 import frc.robot.autons.BlueShootDrive;
+import frc.robot.autons.BlueShootLeft;
 import frc.robot.commands.*;
 import frc.robot.commands.AutoAlignCommand.TagPosition;
 import frc.robot.commands.IntakeCommand.IntakeMode;
@@ -85,6 +86,7 @@ public class RobotContainer {
 	private void putAutons() {
 		chooser.setDefaultOption("Blue Shoot and Drive", new BlueShootDrive());
 		chooser.addOption("Blue 4 Piece Center", new Blue4Piece());
+		chooser.addOption("Blue Shoot Left", new BlueShootLeft());
 
 		SmartDashboard.putData(chooser);
 	}
@@ -104,12 +106,15 @@ public class RobotContainer {
 			CommandScheduler.getInstance().schedule(new HomePositionCommand());
 		}));
 		// operatorController.a().whileTrue(new AngleShooterCommand(-29.5));
-		operatorController.y().whileTrue(new AutoClimbCommand());
+		operatorController.start().whileTrue(new AutoClimbCommand());
 		// operatorController.y().onTrue(new SetElevatorCommand(8));
 		operatorController.x().whileTrue(new AmpCommand().finallyDo(() -> {
 			CommandScheduler.getInstance().schedule(new HomePositionCommand());
 		}));
-		operatorController.povLeft().onTrue(new AngleShooterCommand(55));
+		operatorController.y().whileTrue(new TrapCommand().finallyDo(() -> {
+			CommandScheduler.getInstance().schedule(new HomePositionCommand());
+		}));
+		operatorController.povLeft().onTrue(new ClimbPositionCommand());
 		operatorController.povRight().onTrue(new HomePositionCommand());
 
 		// operatorController.start().whileTrue(new BuddyClimbCommand());

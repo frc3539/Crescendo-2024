@@ -6,6 +6,8 @@ package frc.robot.commands;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
 import java.util.ArrayList;
@@ -28,13 +30,29 @@ public class AutoAlignCommand extends Command {
 
 		switch (position) {
 			case AMP :
-				points.add(new Pose2d(1, 1, Rotation2d.fromDegrees(-60)));
+				if (DriverStation.getAlliance().get() == Alliance.Blue) {
+					points.add(new Pose2d(1.8415, 7.75335, Rotation2d.fromDegrees(90)));
+
+				} else {
+					points.add(new Pose2d(1.8415, 0.4572, Rotation2d.fromDegrees(-90)));
+
+				}
 				break;
 			case SPEAKER :
-				points.add(new Pose2d(1, 1, Rotation2d.fromDegrees(-60)));
+				if (DriverStation.getAlliance().get() == Alliance.Blue) {
+					points.add(new Pose2d(5.54, 1.3728, Rotation2d.fromDegrees(90)));
+
+				} else {
+					points.add(new Pose2d(5.54, 2.67, Rotation2d.fromDegrees(-90)));
+				}
+
 				break;
 			case TRAP :
-				points.add(new Pose2d(4.216, 4.961, Rotation2d.fromDegrees(120)));
+
+				points.add(new Pose2d(4.244, 5.136, Rotation2d.fromDegrees(120)));
+				points.add(new Pose2d(4.294, 3.057, Rotation2d.fromDegrees(-120)));
+				points.add(new Pose2d(6.053, 4.105, Rotation2d.fromDegrees(0)));
+
 				break;
 			case CLIMB :
 				points.add(new Pose2d(1, 1, Rotation2d.fromDegrees(-60)));
@@ -48,6 +66,7 @@ public class AutoAlignCommand extends Command {
 	// Called when the command is initially scheduled.
 	@Override
 	public void initialize() {
+		RobotContainer.ledSubsystem.setAligning(true);
 		Pose2d robotPose = RobotContainer.drivetrainSubsystem.getPose2d();
 
 		Pose2d target = robotPose.nearest(points);
@@ -71,6 +90,8 @@ public class AutoAlignCommand extends Command {
 	// Called once the command ends or is interrupted.
 	@Override
 	public void end(boolean interrupted) {
+		RobotContainer.ledSubsystem.setAligning(false);
+
 		RobotContainer.drivetrainSubsystem.getFollower().cancel();
 	}
 

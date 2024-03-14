@@ -176,7 +176,7 @@ public class VisionSubsystem extends Thread {
 					sum /= camPoseFrontLeft.targetsUsed.size();
 					double distanceRatio = sum;
 					Matrix<N3, N1> weights = new Matrix<N3, N1>(new SimpleMatrix(new double[]{0.1 + 1.9 * distanceRatio,
-							0.1 + 1.9 * distanceRatio, 5 + 25 * distanceRatio}));
+							0.1 + 1.9 * distanceRatio, 3 + 15 * distanceRatio}));
 
 					if (camPoseFrontLeft.timestampSeconds != frontLeftLastTimeStamp) {
 						publishPose2d("/DriveTrain/FrontLeftCamPose", camPoseFrontLeft.estimatedPose.toPose2d());
@@ -200,7 +200,7 @@ public class VisionSubsystem extends Thread {
 					sum /= camPoseFrontRight.targetsUsed.size();
 					double distanceRatio = sum;
 					Matrix<N3, N1> weights = new Matrix<N3, N1>(new SimpleMatrix(new double[]{0.1 + 1.9 * distanceRatio,
-							0.1 + 1.9 * distanceRatio, 5 + 25 * distanceRatio}));
+							0.1 + 1.9 * distanceRatio, 3 + 15 * distanceRatio}));
 
 					if (camPoseFrontRight.timestampSeconds != frontRightLastTimeStamp) {
 						publishPose2d("/DriveTrain/FrontRightCamPose", camPoseFrontRight.estimatedPose.toPose2d());
@@ -224,7 +224,7 @@ public class VisionSubsystem extends Thread {
 					sum /= camPoseBackLeft.targetsUsed.size();
 					double distanceRatio = sum;
 					Matrix<N3, N1> weights = new Matrix<N3, N1>(new SimpleMatrix(new double[]{0.1 + 1.9 * distanceRatio,
-							0.1 + 1.9 * distanceRatio, 5 + 25 * distanceRatio}));
+							0.1 + 1.9 * distanceRatio, 3 + 15 * distanceRatio}));
 
 					if (camPoseBackLeft.timestampSeconds != backLeftLastTimeStamp) {
 						publishPose2d("/DriveTrain/BackLeftCamPose", camPoseBackLeft.estimatedPose.toPose2d());
@@ -248,7 +248,7 @@ public class VisionSubsystem extends Thread {
 					sum /= camPoseBackRight.targetsUsed.size();
 					double distanceRatio = sum;
 					Matrix<N3, N1> weights = new Matrix<N3, N1>(new SimpleMatrix(new double[]{0.1 + 1.9 * distanceRatio,
-							0.1 + 1.9 * distanceRatio, 5 + 25 * distanceRatio}));
+							0.1 + 1.9 * distanceRatio, 3 + 15 * distanceRatio}));
 
 					if (camPoseBackRight.timestampSeconds != backRightLastTimeStamp) {
 						publishPose2d("/DriveTrain/BackRightCamPose", camPoseBackRight.estimatedPose.toPose2d());

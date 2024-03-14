@@ -18,10 +18,12 @@ public class ClimberSubsystem extends SubsystemBase {
 
 	public ClimberSubsystem() {
 		MotorOutputConfigs rightOutputConfig = new MotorOutputConfigs();
-		rightOutputConfig.Inverted = InvertedValue.Clockwise_Positive;
+		rightOutputConfig.Inverted = InvertedValue.CounterClockwise_Positive;
+		// rightOutputConfig.Inverted = InvertedValue.Clockwise_Positive;
 
 		MotorOutputConfigs leftOutputConfig = new MotorOutputConfigs();
-		leftOutputConfig.Inverted = InvertedValue.CounterClockwise_Positive;
+		leftOutputConfig.Inverted = InvertedValue.Clockwise_Positive;
+		// leftOutputConfig.Inverted = InvertedValue.CounterClockwise_Positive;
 
 		MotorOutputConfigs buddyOutputConfig = new MotorOutputConfigs();
 		buddyOutputConfig.Inverted = InvertedValue.CounterClockwise_Positive;

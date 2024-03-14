@@ -205,7 +205,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
 		double angleToTarget = -101 + 42.6667 * distanceToTarget - 8.25 * Math.pow(distanceToTarget, 2)
 				+ 0.5833 * Math.pow(distanceToTarget, 3);
-		angleToTarget = Math.max(angleToTarget, -55);
+		angleToTarget = Math.max(angleToTarget - 1.5, -55);
 
 		return angleToTarget;
 

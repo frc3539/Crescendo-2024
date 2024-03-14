@@ -2,10 +2,11 @@ package frc.robot.generated;
 
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveDrivetrainConstants;
-import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.ClosedLoopOutputType;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModuleConstants;
-import com.ctre.phoenix6.mechanisms.swerve.SwerveModuleConstants.SteerFeedbackType;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModuleConstantsFactory;
+import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.ClosedLoopOutputType;
+import com.ctre.phoenix6.mechanisms.swerve.SwerveModuleConstants.SteerFeedbackType;
+
 import edu.wpi.first.math.util.Units;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 
@@ -96,7 +97,7 @@ public class TunerConstants {
 	private static final int kBackLeftDriveMotorId = 4;
 	private static final int kBackLeftSteerMotorId = 5;
 	private static final int kBackLeftEncoderId = 33;
-	private static final double kBackLeftEncoderOffset = -0.08447265625;
+	private static final double kBackLeftEncoderOffset = -0.449951171875;
 
 	private static final double kBackLeftXPosInches = -11.625;
 	private static final double kBackLeftYPosInches = 11.625;
