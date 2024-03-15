@@ -1,11 +1,11 @@
 {
   "name": "Red4Piece",
-  "edited": "03/12/24, 07:06:49 PM",
+  "edited": "03/15/24, 12:07:40 PM",
   "isRed": true,
   "paths": [
     {
       "name": "Path 1",
-      "id": "1b9116d1-a7b8-4712-8207-e373e25d5c9c",
+      "id": "ede1063f-9345-4a1b-9f63-fe3723daf79d",
       "isSpline": true,
       "maxVelocity": 2.0,
       "maxAcceleration": 1.5,
@@ -37,8 +37,8 @@
           "id": "dfcd1c03-bf4c-485e-b40d-6ed3c29a593c"
         },
         {
-          "x": 1.12555,
-          "y": 3.378,
+          "x": 0.872,
+          "y": 3.501,
           "rotation": 0.0,
           "id": "5563f6aa-ca0c-401d-9dfe-2d9be215041e"
         },

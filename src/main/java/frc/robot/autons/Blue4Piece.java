@@ -31,7 +31,7 @@ public class Blue4Piece extends SequentialCommandGroup {
 
 					new SequentialCommandGroup(new WaitCommand(1), new ShootCommand().withTimeout(1)),
 					new SequentialCommandGroup(new WaitCommand(4.85), new ShootCommand().withTimeout(1)),
-					new SequentialCommandGroup(new WaitCommand(8.7), new ShootCommand().withTimeout(1)),
+					new SequentialCommandGroup(new WaitCommand(8.85), new ShootCommand().withTimeout(1)),
 					new SequentialCommandGroup(new WaitCommand(12.7), new ShootCommand().withTimeout(1)),
 
 					new SequentialCommandGroup(new WaitCommand(1.25),

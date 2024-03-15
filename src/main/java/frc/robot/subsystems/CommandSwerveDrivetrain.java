@@ -102,10 +102,10 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
 		Logger.recordOutput("/DriveTrain/RobotRoll", getRobotRoll().getDegrees());
 		VisionSubsystem.publishPose2d("/DriveTrain/Pose", getPose2d());
 
-		Pose2d trajectory = follower.getLastState() != null
-				? follower.getLastState().getPathState().getPose2d()
-				: new Pose2d(-1, -1, new Rotation2d(0));
-		Logger.recordOutput("/DriveTrain/Trajectory", trajectory);
+		// Pose2d trajectory = follower.getLastState() != null
+		// ? follower.getLastState().getPathState().getPose2d()
+		// : new Pose2d(-1, -1, new Rotation2d(0));
+		// Logger.recordOutput("/DriveTrain/Trajectory", trajectory);
 	}
 
 	@Override

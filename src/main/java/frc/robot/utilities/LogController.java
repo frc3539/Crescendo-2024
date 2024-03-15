@@ -15,7 +15,7 @@ public class LogController {
 	// | SET ROBOT LOGGING SETTINGS HERE :> |
 	// +-----------------------------------
 
-	public static boolean USE_LOGGING = true;
+	public static boolean USE_LOGGING = false;
 
 	static boolean LOG_DRIVE_SUBSYSTEM = true;
 	static boolean LOG_INTAKE_SUBSYSTEM = true;

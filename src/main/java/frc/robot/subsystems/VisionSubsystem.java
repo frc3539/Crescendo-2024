@@ -131,8 +131,10 @@ public class VisionSubsystem extends Thread {
 	public void log() {
 		Logger.recordOutput("/Vision/BackLeft/Connected", backLeftCam.isConnected());
 		Logger.recordOutput("/Vision/BackRight/Connected", backRightCam.isConnected());
-		Logger.recordOutput("/Vision/FrontLeft/Connected", frontLeftCam.isConnected());
-		Logger.recordOutput("/Vision/FrontRight/Connected", frontRightCam.isConnected());
+		// Logger.recordOutput("/Vision/FrontLeft/Connected",
+		// frontLeftCam.isConnected());
+		// Logger.recordOutput("/Vision/FrontRight/Connected",
+		// frontRightCam.isConnected());
 
 	}
 	@Override
@@ -147,10 +149,15 @@ public class VisionSubsystem extends Thread {
 			}
 			// Vision Calculations
 			if (DriverStation.getAlliance().isPresent()) {
-				if (DriverStation.getAlliance().get() == Alliance.Blue && lastAlliance != Alliance.Blue)
+				if (DriverStation.getAlliance().get() == Alliance.Blue && lastAlliance != Alliance.Blue) {
+					lastAlliance = Alliance.Blue;
 					aprilTagFieldLayout.setOrigin(OriginPosition.kBlueAllianceWallRightSide);
-				if (DriverStation.getAlliance().get() == Alliance.Red && lastAlliance != Alliance.Red)
+				}
+				if (DriverStation.getAlliance().get() == Alliance.Red && lastAlliance != Alliance.Red) {
+
+					lastAlliance = Alliance.Red;
 					aprilTagFieldLayout.setOrigin(OriginPosition.kRedAllianceWallRightSide);
+				}
 			}
 
 			frontLeftPhotonPoseEstimator.setFieldTags(aprilTagFieldLayout);
@@ -164,7 +171,7 @@ public class VisionSubsystem extends Thread {
 			this.resultBackRight = getEstimatedBackRightGlobalPose();
 
 			if (useVision) {
-				if (resultFrontLeft.isPresent()) {
+				if (false && resultFrontLeft.isPresent()) {
 					EstimatedRobotPose camPoseFrontLeft = resultFrontLeft.get();
 
 					double sum = 0;
@@ -187,7 +194,7 @@ public class VisionSubsystem extends Thread {
 					frontLeftLastTimeStamp = camPoseFrontLeft.timestampSeconds;
 				}
 
-				if (resultFrontRight.isPresent()) {
+				if (false && resultFrontRight.isPresent()) {
 					EstimatedRobotPose camPoseFrontRight = resultFrontRight.get();
 
 					double sum = 0;
@@ -255,7 +262,6 @@ public class VisionSubsystem extends Thread {
 						Logger.recordOutput("/Vision/BackRightWeights", weights.toString());
 						RobotContainer.drivetrainSubsystem.addVisionMeasurement(
 								camPoseBackRight.estimatedPose.toPose2d(), camPoseBackRight.timestampSeconds, weights);
-
 					}
 					backRightLastTimeStamp = camPoseBackRight.timestampSeconds;
 				}

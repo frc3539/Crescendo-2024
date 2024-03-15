@@ -22,11 +22,11 @@ import org.frcteam3539.Byte_Swerve_Lib.io.BBMPLoader;
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class BlueRightFar extends SequentialCommandGroup {
-	BBMPLoader loader = new BBMPLoader("/home/lvuser/profiles/BlueShootDrive.txt", false);
+	BBMPLoader loader = new BBMPLoader("/home/lvuser/profiles/BlueRightFar.txt", false);
 
 	private Command[] sequence = {
 			new InstantCommand(() -> RobotContainer.drivetrainSubsystem.seedFieldRelative(loader.getFirstTrajectory())),
-			new ParallelCommandGroup(new RevUpCommand(true, ShooterConstants.shootDps).withTimeout(2),
+			new ParallelCommandGroup(new RevUpCommand(false, ShooterConstants.shootDps).withTimeout(12),
 
 					new SequentialCommandGroup(new WaitCommand(1), new ShootCommand().withTimeout(1)),
 					new SequentialCommandGroup(new WaitCommand(10), new ShootCommand().withTimeout(1)),

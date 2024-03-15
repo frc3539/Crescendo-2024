@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.FeedbackConfigs;
 import com.ctre.phoenix6.configs.HardwareLimitSwitchConfigs;
 import com.ctre.phoenix6.configs.MagnetSensorConfigs;
@@ -107,6 +108,15 @@ public class ShooterSubsystem extends SubsystemBase {
 				.apply(new SlotConfigs().withKP(ShooterConstants.angleShooterP).withKI(ShooterConstants.angleShooterI)
 						.withKD(ShooterConstants.angleShooterD).withKV(ShooterConstants.angleShooterV)
 						.withKG(ShooterConstants.angleShooterG).withGravityType(GravityTypeValue.Arm_Cosine));
+
+		topMotor.getConfigurator()
+				.apply(new CurrentLimitsConfigs().withSupplyCurrentLimit(45).withSupplyCurrentLimitEnable(true));
+
+		bottomMotor.getConfigurator()
+				.apply(new CurrentLimitsConfigs().withSupplyCurrentLimit(45).withSupplyCurrentLimitEnable(true));
+
+		feedMotor.getConfigurator()
+				.apply(new CurrentLimitsConfigs().withSupplyCurrentLimit(45).withSupplyCurrentLimitEnable(true));
 
 		topMotor.getConfigurator()
 				.apply(new SlotConfigs().withKP(ShooterConstants.shootP).withKV(ShooterConstants.shootV));

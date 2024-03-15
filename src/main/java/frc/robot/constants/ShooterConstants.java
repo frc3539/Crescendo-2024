@@ -27,7 +27,7 @@ public class ShooterConstants extends BBConstants {
 	public static double elevatorSoftMax = 50.0;
 	public static double angleMotorToEncoder = 81.0;
 	public static double elevatorMotorToInches = 0.1598888;
-	public static double shooterAngleOffset = -0.599933;
+	public static double shooterAngleOffset = -0.6031;
 	public static double minElevatorMoveAngle = 0.0;
 	public static double shootP = 0.25;
 	public static double shootV = 0.125;

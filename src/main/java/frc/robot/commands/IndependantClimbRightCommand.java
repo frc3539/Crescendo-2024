@@ -22,7 +22,7 @@ public class IndependantClimbRightCommand extends Command {
 	@Override
 	public void execute() {
 		RobotContainer.climberSubsystem
-				.setRightClimbMotorVoltage(2 * RobotContainer.operatorController.getRightTriggerAxis());
+				.setRightClimbMotorVoltage(3 * RobotContainer.operatorController.getRightTriggerAxis());
 	}
 
 	// Called once the command ends or is interrupted.

@@ -21,22 +21,22 @@ import org.frcteam3539.Byte_Swerve_Lib.io.BBMPLoader;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class BlueRightFar extends SequentialCommandGroup {
-	BBMPLoader loader = new BBMPLoader("/home/lvuser/profiles/BlueShootDrive.txt", false);
+public class RedLeftFar extends SequentialCommandGroup {
+	BBMPLoader loader = new BBMPLoader("/home/lvuser/profiles/RedLeftFar.txt", false);
 
 	private Command[] sequence = {
 			new InstantCommand(() -> RobotContainer.drivetrainSubsystem.seedFieldRelative(loader.getFirstTrajectory())),
-			new ParallelCommandGroup(new RevUpCommand(true, ShooterConstants.shootDps).withTimeout(2),
+			new ParallelCommandGroup(new RevUpCommand(false, ShooterConstants.shootDps).withTimeout(12),
 
 					new SequentialCommandGroup(new WaitCommand(1), new ShootCommand().withTimeout(1)),
 					new SequentialCommandGroup(new WaitCommand(10), new ShootCommand().withTimeout(1)),
 
-					new SequentialCommandGroup(new WaitCommand(5),
-							new IntakeCommand(true, IntakeMode.FRONT).withTimeout(1)),
+					new SequentialCommandGroup(new WaitCommand(8),
+							new IntakeCommand(true, IntakeMode.FRONT).withTimeout(3)),
 					new SequentialCommandGroup(new WaitCommand(3), new FollowTrajectoryCommand(
 							RobotContainer.drivetrainSubsystem, loader.getNextTrajectory())))};
 	/** Creates a new RedShootDrive. */
-	public BlueRightFar() {
+	public RedLeftFar() {
 		addCommands(sequence);
 	}
 }
