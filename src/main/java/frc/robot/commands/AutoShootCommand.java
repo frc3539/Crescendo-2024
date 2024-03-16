@@ -17,6 +17,7 @@ public class AutoShootCommand extends Command {
 	// Called when the command is initially scheduled.
 	@Override
 	public void initialize() {
+		RobotContainer.ledSubsystem.setAutoShooting(true);
 		// RobotContainer.shooterSubsystem
 		// .setTopMotorSpeed(BBMath.getRps(ShooterConstants.shootDps,
 		// ShooterConstants.shootWheelDiameter));
@@ -55,11 +56,14 @@ public class AutoShootCommand extends Command {
 		RobotContainer.shooterSubsystem.setTopMotorVoltage(0);
 		RobotContainer.shooterSubsystem.setBottomMotorVoltage(0);
 		RobotContainer.shooterSubsystem.setFeedMotorVoltage(0);
+		RobotContainer.ledSubsystem.setAutoShooting(false);
+
 	}
 
 	// Returns true when the command should end.
 	@Override
 	public boolean isFinished() {
 		return false;
+
 	}
 }

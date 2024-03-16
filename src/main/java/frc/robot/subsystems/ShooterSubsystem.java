@@ -26,6 +26,8 @@ import com.ctre.phoenix6.signals.SensorDirectionValue;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 import frc.robot.constants.IDConstants;
@@ -205,9 +207,16 @@ public class ShooterSubsystem extends SubsystemBase {
 		requestedElevatorPos = getElevatorPosition();
 	}
 	public double getEstimatedShooterAngle() {
-		double distanceToTarget = RobotContainer.drivetrainSubsystem.getPose2d().getTranslation()
-				.getDistance(blueSpeakerCoordinate);
-		org.littletonrobotics.junction.Logger.recordOutput("/Drivetrain/DistanceToTarget", distanceToTarget);
+		double distanceToTarget = 0;
+		if (DriverStation.getAlliance().get() == Alliance.Red) {
+			distanceToTarget = RobotContainer.drivetrainSubsystem.getPose2d().getTranslation()
+					.getDistance(redSpeakerCoordinate);
+			org.littletonrobotics.junction.Logger.recordOutput("/Drivetrain/DistanceToTarget", distanceToTarget);
+		} else {
+			distanceToTarget = RobotContainer.drivetrainSubsystem.getPose2d().getTranslation()
+					.getDistance(blueSpeakerCoordinate);
+			org.littletonrobotics.junction.Logger.recordOutput("/Drivetrain/DistanceToTarget", distanceToTarget);
+		}
 		// double angleToTarget = (Math.atan2(0.64135 - 2.0452 + targetZOffset,
 		// distanceToTarget - 0.3048 - 0.2286)
 		// + Math.toRadians(0 - Math.min(Math.max(0, distanceToTarget - 0.3048 - 1) * 1,
@@ -215,7 +224,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
 		double angleToTarget = -101 + 42.6667 * distanceToTarget - 8.25 * Math.pow(distanceToTarget, 2)
 				+ 0.5833 * Math.pow(distanceToTarget, 3);
-		angleToTarget = Math.max(angleToTarget - 1.5, -55);
+		angleToTarget = Math.max(angleToTarget, -55);
 
 		return angleToTarget;
 

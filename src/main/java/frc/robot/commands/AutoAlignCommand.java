@@ -50,7 +50,7 @@ public class AutoAlignCommand extends Command {
 			case TRAP :
 
 				points.add(new Pose2d(4.244, 5.136, Rotation2d.fromDegrees(120)));
-				points.add(new Pose2d(4.294, 3.057, Rotation2d.fromDegrees(-120)));
+				points.add(new Pose2d(4.273, 2.972, Rotation2d.fromDegrees(-120)));
 				points.add(new Pose2d(6.053, 4.105, Rotation2d.fromDegrees(0)));
 
 				break;

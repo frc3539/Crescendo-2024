@@ -13,6 +13,8 @@ import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
 import frc.robot.constants.DrivetrainConstants;
@@ -80,15 +82,23 @@ public class DriveCommand extends Command {
 							* rotationSpeedMultiplier);
 		}
 		if (RobotContainer.driverButtonA.getAsBoolean()) {
-
-			rotationController.setSetpoint(RobotContainer.drivetrainSubsystem.getPose2d().getTranslation()
-					.minus(blueSpeakerCoordinate).getAngle().getRadians());
+			RobotContainer.ledSubsystem.setShootAligning(true);
+			if (DriverStation.getAlliance().get() == Alliance.Red) {
+				rotationController.setSetpoint(RobotContainer.drivetrainSubsystem.getPose2d().getTranslation()
+						.minus(redSpeakerCoordinate).getAngle().getRadians());
+			} else {
+				rotationController.setSetpoint(RobotContainer.drivetrainSubsystem.getPose2d().getTranslation()
+						.minus(blueSpeakerCoordinate).getAngle().getRadians());
+			}
 			driveRobotCentric.withRotationalRate(rotationController
 					.calculate(RobotContainer.drivetrainSubsystem.getPose2d().getRotation().getRadians(), 0.02)
 					* maxRotationalVelocity * .3);
 			driveFieldCentric.withRotationalRate(rotationController
 					.calculate(RobotContainer.drivetrainSubsystem.getPose2d().getRotation().getRadians(), 0.02)
 					* maxRotationalVelocity * .3);
+
+		} else {
+			RobotContainer.ledSubsystem.setShootAligning(false);
 
 		}
 

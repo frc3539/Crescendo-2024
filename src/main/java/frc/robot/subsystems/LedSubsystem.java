@@ -20,6 +20,8 @@ public class LedSubsystem extends SubsystemBase {
 	boolean intaking;
 	boolean enabled;
 	boolean aligning;
+	boolean autoShooting;
+	boolean shootAligning;
 	CANdle candle;
 
 	public LedSubsystem(boolean enabled) {
@@ -33,7 +35,7 @@ public class LedSubsystem extends SubsystemBase {
 	}
 
 	public enum LEDState {
-		ON, OFF, READY, INTAKING, INTAKING_EMPTY, SHOOTING, PREPARED, CLIMBING, AUTO
+		ON, OFF, READY, INTAKING, INTAKING_EMPTY, SHOOTING, PREPARED, CLIMBING, AUTO, ERROR
 	}
 
 	public LEDState state;
@@ -84,6 +86,10 @@ public class LedSubsystem extends SubsystemBase {
 				candle.animate(new StrobeAnimation(LedConstants.Blue.getRed(), LedConstants.Blue.getGreen(),
 						LedConstants.Blue.getBlue(), 0, LedConstants.flashSpeed, LedConstants.numLights));
 				break;
+			case ERROR :
+				candle.animate(null);
+				candle.setLEDs(255, 0, 0, 0, 0, LedConstants.numLights);
+				break;
 
 			default :
 				break;
@@ -95,9 +101,25 @@ public class LedSubsystem extends SubsystemBase {
 	public void setAligning(boolean aligning) {
 		this.aligning = aligning;
 	}
+	public void setAutoShooting(boolean autoShooting) {
+		this.autoShooting = autoShooting;
+	}
+	public void setShootAligning(boolean shootAligning) {
+		this.shootAligning = shootAligning;
+	}
 
 	@Override
 	public void periodic() {
+		if (autoShooting && !RobotContainer.visionSubsystem.backLeftCam.isConnected()
+				&& !RobotContainer.visionSubsystem.backRightCam.isConnected()) {
+			setLEDs(LEDState.ERROR);
+			return;
+		}
+		if (shootAligning && !RobotContainer.visionSubsystem.backLeftCam.isConnected()
+				&& !RobotContainer.visionSubsystem.backRightCam.isConnected()) {
+			setLEDs(LEDState.ERROR);
+			return;
+		}
 		if (aligning) {
 			setLEDs(LEDState.AUTO);
 			return;
