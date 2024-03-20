@@ -10,11 +10,16 @@ import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+
+import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.IDConstants;
 
 public class ClimberSubsystem extends SubsystemBase {
 	private TalonFX leftClimbMotor, rightClimbMotor;
+	private Servo leftServo, rightServo;
+	private double leftServoPosition = 1;
+	private double rightServoPosition = 0;
 
 	public ClimberSubsystem() {
 		MotorOutputConfigs rightOutputConfig = new MotorOutputConfigs();
@@ -32,6 +37,10 @@ public class ClimberSubsystem extends SubsystemBase {
 		leftClimbMotor.getConfigurator().apply(leftOutputConfig);
 		rightClimbMotor = new TalonFX(IDConstants.rightClimbMotorID, "rio");
 		rightClimbMotor.getConfigurator().apply(rightOutputConfig);
+
+		leftServo = new Servo(IDConstants.leftServoChannel);
+		rightServo = new Servo(IDConstants.rightServoChannel);
+
 		// buddyClimbMotor = new TalonFX(IDConstants.buddyClimbMotorID, "rio");
 		// buddyClimbMotor.getConfigurator().apply(buddyOutputConfig);
 
@@ -55,6 +64,12 @@ public class ClimberSubsystem extends SubsystemBase {
 		rightClimbMotor.setControl(new VoltageOut(voltage).withEnableFOC(true));
 	}
 
+	public void setLeftServoPosition(double position) {
+		leftServoPosition = position;
+	}
+	public void setRightServoPosition(double position) {
+		rightServoPosition = position;
+	}
 	// public void setBuddyClimbMotorSpeed(double rps) {
 	// buddyClimbMotor.setControl(new VelocityVoltage(rps).withEnableFOC(true));
 	// }
@@ -82,6 +97,8 @@ public class ClimberSubsystem extends SubsystemBase {
 
 	@Override
 	public void periodic() {
+		leftServo.set(leftServoPosition);
+		rightServo.set(rightServoPosition);
 		// This method will be called once per scheduler run
 	}
 }

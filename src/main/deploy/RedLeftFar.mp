@@ -1,11 +1,11 @@
 {
   "name": "RedLeftFar",
-  "edited": "03/13/24, 08:44:28 PM",
+  "edited": "03/16/24, 05:46:37 PM",
   "isRed": true,
   "paths": [
     {
       "name": "Path 1",
-      "id": "1aac5682-3564-4a6f-bf67-6bc84c2e208f",
+      "id": "05b2e970-0a94-4837-a43c-19a7aac08a2e",
       "isSpline": true,
       "maxVelocity": 2.0,
       "maxAcceleration": 1.0,
@@ -49,9 +49,9 @@
           "id": "8a81bfeb-32f3-478a-920d-8ac711f9b779"
         },
         {
-          "x": 3.786,
+          "x": 3.81,
           "y": 0.774,
-          "rotation": 60.0,
+          "rotation": 66.0,
           "id": "c642ceb7-4905-4968-bfcd-24799271eb59"
         }
       ]

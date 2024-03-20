@@ -26,13 +26,13 @@ public class BlueRightFar extends SequentialCommandGroup {
 
 	private Command[] sequence = {
 			new InstantCommand(() -> RobotContainer.drivetrainSubsystem.seedFieldRelative(loader.getFirstTrajectory())),
-			new ParallelCommandGroup(new RevUpCommand(false, ShooterConstants.shootDps).withTimeout(12),
+			new ParallelCommandGroup(new RevUpCommand(false, ShooterConstants.shootDps).withTimeout(15),
 
 					new SequentialCommandGroup(new WaitCommand(1), new ShootCommand().withTimeout(1)),
-					new SequentialCommandGroup(new WaitCommand(10), new ShootCommand().withTimeout(1)),
+					new SequentialCommandGroup(new WaitCommand(14), new ShootCommand().withTimeout(1)),
 
-					new SequentialCommandGroup(new WaitCommand(5),
-							new IntakeCommand(true, IntakeMode.FRONT).withTimeout(1)),
+					new SequentialCommandGroup(new WaitCommand(8),
+							new IntakeCommand(true, IntakeMode.FRONT).withTimeout(4)),
 					new SequentialCommandGroup(new WaitCommand(3), new FollowTrajectoryCommand(
 							RobotContainer.drivetrainSubsystem, loader.getNextTrajectory())))};
 	/** Creates a new RedShootDrive. */

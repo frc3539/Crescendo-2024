@@ -102,6 +102,7 @@ public class RobotContainer {
 		SmartDashboard.putData(chooser);
 	}
 	private void configureBindings() {
+
 		operatorController.leftBumper().whileTrue(new RevUpCommand(false, ShooterConstants.shootDps));
 		operatorController.rightBumper().whileTrue(new ShootCommand());
 		// operatorController.povUp().whileTrue(new IntakeCommand());
@@ -116,6 +117,10 @@ public class RobotContainer {
 		operatorController.b().whileTrue(new AutoShootCommand().finallyDo(() -> {
 			CommandScheduler.getInstance().schedule(new HomePositionCommand());
 		}));
+		operatorController.leftStick().whileTrue(new AngleShooterCommand(5)
+				.alongWith(new RevUpCommand(false, ShooterConstants.shootDps)).finallyDo(() -> {
+					CommandScheduler.getInstance().schedule(new HomePositionCommand());
+				}));
 		// operatorController.a().whileTrue(new AngleShooterCommand(-29.5));
 		operatorController.start().whileTrue(new AutoClimbCommand());
 		// operatorController.y().onTrue(new SetElevatorCommand(8));
@@ -125,7 +130,9 @@ public class RobotContainer {
 		operatorController.y().whileTrue(new TrapCommand().finallyDo(() -> {
 			CommandScheduler.getInstance().schedule(new HomePositionCommand());
 		}));
-		operatorController.povLeft().onTrue(new ClimbPositionCommand());
+		// operatorController.povLeft().onTrue(new ClimbPositionCommand());
+		operatorController.povLeft().whileTrue(new ReleaseStabbyFeet());
+
 		operatorController.povRight().onTrue(new HomePositionCommand());
 
 		// operatorController.start().whileTrue(new BuddyClimbCommand());
