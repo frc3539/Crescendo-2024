@@ -83,7 +83,7 @@ public class DriveCommand extends Command {
 		}
 		if (RobotContainer.driverButtonA.getAsBoolean()) {
 			RobotContainer.ledSubsystem.setShootAligning(true);
-			if (DriverStation.getAlliance().get() == Alliance.Red) {
+			if (DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == Alliance.Red) {
 				rotationController.setSetpoint(RobotContainer.drivetrainSubsystem.getPose2d().getTranslation()
 						.minus(redSpeakerCoordinate).getAngle().getRadians());
 			} else {
@@ -92,10 +92,10 @@ public class DriveCommand extends Command {
 			}
 			driveRobotCentric.withRotationalRate(rotationController
 					.calculate(RobotContainer.drivetrainSubsystem.getPose2d().getRotation().getRadians(), 0.02)
-					* maxRotationalVelocity * .3);
+					* maxRotationalVelocity * .3).withRotationalDeadband(0);
 			driveFieldCentric.withRotationalRate(rotationController
 					.calculate(RobotContainer.drivetrainSubsystem.getPose2d().getRotation().getRadians(), 0.02)
-					* maxRotationalVelocity * .3);
+					* maxRotationalVelocity * .3).withRotationalDeadband(0);
 
 		} else {
 			RobotContainer.ledSubsystem.setShootAligning(false);

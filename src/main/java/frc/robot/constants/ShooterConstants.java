@@ -11,11 +11,11 @@ public class ShooterConstants extends BBConstants {
 	public static double shootDps = 1000.0;
 	public static double feedDps = 1000.0;
 	public static double elevatorDps = 0.0;
-	public static double angleShooterP = 300.0;
+	public static double angleShooterP = 120;
 	public static double angleShooterI = 0.0;
 	public static double angleShooterD = 0.0;
 	public static double angleShooterV = 12.0;
-	public static double angleShooterG = 0.24;
+	public static double angleShooterG = 0.29;
 	public static double angleShooterSoftMin = -0.118;
 	public static double angleShooterSoftMax = 0.25;
 	public static double elevatorMotorP = 12.0;
@@ -40,4 +40,4 @@ public class ShooterConstants extends BBConstants {
 	public static double ampDps = 250.0;
 	public static double shooterRestingRotations = -0.118;
 	public static int UseForwardLimitForReverse = 1;
-}
+}

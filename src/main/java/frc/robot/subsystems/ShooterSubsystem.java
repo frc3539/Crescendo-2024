@@ -208,7 +208,7 @@ public class ShooterSubsystem extends SubsystemBase {
 	}
 	public double getEstimatedShooterAngle() {
 		double distanceToTarget = 0;
-		if (DriverStation.getAlliance().get() == Alliance.Red) {
+		if (DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == Alliance.Red) {
 			distanceToTarget = RobotContainer.drivetrainSubsystem.getPose2d().getTranslation()
 					.getDistance(redSpeakerCoordinate);
 			SmartDashboard.putNumber("/Drivetrain/DistanceToTarget", distanceToTarget);

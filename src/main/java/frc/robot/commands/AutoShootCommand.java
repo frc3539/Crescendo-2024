@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
+import frc.robot.constants.IntakeConstants;
 
 public class AutoShootCommand extends Command {
 
@@ -47,6 +48,13 @@ public class AutoShootCommand extends Command {
 		// ShooterConstants.feedWheelDiameter));
 		double angleToTarget = RobotContainer.shooterSubsystem.getEstimatedShooterAngle();
 		RobotContainer.shooterSubsystem.setShooterAngle(angleToTarget);
+		if (!RobotContainer.rightOperatorBumper.getAsBoolean()) {
+			if (angleToTarget > -50) {
+				RobotContainer.intakeSubsystem.setChamberMotorSpeed(IntakeConstants.intakeDps / 30);
+			} else {
+				RobotContainer.intakeSubsystem.setChamberMotorVoltage(0);
+			}
+		}
 
 	}
 
@@ -56,6 +64,9 @@ public class AutoShootCommand extends Command {
 		RobotContainer.shooterSubsystem.setTopMotorVoltage(0);
 		RobotContainer.shooterSubsystem.setBottomMotorVoltage(0);
 		RobotContainer.shooterSubsystem.setFeedMotorVoltage(0);
+		if (!RobotContainer.rightOperatorBumper.getAsBoolean()) {
+			RobotContainer.intakeSubsystem.setChamberMotorVoltage(0);
+		}
 		RobotContainer.ledSubsystem.setAutoShooting(false);
 
 	}

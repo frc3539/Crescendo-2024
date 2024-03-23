@@ -47,7 +47,7 @@ public class RobotContainer {
 
 	public static TunerConstants tunerConstants = new TunerConstants();
 
-	public static CommandSwerveDrivetrain drivetrainSubsystem = TunerConstants.DriveTrain; // TunerConstants.DriveTrain
+	public static CommandSwerveDrivetrain drivetrainSubsystem = TunerConstantsComp.DriveTrain; // TunerConstants.DriveTrain
 	public static IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
 
 	public static ClimberSubsystem climberSubsystem = new ClimberSubsystem();
@@ -65,6 +65,7 @@ public class RobotContainer {
 	public static Trigger rightDriverTrigger = driverController.rightTrigger(0.5);
 	public static Trigger rightDriverBumper = driverController.rightBumper();
 	public static Trigger driverButtonA = driverController.a();
+	public static Trigger rightOperatorBumper = operatorController.rightBumper();
 
 	public static SendableChooser<Command> chooser = new SendableChooser<Command>();
 
@@ -104,7 +105,7 @@ public class RobotContainer {
 	private void configureBindings() {
 
 		operatorController.leftBumper().whileTrue(new RevUpCommand(false, ShooterConstants.shootDps));
-		operatorController.rightBumper().whileTrue(new ShootCommand());
+		rightOperatorBumper.whileTrue(new ShootCommand());
 		// operatorController.povUp().whileTrue(new IntakeCommand());
 		operatorController.povUp().whileTrue(new IntakeCommand(true, IntakeMode.FRONT));
 		operatorController.povDown().whileTrue(new IntakeCommand(true, IntakeMode.BACK));

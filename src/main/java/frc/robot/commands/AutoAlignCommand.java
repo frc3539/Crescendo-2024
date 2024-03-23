@@ -30,7 +30,8 @@ public class AutoAlignCommand extends Command {
 
 		switch (position) {
 			case AMP :
-				if (DriverStation.getAlliance().get() == Alliance.Blue) {
+
+				if (DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == Alliance.Blue) {
 					points.add(new Pose2d(1.8415, 7.75335, Rotation2d.fromDegrees(90)));
 
 				} else {
@@ -39,7 +40,7 @@ public class AutoAlignCommand extends Command {
 				}
 				break;
 			case SPEAKER :
-				if (DriverStation.getAlliance().get() == Alliance.Blue) {
+				if (DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == Alliance.Blue) {
 					points.add(new Pose2d(5.54, 1.3728, Rotation2d.fromDegrees(90)));
 
 				} else {
