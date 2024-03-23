@@ -35,7 +35,7 @@ public class LedSubsystem extends SubsystemBase {
 	}
 
 	public enum LEDState {
-		ON, OFF, READY, INTAKING, INTAKING_EMPTY, SHOOTING, PREPARED, CLIMBING, AUTO, ERROR
+		ON, OFF, READY, INTAKING, INTAKING_EMPTY, SHOOTING, PREPARED, CLIMBING, AUTO, ERROR, FRONT, BACK
 	}
 
 	public LEDState state;
@@ -90,6 +90,14 @@ public class LedSubsystem extends SubsystemBase {
 				candle.animate(null);
 				candle.setLEDs(255, 0, 0, 0, 0, LedConstants.numLights);
 				break;
+			case FRONT :
+				candle.animate(new StrobeAnimation(LedConstants.Yellow.getRed(), LedConstants.Yellow.getGreen(),
+						LedConstants.Yellow.getBlue(), 0, LedConstants.flashSpeed, LedConstants.numLights));
+				break;
+			case BACK :
+				candle.animate(new StrobeAnimation(LedConstants.Yellow.getRed(), LedConstants.Yellow.getGreen(),
+						LedConstants.Yellow.getBlue(), 0, LedConstants.flashSpeed, LedConstants.numLights));
+				break;
 
 			default :
 				break;
@@ -135,11 +143,22 @@ public class LedSubsystem extends SubsystemBase {
 				return;
 			}
 		}
+		if (RobotContainer.intakeSubsystem.getFrontSensor()) {
+
+			setLEDs(LEDState.FRONT);
+			return;
+
+		} else if (RobotContainer.intakeSubsystem.getBackSensor()) {
+
+			setLEDs(LEDState.BACK);
+			return;
+		}
 		if (this.intaking) {
 			if (RobotContainer.intakeSubsystem.getChamberSensor()) {
 
 				setLEDs(LEDState.INTAKING);
 				return;
+
 			} else {
 				setLEDs(LEDState.INTAKING_EMPTY);
 				return;

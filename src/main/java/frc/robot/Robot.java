@@ -4,9 +4,10 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import org.littletonrobotics.junction.LoggedRobot;
+import frc.robot.commands.HomePositionCommand;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -15,7 +16,7 @@ import org.littletonrobotics.junction.LoggedRobot;
  * creating this project, you must also update the build.gradle file in the
  * project.
  */
-public class Robot extends LoggedRobot {
+public class Robot extends TimedRobot {
 	private Command autonomousCommand;
 
 	public RobotContainer robotContainer;
@@ -94,6 +95,9 @@ public class Robot extends LoggedRobot {
 		if (autonomousCommand != null) {
 			autonomousCommand.cancel();
 		}
+
+		HomePositionCommand command = new HomePositionCommand();
+		command.schedule();
 	}
 
 	/** This function is called periodically during operator control. */

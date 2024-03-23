@@ -16,14 +16,13 @@ import frc.robot.autons.BlueShootDrive;
 import frc.robot.autons.BlueShootLeft;
 import frc.robot.autons.Red4Piece;
 import frc.robot.autons.RedLeftFar;
-import frc.robot.autons.RedShootDrive;
+import frc.robot.autons.*;
 import frc.robot.autons.RedShootRight;
 import frc.robot.commands.*;
 import frc.robot.commands.AutoAlignCommand.TagPosition;
 import frc.robot.commands.IntakeCommand.IntakeMode;
 import frc.robot.constants.*;
-import frc.robot.generated.TunerConstants;
-import frc.robot.generated.TunerConstantsComp;
+import frc.robot.generated.*;
 import frc.robot.subsystems.*;
 import frc.robot.utilities.LogController;
 import frc.robot.subsystems.LedSubsystem;
@@ -48,7 +47,7 @@ public class RobotContainer {
 
 	public static TunerConstants tunerConstants = new TunerConstants();
 
-	public static CommandSwerveDrivetrain drivetrainSubsystem = TunerConstantsComp.DriveTrain; // TunerConstants.DriveTrain
+	public static CommandSwerveDrivetrain drivetrainSubsystem = TunerConstants.DriveTrain; // TunerConstants.DriveTrain
 	public static IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
 
 	public static ClimberSubsystem climberSubsystem = new ClimberSubsystem();
@@ -91,6 +90,7 @@ public class RobotContainer {
 	private void putAutons() {
 		chooser.setDefaultOption("Blue Shoot and Drive", new BlueShootDrive());
 		chooser.addOption("Blue 4 Piece Center", new Blue4Piece());
+		chooser.addOption("Blue 5 Piece Center", new Blue5Piece());
 		chooser.addOption("Blue Shoot Left", new BlueShootLeft());
 		chooser.addOption("Blue Shoot Right Far", new BlueRightFar());
 
@@ -131,7 +131,7 @@ public class RobotContainer {
 			CommandScheduler.getInstance().schedule(new HomePositionCommand());
 		}));
 		// operatorController.povLeft().onTrue(new ClimbPositionCommand());
-		operatorController.povLeft().whileTrue(new ReleaseStabbyFeet());
+		operatorController.povLeft().whileTrue(new ClimbPositionCommand());
 
 		operatorController.povRight().onTrue(new HomePositionCommand());
 

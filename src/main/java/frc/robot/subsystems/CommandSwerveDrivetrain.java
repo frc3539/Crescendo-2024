@@ -15,7 +15,9 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.Robot;
 import frc.robot.constants.DrivetrainConstants;
@@ -26,7 +28,6 @@ import org.frcteam3539.Byte_Swerve_Lib.control.PidConstants;
 import org.frcteam3539.Byte_Swerve_Lib.control.Trajectory;
 import org.frcteam3539.Byte_Swerve_Lib.util.DrivetrainFeedforwardConstants;
 import org.frcteam3539.Byte_Swerve_Lib.util.HolonomicFeedforward;
-import org.littletonrobotics.junction.Logger;
 
 public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsystem {
 	/** Creates a new DrivetrainSubsystem. */
@@ -49,8 +50,8 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
 		for (int i = 0; i < modules.length; i++) {
 			moduleLocations[i] = new Translation2d(modules[i].LocationX, modules[i].LocationY);
 			this.Modules[i].getDriveMotor().getConfigurator()
-					.apply(new CurrentLimitsConfigs().withSupplyCurrentLimit(50).withSupplyCurrentLimitEnable(true)
-							.withSupplyCurrentThreshold(50).withSupplyTimeThreshold(1)
+					.apply(new CurrentLimitsConfigs().withSupplyCurrentLimit(40).withSupplyCurrentLimitEnable(true)
+							.withSupplyCurrentThreshold(40).withSupplyTimeThreshold(0)
 							.withStatorCurrentLimit(modules[i].SlipCurrent).withStatorCurrentLimitEnable(true));
 		}
 
@@ -99,7 +100,7 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
 	}
 
 	public void log() {
-		Logger.recordOutput("/DriveTrain/RobotRoll", getRobotRoll().getDegrees());
+		SmartDashboard.putNumber("/DriveTrain/RobotRoll", getRobotRoll().getDegrees());
 		VisionSubsystem.publishPose2d("/DriveTrain/Pose", getPose2d());
 
 		// Pose2d trajectory = follower.getLastState() != null
@@ -113,7 +114,7 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
 
 		SwerveRequest request = new SwerveRequest.Idle();
 
-		var driveSignalOpt = follower.update(getPose2d(), Timer.getFPGATimestamp(), Robot.defaultPeriodSecs);
+		var driveSignalOpt = follower.update(getPose2d(), Timer.getFPGATimestamp(), Robot.kDefaultPeriod);
 
 		// If we should be running a profile use those chassisspeeds instead.
 		if (driveSignalOpt.isPresent()) {
@@ -125,5 +126,7 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
 
 		this.setControl(request);
 		// This method will be called once per scheduler run
+		SmartDashboard.putNumber("/DriveTrain/BatteryVoltage", RobotController.getBatteryVoltage());
+
 	}
 }

@@ -2,20 +2,14 @@ package frc.robot.utilities;
 
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
-import frc.robot.Robot;
 import frc.robot.RobotContainer;
-import org.littletonrobotics.junction.LogFileUtil;
-import org.littletonrobotics.junction.Logger;
-import org.littletonrobotics.junction.networktables.NT4Publisher;
-import org.littletonrobotics.junction.wpilog.WPILOGReader;
-import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 
 public class LogController {
 	// +-----------------------------------+
 	// | SET ROBOT LOGGING SETTINGS HERE :> |
 	// +-----------------------------------
 
-	public static boolean USE_LOGGING = false;
+	public static boolean USE_LOGGING = true;
 
 	static boolean LOG_DRIVE_SUBSYSTEM = true;
 	static boolean LOG_INTAKE_SUBSYSTEM = true;
@@ -36,25 +30,26 @@ public class LogController {
 		if (!USE_LOGGING)
 			return;
 
-		Logger.recordMetadata("TeamYear", "FRC3539-2024"); // Set a metadata value
-
-		if (Robot.isReal()) {
-			if (SAVE_TO_FILE)
-				Logger.addDataReceiver(new WPILOGWriter(LOG_FILE_PATH));
-			if (USE_NETWORK_TABLES)
-				Logger.addDataReceiver(new NT4Publisher());
-		} else {
-			String logPath = LogFileUtil.findReplayLog(); // Pull the replay log from AdvantageScope (or prompt the
-															// user)
-			Logger.setReplaySource(new WPILOGReader(logPath)); // Read replay log
-			Logger.addDataReceiver(new WPILOGWriter(LogFileUtil.addPathSuffix(logPath, "_sim"))); // Save outputs to a
-																									// new log
-		}
+		// if (Robot.isReal()) {
+		// if (SAVE_TO_FILE)
+		// Logger.addDataReceiver(new WPILOGWriter(LOG_FILE_PATH));
+		// if (USE_NETWORK_TABLES)
+		// Logger.addDataReceiver(new NT4Publisher());
+		// } else {
+		// String logPath = LogFileUtil.findReplayLog(); // Pull the replay log from
+		// AdvantageScope (or prompt the
+		// // user)
+		// Logger.setReplaySource(new WPILOGReader(logPath)); // Read replay log
+		// Logger.addDataReceiver(new WPILOGWriter(LogFileUtil.addPathSuffix(logPath,
+		// "_sim"))); // Save outputs to a
+		// // new log
+		// }
 
 		// logger.disableDeterministicTimestamps() // See "Deterministic Timestamps" in
 		// the
 		// "Understanding Data Flow" page
-		Logger.start(); // Start logging! No more data receivers, replay sources, or metadata values may
+		// Logger.start(); // Start logging! No more data receivers, replay sources, or
+		// metadata values may
 		// be added.
 
 		DriverStation.startDataLog(DataLogManager.getLog());

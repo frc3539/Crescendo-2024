@@ -15,10 +15,10 @@ import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotContainer;
 import java.util.Optional;
 import org.ejml.simple.SimpleMatrix;
-import org.littletonrobotics.junction.Logger;
 import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
@@ -119,7 +119,7 @@ public class VisionSubsystem extends Thread {
 	}
 
 	public static void publishPose2d(String key, Pose2d pose) {
-		Logger.recordOutput(key, new double[]{pose.getTranslation().getX(), pose.getTranslation().getY(),
+		SmartDashboard.putNumberArray(key, new double[]{pose.getTranslation().getX(), pose.getTranslation().getY(),
 				pose.getRotation().getRadians()});
 	}
 
@@ -129,12 +129,10 @@ public class VisionSubsystem extends Thread {
 	}
 
 	public void log() {
-		Logger.recordOutput("/Vision/BackLeft/Connected", backLeftCam.isConnected());
-		Logger.recordOutput("/Vision/BackRight/Connected", backRightCam.isConnected());
-		// Logger.recordOutput("/Vision/FrontLeft/Connected",
-		// frontLeftCam.isConnected());
-		// Logger.recordOutput("/Vision/FrontRight/Connected",
-		// frontRightCam.isConnected());
+		SmartDashboard.putBoolean("/Vision/BackLeft/Connected", backLeftCam.isConnected());
+		SmartDashboard.putBoolean("/Vision/BackRight/Connected", backRightCam.isConnected());
+		SmartDashboard.putBoolean("/Vision/FrontLeft/Connected", frontLeftCam.isConnected());
+		SmartDashboard.putBoolean("/Vision/FrontRight/Connected", frontRightCam.isConnected());
 
 	}
 	@Override
@@ -235,7 +233,7 @@ public class VisionSubsystem extends Thread {
 
 					if (camPoseBackLeft.timestampSeconds != backLeftLastTimeStamp) {
 						publishPose2d("/DriveTrain/BackLeftCamPose", camPoseBackLeft.estimatedPose.toPose2d());
-						Logger.recordOutput("/Vision/BackLeftWeights", weights.toString());
+						SmartDashboard.putString("/Vision/BackLeftWeights", weights.toString());
 						RobotContainer.drivetrainSubsystem.addVisionMeasurement(
 								camPoseBackLeft.estimatedPose.toPose2d(), camPoseBackLeft.timestampSeconds, weights);
 
@@ -259,7 +257,7 @@ public class VisionSubsystem extends Thread {
 
 					if (camPoseBackRight.timestampSeconds != backRightLastTimeStamp) {
 						publishPose2d("/DriveTrain/BackRightCamPose", camPoseBackRight.estimatedPose.toPose2d());
-						Logger.recordOutput("/Vision/BackRightWeights", weights.toString());
+						SmartDashboard.putString("/Vision/BackRightWeights", weights.toString());
 						RobotContainer.drivetrainSubsystem.addVisionMeasurement(
 								camPoseBackRight.estimatedPose.toPose2d(), camPoseBackRight.timestampSeconds, weights);
 					}

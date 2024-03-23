@@ -28,12 +28,12 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 import frc.robot.constants.IDConstants;
 import frc.robot.constants.IntakeConstants;
 import frc.robot.constants.ShooterConstants;
-import org.littletonrobotics.junction.Logger;
 
 public class ShooterSubsystem extends SubsystemBase {
 	double targetZOffset = -0.0254;
@@ -211,11 +211,11 @@ public class ShooterSubsystem extends SubsystemBase {
 		if (DriverStation.getAlliance().get() == Alliance.Red) {
 			distanceToTarget = RobotContainer.drivetrainSubsystem.getPose2d().getTranslation()
 					.getDistance(redSpeakerCoordinate);
-			org.littletonrobotics.junction.Logger.recordOutput("/Drivetrain/DistanceToTarget", distanceToTarget);
+			SmartDashboard.putNumber("/Drivetrain/DistanceToTarget", distanceToTarget);
 		} else {
 			distanceToTarget = RobotContainer.drivetrainSubsystem.getPose2d().getTranslation()
 					.getDistance(blueSpeakerCoordinate);
-			org.littletonrobotics.junction.Logger.recordOutput("/Drivetrain/DistanceToTarget", distanceToTarget);
+			SmartDashboard.putNumber("/Drivetrain/DistanceToTarget", distanceToTarget);
 		}
 		// double angleToTarget = (Math.atan2(0.64135 - 2.0452 + targetZOffset,
 		// distanceToTarget - 0.3048 - 0.2286)
@@ -231,15 +231,15 @@ public class ShooterSubsystem extends SubsystemBase {
 	}
 
 	public void log() {
-		Logger.recordOutput("/Shooter/ShooterSensor", getShooterSensor());
-		Logger.recordOutput("/Shooter/FeederRPS", getFeedMotorSpeed());
-		Logger.recordOutput("/Shooter/TopShooterRPS", getTopMotorSpeed());
-		Logger.recordOutput("/Shooter/BottomShooterRPS", getBottomMotorSpeed());
-		Logger.recordOutput("/Shooter/ShooterAngle", getShooterAngle());
-		Logger.recordOutput("/Shooter/TargetShooterAngle", requestedArmPos);
-		Logger.recordOutput("/Shooter/ElevatorPosition", getElevatorPosition());
-		Logger.recordOutput("/Shooter/TargetElevatorPosition", requestedElevatorPos);
-		org.littletonrobotics.junction.Logger.recordOutput("/Drivetrain/EstimatedAngle", getEstimatedShooterAngle());
+		SmartDashboard.putBoolean("/Shooter/ShooterSensor", getShooterSensor());
+		SmartDashboard.putNumber("/Shooter/FeederRPS", getFeedMotorSpeed());
+		SmartDashboard.putNumber("/Shooter/TopShooterRPS", getTopMotorSpeed());
+		SmartDashboard.putNumber("/Shooter/BottomShooterRPS", getBottomMotorSpeed());
+		SmartDashboard.putNumber("/Shooter/ShooterAngle", getShooterAngle());
+		SmartDashboard.putNumber("/Shooter/TargetShooterAngle", requestedArmPos);
+		SmartDashboard.putNumber("/Shooter/ElevatorPosition", getElevatorPosition());
+		SmartDashboard.putNumber("/Shooter/TargetElevatorPosition", requestedElevatorPos);
+		SmartDashboard.putNumber("/Drivetrain/EstimatedAngle", getEstimatedShooterAngle());
 	}
 
 	public double degreesToShooterRotations(double degrees) {

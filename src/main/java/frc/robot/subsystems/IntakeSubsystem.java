@@ -12,10 +12,10 @@ import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.IDConstants;
 import frc.robot.constants.IntakeConstants;
-import org.littletonrobotics.junction.Logger;
 
 public class IntakeSubsystem extends SubsystemBase {
 	/** Creates a new IntakeSubsystem. */
@@ -53,7 +53,7 @@ public class IntakeSubsystem extends SubsystemBase {
 		chamberMotor.getConfigurator()
 				.apply(new CurrentLimitsConfigs().withSupplyCurrentLimit(45).withSupplyCurrentLimitEnable(true));
 		groundMotor.getConfigurator()
-				.apply(new CurrentLimitsConfigs().withSupplyCurrentLimit(45).withSupplyCurrentLimitEnable(true));
+				.apply(new CurrentLimitsConfigs().withSupplyCurrentLimit(60).withSupplyCurrentLimitEnable(true));
 		kickMotor.getConfigurator()
 				.apply(new CurrentLimitsConfigs().withSupplyCurrentLimit(45).withSupplyCurrentLimitEnable(true));
 	}
@@ -113,12 +113,12 @@ public class IntakeSubsystem extends SubsystemBase {
 	}
 
 	public void log() {
-		Logger.recordOutput("/Intake/FrontSensor", getFrontSensor());
-		Logger.recordOutput("/Intake/BackSensor", getBackSensor());
-		Logger.recordOutput("/Intake/ChamberSensor", getChamberSensor());
-		Logger.recordOutput("/Intake/GroundRPS", getGroundMotorSpeed());
-		Logger.recordOutput("/Intake/KickRPS", getKickMotorSpeed());
-		Logger.recordOutput("/Intake/ChamberRPS", getChamberMotorSpeed());
+		SmartDashboard.putBoolean("/Intake/FrontSensor", getFrontSensor());
+		SmartDashboard.putBoolean("/Intake/BackSensor", getBackSensor());
+		SmartDashboard.putBoolean("/Intake/ChamberSensor", getChamberSensor());
+		SmartDashboard.putNumber("/Intake/GroundRPS", getGroundMotorSpeed());
+		SmartDashboard.putNumber("/Intake/KickRPS", getKickMotorSpeed());
+		SmartDashboard.putNumber("/Intake/ChamberRPS", getChamberMotorSpeed());
 	}
 
 	@Override
