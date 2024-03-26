@@ -5,7 +5,7 @@
   "paths": [
     {
       "name": "Path 1",
-      "id": "b89728ce-cf51-4de4-bdf9-b711d43139e6",
+      "id": "57214754-8029-4509-b608-6757f2d09f7a",
       "isSpline": true,
       "maxVelocity": 4.0,
       "maxAcceleration": 5.0,
@@ -52,7 +52,7 @@
     },
     {
       "name": "Path 2",
-      "id": "5cef9a3f-6235-4237-bd64-03b3dfa88bf8",
+      "id": "ed701c42-f989-4b5c-b2d2-6bcdf6f456c9",
       "isSpline": true,
       "maxVelocity": 4.0,
       "maxAcceleration": 3.0,
@@ -87,7 +87,7 @@
     },
     {
       "name": "Path 3",
-      "id": "9792d02b-330d-4084-aaa6-258b50af677c",
+      "id": "cff4efc9-e0a1-4a14-9517-b7ec23d9face",
       "isSpline": true,
       "maxVelocity": 5.0,
       "maxAcceleration": 3.0,
@@ -122,7 +122,7 @@
     },
     {
       "name": "Path 4",
-      "id": "28306692-e1d6-4ff7-9947-1ac8e1125eb5",
+      "id": "674ce48e-1128-4719-ad30-db130c8daccf",
       "isSpline": true,
       "maxVelocity": 4.0,
       "maxAcceleration": 3.0,
@@ -157,7 +157,7 @@
     },
     {
       "name": "Path 5",
-      "id": "8dbd8a49-e105-48a0-b92a-31c663d88ac7",
+      "id": "d1cef051-03fc-4067-af06-9e507fd4dc8a",
       "isSpline": true,
       "maxVelocity": 4.0,
       "maxAcceleration": 3.0,

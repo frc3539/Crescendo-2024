@@ -21,4 +21,4 @@ public class IntakeConstants extends BBConstants {
 	public static double kickGearRatio = 1.2;
 	public static double intakeShutOffDelay = 0.15;
 	public static int invertSensors = 1;
-}
+}

@@ -10,14 +10,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.autons.Blue4Piece;
-import frc.robot.autons.BlueRightFar;
-import frc.robot.autons.BlueShootDrive;
-import frc.robot.autons.BlueShootLeft;
-import frc.robot.autons.Red4Piece;
-import frc.robot.autons.RedLeftFar;
 import frc.robot.autons.*;
-import frc.robot.autons.RedShootRight;
 import frc.robot.commands.*;
 import frc.robot.commands.AutoAlignCommand.TagPosition;
 import frc.robot.commands.IntakeCommand.IntakeMode;
@@ -94,11 +87,13 @@ public class RobotContainer {
 		chooser.addOption("Blue 5 Piece Center", new Blue5Piece());
 		chooser.addOption("Blue Shoot Left", new BlueShootLeft());
 		chooser.addOption("Blue Shoot Right Far", new BlueRightFar());
+		chooser.addOption("Blue Centerline 4 Piece", new BlueCL4Piece());
 
 		chooser.addOption("Red Shoot and Drive", new RedShootDrive());
 		chooser.addOption("Red 4 Piece Center", new Red4Piece());
 		chooser.addOption("Red Shoot Right", new RedShootRight());
 		chooser.addOption("Red Shoot Left Far", new RedLeftFar());
+		chooser.addOption("Red Centerline 4 Piece", new RedCL4Piece());
 
 		SmartDashboard.putData(chooser);
 	}
@@ -118,10 +113,12 @@ public class RobotContainer {
 		operatorController.b().whileTrue(new AutoShootCommand().finallyDo(() -> {
 			CommandScheduler.getInstance().schedule(new HomePositionCommand());
 		}));
-		operatorController.leftStick().whileTrue(new AngleShooterCommand(5)
-				.alongWith(new RevUpCommand(false, ShooterConstants.shootDps)).finallyDo(() -> {
-					CommandScheduler.getInstance().schedule(new HomePositionCommand());
-				}));
+		// operatorController.leftStick().whileTrue(new AngleShooterCommand(5)
+		// .alongWith(new RevUpCommand(false, ShooterConstants.shootDps)).finallyDo(()
+		// -> {
+		// CommandScheduler.getInstance().schedule(new HomePositionCommand());
+		// }));
+		operatorController.leftStick().whileTrue(new RevUpCommand(false, ShooterConstants.shootDps / 2));
 		// operatorController.a().whileTrue(new AngleShooterCommand(-29.5));
 		operatorController.start().whileTrue(new AutoClimbCommand());
 		// operatorController.y().onTrue(new SetElevatorCommand(8));

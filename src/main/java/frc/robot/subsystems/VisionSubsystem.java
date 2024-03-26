@@ -135,6 +135,20 @@ public class VisionSubsystem extends Thread {
 		SmartDashboard.putBoolean("/Vision/FrontRight/Connected", frontRightCam.isConnected());
 
 	}
+	public Matrix<N3, N1> getVisionWeights(double distanceRatio, int numTargets) {
+		double targetMultiplier = 1;
+		double visionCutOffDistance = 4;
+		distanceRatio = 0.1466 * Math.pow(1.6903, distanceRatio);
+		if (numTargets == 1) {
+			if (distanceRatio > visionCutOffDistance) {
+				return new Matrix<N3, N1>(new SimpleMatrix(new double[]{99999, 99999, 99999}));
+			}
+			targetMultiplier = 3;
+		}
+		Matrix<N3, N1> weights = new Matrix<N3, N1>(new SimpleMatrix(new double[]{distanceRatio * targetMultiplier,
+				distanceRatio * targetMultiplier, 3 + 15 * distanceRatio * targetMultiplier}));
+		return weights;
+	}
 	@Override
 	public void run() {
 		/* Run as fast as possible, our signals will control the timing */
@@ -228,8 +242,7 @@ public class VisionSubsystem extends Thread {
 					}
 					sum /= camPoseBackLeft.targetsUsed.size();
 					double distanceRatio = sum;
-					Matrix<N3, N1> weights = new Matrix<N3, N1>(new SimpleMatrix(new double[]{0.1 + 1.9 * distanceRatio,
-							0.1 + 1.9 * distanceRatio, 3 + 15 * distanceRatio}));
+					Matrix<N3, N1> weights = getVisionWeights(distanceRatio, camPoseBackLeft.targetsUsed.size());
 
 					if (camPoseBackLeft.timestampSeconds != backLeftLastTimeStamp) {
 						publishPose2d("/DriveTrain/BackLeftCamPose", camPoseBackLeft.estimatedPose.toPose2d());
@@ -252,8 +265,7 @@ public class VisionSubsystem extends Thread {
 					}
 					sum /= camPoseBackRight.targetsUsed.size();
 					double distanceRatio = sum;
-					Matrix<N3, N1> weights = new Matrix<N3, N1>(new SimpleMatrix(new double[]{0.1 + 1.9 * distanceRatio,
-							0.1 + 1.9 * distanceRatio, 3 + 15 * distanceRatio}));
+					Matrix<N3, N1> weights = getVisionWeights(distanceRatio, camPoseBackRight.targetsUsed.size());
 
 					if (camPoseBackRight.timestampSeconds != backRightLastTimeStamp) {
 						publishPose2d("/DriveTrain/BackRightCamPose", camPoseBackRight.estimatedPose.toPose2d());

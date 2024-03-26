@@ -10,6 +10,8 @@ import com.ctre.phoenix.led.ColorFlowAnimation;
 import com.ctre.phoenix.led.LarsonAnimation;
 import com.ctre.phoenix.led.LarsonAnimation.BounceMode;
 import com.ctre.phoenix.led.StrobeAnimation;
+
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 import frc.robot.constants.IDConstants;
@@ -43,6 +45,7 @@ public class LedSubsystem extends SubsystemBase {
 	public void setLEDs(LEDState state) {
 		if (!enabled)
 			return;
+
 		switch (state) {
 			case OFF :
 				candle.animate(null);
@@ -92,11 +95,15 @@ public class LedSubsystem extends SubsystemBase {
 				break;
 			case FRONT :
 				candle.animate(new StrobeAnimation(LedConstants.Yellow.getRed(), LedConstants.Yellow.getGreen(),
-						LedConstants.Yellow.getBlue(), 0, LedConstants.flashSpeed, LedConstants.numLights));
+						LedConstants.Yellow.getBlue(), 0, LedConstants.flashSpeed, 34));
+				candle.setLEDs(LedConstants.Yellow.getRed(), LedConstants.Yellow.getGreen(),
+						LedConstants.Yellow.getBlue(), 0, 34, 12);
 				break;
 			case BACK :
 				candle.animate(new StrobeAnimation(LedConstants.Yellow.getRed(), LedConstants.Yellow.getGreen(),
 						LedConstants.Yellow.getBlue(), 0, LedConstants.flashSpeed, LedConstants.numLights));
+				candle.setLEDs(LedConstants.Yellow.getRed(), LedConstants.Yellow.getGreen(),
+						LedConstants.Yellow.getBlue(), 0, 0, 34);
 				break;
 
 			default :
@@ -118,6 +125,11 @@ public class LedSubsystem extends SubsystemBase {
 
 	@Override
 	public void periodic() {
+		if (DriverStation.isAutonomous() && !RobotContainer.visionSubsystem.backLeftCam.isConnected()
+				&& !RobotContainer.visionSubsystem.backRightCam.isConnected()) {
+			setLEDs(LEDState.ERROR);
+			return;
+		}
 		if (autoShooting && !RobotContainer.visionSubsystem.backLeftCam.isConnected()
 				&& !RobotContainer.visionSubsystem.backRightCam.isConnected()) {
 			setLEDs(LEDState.ERROR);

@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.RobotContainer;
 import frc.robot.commands.AutoShootCommand;
 import frc.robot.commands.FollowTrajectoryCommand;
+import frc.robot.commands.HomePositionCommand;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.RevUpCommand;
 import frc.robot.commands.ShootCommand;
@@ -29,27 +30,28 @@ public class RedCL4Piece extends SequentialCommandGroup {
 			new InstantCommand(() -> RobotContainer.drivetrainSubsystem.seedFieldRelative(loader.getFirstTrajectory())),
 			new ParallelCommandGroup(new RevUpCommand(false, ShooterConstants.shootDps).withTimeout(15),
 
-					new SequentialCommandGroup(new WaitCommand(0.8), new AutoShootCommand().withTimeout(1.5)),
-					new SequentialCommandGroup(new WaitCommand(1.08), new ShootCommand().withTimeout(1)),
+					new SequentialCommandGroup(new WaitCommand(0.4), new ShootCommand().withTimeout(1)),
 
-					new SequentialCommandGroup(new WaitCommand(4.3), new AutoShootCommand().withTimeout(0.5)),
-					new SequentialCommandGroup(new WaitCommand(4.64), new ShootCommand().withTimeout(1)),
+					new SequentialCommandGroup(new WaitCommand(4.85),
+							new AutoShootCommand().withTimeout(0.8).andThen(new HomePositionCommand())),
+					new SequentialCommandGroup(new WaitCommand(5.35), new ShootCommand().withTimeout(1)),
 
-					new SequentialCommandGroup(new WaitCommand(9.35), new AutoShootCommand().withTimeout(0.75)),
-					new SequentialCommandGroup(new WaitCommand(9.84), new ShootCommand().withTimeout(1)),
+					new SequentialCommandGroup(new WaitCommand(10),
+							new AutoShootCommand().withTimeout(0.8).andThen(new HomePositionCommand())),
+					new SequentialCommandGroup(new WaitCommand(10.5), new ShootCommand().withTimeout(1)),
 
-					new SequentialCommandGroup(new WaitCommand(14.19), new AutoShootCommand().withTimeout(1.5)),
-					new SequentialCommandGroup(new WaitCommand(14.97), new ShootCommand().withTimeout(1)),
+					new SequentialCommandGroup(new WaitCommand(13.8),
+							new AutoShootCommand().withTimeout(1.5).andThen(new HomePositionCommand())),
+					new SequentialCommandGroup(new WaitCommand(14.85), new ShootCommand().withTimeout(1)),
 
-					new SequentialCommandGroup(new WaitCommand(2.21),
+					new SequentialCommandGroup(new WaitCommand(2.5),
 							new IntakeCommand(true, IntakeMode.FRONT).withTimeout(4)),
-					new SequentialCommandGroup(new WaitCommand(6.47),
+					new SequentialCommandGroup(new WaitCommand(7),
 							new IntakeCommand(true, IntakeMode.FRONT).withTimeout(4)),
-					new SequentialCommandGroup(new WaitCommand(11.73),
+					new SequentialCommandGroup(new WaitCommand(12.3),
 							new IntakeCommand(true, IntakeMode.FRONT).withTimeout(4)),
 
-					new SequentialCommandGroup(
-							new FollowTrajectoryCommand(RobotContainer.drivetrainSubsystem, loader.getNextTrajectory()),
+					new SequentialCommandGroup(new WaitCommand(0.2),
 							new FollowTrajectoryCommand(RobotContainer.drivetrainSubsystem, loader.getNextTrajectory()),
 							new FollowTrajectoryCommand(RobotContainer.drivetrainSubsystem, loader.getNextTrajectory()),
 							new FollowTrajectoryCommand(RobotContainer.drivetrainSubsystem, loader.getNextTrajectory()),

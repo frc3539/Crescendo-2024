@@ -14,7 +14,7 @@ import frc.robot.constants.ShooterConstants;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class TrapCommand extends SequentialCommandGroup {
 	private Command[] commands = {new ParallelCommandGroup(new SetElevatorCommand(7),
-			new RevUpCommand(false, ShooterConstants.shootDps * .7))};
+			new RevUpCommand(false, ShooterConstants.shootDps * .6), new AngleShooterCommand(-63))};
 
 	/** Creates a new AmpCommand. */
 	public TrapCommand() {

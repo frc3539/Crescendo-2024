@@ -29,12 +29,13 @@ public class DriveCommand extends Command {
 
 	double maxRotationalVelocity = RobotContainer.drivetrainSubsystem.maxRotationalVelocity;
 
+	double rotationDeadband = maxRotationalVelocity * 0.05;
 	private final SwerveRequest.FieldCentric driveFieldCentric = new SwerveRequest.FieldCentric()
-			.withDeadband(maxVelocity * 0.1).withRotationalDeadband(maxRotationalVelocity * 0.05) // Add a 10% deadband
+			.withDeadband(maxVelocity * 0.1).withRotationalDeadband(rotationDeadband) // Add a 10% deadband
 			.withDriveRequestType(DriveRequestType.OpenLoopVoltage); // I want field-centric
 
 	private final SwerveRequest.RobotCentric driveRobotCentric = new SwerveRequest.RobotCentric()
-			.withDeadband(maxVelocity * 0.1).withRotationalDeadband(maxRotationalVelocity * 0.05) // Add a 10% deadband
+			.withDeadband(maxVelocity * 0.1).withRotationalDeadband(rotationDeadband) // Add a 10% deadband
 			.withDriveRequestType(DriveRequestType.OpenLoopVoltage); // I want field-centric
 
 	public DriveCommand() {
@@ -73,13 +74,15 @@ public class DriveCommand extends Command {
 					.withVelocityX(-RobotContainer.driverController.getLeftY() * maxVelocity * speedMultiplier)
 					.withVelocityY(-RobotContainer.driverController.getLeftX() * maxVelocity * speedMultiplier)
 					.withRotationalRate(-RobotContainer.driverController.getRightX() * maxRotationalVelocity
-							* rotationSpeedMultiplier);
+							* rotationSpeedMultiplier)
+					.withRotationalDeadband(rotationDeadband);
 		} else {
 			request = driveFieldCentric
 					.withVelocityX(-RobotContainer.driverController.getLeftY() * maxVelocity * speedMultiplier)
 					.withVelocityY(-RobotContainer.driverController.getLeftX() * maxVelocity * speedMultiplier)
 					.withRotationalRate(-RobotContainer.driverController.getRightX() * maxRotationalVelocity
-							* rotationSpeedMultiplier);
+							* rotationSpeedMultiplier)
+					.withRotationalDeadband(rotationDeadband);
 		}
 		if (RobotContainer.driverButtonA.getAsBoolean()) {
 			RobotContainer.ledSubsystem.setShootAligning(true);
