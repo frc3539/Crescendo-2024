@@ -31,14 +31,12 @@ public class VisionSubsystem extends Thread {
 	AprilTagFieldLayout aprilTagFieldLayout;
 
 	public PhotonCamera frontLeftCam;
-	Transform3d robotToFrontLeftCam = new Transform3d(
-			new Translation3d(-0.1746 - .07 + .02 + 0.08, 0.2885 + 0.05 - .03, 0.5461),
-			new Rotation3d(Math.toRadians(0), 0, Math.toRadians(0)));
+	Transform3d robotToFrontLeftCam = new Transform3d(new Translation3d(0.3207, 0.1397 + .06, 0.5588),
+			new Rotation3d(Math.toRadians(0), Math.toRadians(-28.5), Math.toRadians(0)));
 
 	public PhotonCamera frontRightCam;
-	Transform3d robotToFrontRightCam = new Transform3d(
-			new Translation3d(-0.1746 + .05 + .02, -0.2885 - .1 + .05, 0.5544),
-			new Rotation3d(Math.toRadians(0), 0, Math.toRadians(0)));
+	Transform3d robotToFrontRightCam = new Transform3d(new Translation3d(0.3207, -0.1333, 0.5588),
+			new Rotation3d(Math.toRadians(0), Math.toRadians(-28.5), Math.toRadians(0)));
 	public PhotonCamera backLeftCam;
 	Transform3d robotToBackLeftCam = new Transform3d(new Translation3d(-0.3302, 0.2286, 0.53975),
 			new Rotation3d(Math.toRadians(0), Math.toRadians(-16.5), Math.toRadians(180)));
@@ -183,7 +181,7 @@ public class VisionSubsystem extends Thread {
 			this.resultBackRight = getEstimatedBackRightGlobalPose();
 
 			if (useVision) {
-				if (false && resultFrontLeft.isPresent()) {
+				if (resultFrontLeft.isPresent()) {
 					EstimatedRobotPose camPoseFrontLeft = resultFrontLeft.get();
 
 					double sum = 0;
@@ -206,7 +204,7 @@ public class VisionSubsystem extends Thread {
 					frontLeftLastTimeStamp = camPoseFrontLeft.timestampSeconds;
 				}
 
-				if (false && resultFrontRight.isPresent()) {
+				if (resultFrontRight.isPresent()) {
 					EstimatedRobotPose camPoseFrontRight = resultFrontRight.get();
 
 					double sum = 0;
