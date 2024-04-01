@@ -41,8 +41,7 @@ public class DriveCommand extends Command {
 	public DriveCommand() {
 		addRequirements(RobotContainer.drivetrainSubsystem);
 
-		rotationController = new PidController(new PidConstants(DrivetrainConstants.RotationkP,
-				DrivetrainConstants.RotationkI, DrivetrainConstants.RotationkD));
+		rotationController = new PidController(new PidConstants(DrivetrainConstants.AlignkP, 0, 0));
 
 		rotationController.setInputRange(-Math.PI, Math.PI);
 		rotationController.setOutputRange(-1, 1);

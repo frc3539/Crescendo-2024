@@ -181,7 +181,7 @@ public class VisionSubsystem extends Thread {
 			this.resultBackRight = getEstimatedBackRightGlobalPose();
 
 			if (useVision) {
-				if (resultFrontLeft.isPresent()) {
+				if (false && resultFrontLeft.isPresent()) {
 					EstimatedRobotPose camPoseFrontLeft = resultFrontLeft.get();
 
 					double sum = 0;
@@ -204,7 +204,7 @@ public class VisionSubsystem extends Thread {
 					frontLeftLastTimeStamp = camPoseFrontLeft.timestampSeconds;
 				}
 
-				if (resultFrontRight.isPresent()) {
+				if (false && resultFrontRight.isPresent()) {
 					EstimatedRobotPose camPoseFrontRight = resultFrontRight.get();
 
 					double sum = 0;

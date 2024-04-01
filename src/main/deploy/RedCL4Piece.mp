@@ -1,11 +1,11 @@
 {
   "name": "RedCL4Piece",
-  "edited": "03/23/24, 11:48:42 AM",
+  "edited": "03/28/24, 09:34:19 PM",
   "isRed": true,
   "paths": [
     {
       "name": "Path 1",
-      "id": "57214754-8029-4509-b608-6757f2d09f7a",
+      "id": "45e22657-84fc-4b34-8934-10fc2f3e4e60",
       "isSpline": true,
       "maxVelocity": 4.0,
       "maxAcceleration": 5.0,
@@ -19,15 +19,15 @@
           "id": "cc7e1d36-358d-4f25-be52-1320d681dc9d"
         },
         {
-          "x": 2.733,
-          "y": 5.43955,
-          "rotation": 50.0,
+          "x": 2.741,
+          "y": 5.384,
+          "rotation": -45.0,
           "id": "37ffbfa1-7942-4cd8-8c9b-6197b389d244"
         },
         {
-          "x": 5.412,
-          "y": 6.32855,
-          "rotation": -10.0,
+          "x": 5.299,
+          "y": 6.404,
+          "rotation": -35.0,
           "id": "08d38f68-3012-48ff-b202-7f8987c9f9f8"
         },
         {
@@ -52,7 +52,7 @@
     },
     {
       "name": "Path 2",
-      "id": "ed701c42-f989-4b5c-b2d2-6bcdf6f456c9",
+      "id": "65b8cf1c-ba70-4a4c-b4c1-0adaa5d70803",
       "isSpline": true,
       "maxVelocity": 4.0,
       "maxAcceleration": 3.0,
@@ -87,7 +87,7 @@
     },
     {
       "name": "Path 3",
-      "id": "cff4efc9-e0a1-4a14-9517-b7ec23d9face",
+      "id": "fc92b484-0388-4ad8-a161-d540d64cb2fb",
       "isSpline": true,
       "maxVelocity": 5.0,
       "maxAcceleration": 3.0,
@@ -122,7 +122,7 @@
     },
     {
       "name": "Path 4",
-      "id": "674ce48e-1128-4719-ad30-db130c8daccf",
+      "id": "95a8a9f9-8bd3-4c53-ad93-d61e9223f9c4",
       "isSpline": true,
       "maxVelocity": 4.0,
       "maxAcceleration": 3.0,
@@ -157,7 +157,7 @@
     },
     {
       "name": "Path 5",
-      "id": "d1cef051-03fc-4067-af06-9e507fd4dc8a",
+      "id": "5ccb157d-04fd-409c-a267-503fc9be4bba",
       "isSpline": true,
       "maxVelocity": 4.0,
       "maxAcceleration": 3.0,

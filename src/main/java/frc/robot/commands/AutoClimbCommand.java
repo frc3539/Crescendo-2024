@@ -21,15 +21,15 @@ public class AutoClimbCommand extends Command {
 	// Called every time the scheduler runs while the command is scheduled.
 	@Override
 	public void execute() {
-		if (RobotContainer.drivetrainSubsystem.getRobotRoll().getDegrees() < -2) {
+		if (RobotContainer.drivetrainSubsystem.getRobotRoll().getDegrees() < -4) {
 			RobotContainer.climberSubsystem.setLeftClimbMotorVoltage(0);
-			RobotContainer.climberSubsystem.setRightClimbMotorVoltage(3);
-		} else if (RobotContainer.drivetrainSubsystem.getRobotRoll().getDegrees() > 2) {
-			RobotContainer.climberSubsystem.setLeftClimbMotorVoltage(3);
+			RobotContainer.climberSubsystem.setRightClimbMotorVoltage(6);
+		} else if (RobotContainer.drivetrainSubsystem.getRobotRoll().getDegrees() > 4) {
+			RobotContainer.climberSubsystem.setLeftClimbMotorVoltage(6);
 			RobotContainer.climberSubsystem.setRightClimbMotorVoltage(0);
 		} else {
-			RobotContainer.climberSubsystem.setLeftClimbMotorVoltage(3);
-			RobotContainer.climberSubsystem.setRightClimbMotorVoltage(3);
+			RobotContainer.climberSubsystem.setLeftClimbMotorVoltage(6);
+			RobotContainer.climberSubsystem.setRightClimbMotorVoltage(6);
 		}
 	}
 

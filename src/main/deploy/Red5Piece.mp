@@ -1,11 +1,11 @@
 {
   "name": "Red5Piece",
-  "edited": "03/23/24, 10:09:41 AM",
+  "edited": "03/29/24, 02:50:53 PM",
   "isRed": true,
   "paths": [
     {
       "name": "Path 1",
-      "id": "907cadff-ef0d-4d4d-bf2d-29b316281bd2",
+      "id": "61d33d39-cbb1-4784-b1c0-796cdcd24b1f",
       "isSpline": true,
       "maxVelocity": 3.0,
       "maxAcceleration": 3.0,
@@ -39,7 +39,7 @@
         {
           "x": 2.904,
           "y": 1.19055,
-          "rotation": 20.0,
+          "rotation": -20.0,
           "id": "a7b2a9ce-2a97-46ed-a0a4-58a55c304d08"
         },
         {
@@ -64,7 +64,7 @@
     },
     {
       "name": "Path 2",
-      "id": "b99491dd-d848-43e2-83a0-660f3361457e",
+      "id": "f96646a1-b491-4af7-8f11-036342671506",
       "isSpline": true,
       "maxVelocity": 4.0,
       "maxAcceleration": 3.0,
@@ -114,8 +114,8 @@
           "id": "5742eb6a-cbbb-481b-8943-13c4bf3a48e7"
         },
         {
-          "x": 3.36,
-          "y": 2.63155,
+          "x": 3.48,
+          "y": 2.611,
           "rotation": 0.0,
           "id": "f50f36c1-c761-4c3a-be99-c9480c48c5b1"
         }

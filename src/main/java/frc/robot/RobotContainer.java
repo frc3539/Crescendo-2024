@@ -83,17 +83,22 @@ public class RobotContainer {
 	 */
 	private void putAutons() {
 		chooser.setDefaultOption("Blue Shoot and Drive", new BlueShootDrive());
+		chooser.addOption("Blue 3 Piece Right", new Blue3Piece());
 		chooser.addOption("Blue 4 Piece Center", new Blue4Piece());
 		chooser.addOption("Blue 5 Piece Center", new Blue5Piece());
 		chooser.addOption("Blue Shoot Left", new BlueShootLeft());
 		chooser.addOption("Blue Shoot Right Far", new BlueRightFar());
 		chooser.addOption("Blue Centerline 4 Piece", new BlueCL4Piece());
+		chooser.addOption("Blue Simple Left", new BlueSimpleLeft());
 
 		chooser.addOption("Red Shoot and Drive", new RedShootDrive());
+		chooser.addOption("Red 3 Piece Left", new Red3Piece());
 		chooser.addOption("Red 4 Piece Center", new Red4Piece());
+		chooser.addOption("Red 5 Piece Center", new Red5Piece());
 		chooser.addOption("Red Shoot Right", new RedShootRight());
 		chooser.addOption("Red Shoot Left Far", new RedLeftFar());
 		chooser.addOption("Red Centerline 4 Piece", new RedCL4Piece());
+		chooser.addOption("Red Simple Right", new RedSimpleRight());
 
 		SmartDashboard.putData(chooser);
 	}
@@ -118,7 +123,7 @@ public class RobotContainer {
 		// -> {
 		// CommandScheduler.getInstance().schedule(new HomePositionCommand());
 		// }));
-		operatorController.leftStick().whileTrue(new RevUpCommand(false, ShooterConstants.shootDps / 2));
+		operatorController.leftStick().whileTrue(new RevUpCommand(false, ShooterConstants.shootDps * 0.6));
 		// operatorController.a().whileTrue(new AngleShooterCommand(-29.5));
 		operatorController.start().whileTrue(new AutoClimbCommand());
 		// operatorController.y().onTrue(new SetElevatorCommand(8));

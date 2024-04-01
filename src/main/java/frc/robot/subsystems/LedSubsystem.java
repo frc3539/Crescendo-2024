@@ -144,6 +144,10 @@ public class LedSubsystem extends SubsystemBase {
 			setLEDs(LEDState.AUTO);
 			return;
 		}
+		if (shootAligning) {
+			setLEDs(LEDState.AUTO);
+			return;
+		}
 		// This method will be called once per scheduler run
 		// setLEDs(LEDState.READY);
 		if (RobotContainer.shooterSubsystem.getShooterSensor()) {

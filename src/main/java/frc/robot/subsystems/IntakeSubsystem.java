@@ -53,9 +53,9 @@ public class IntakeSubsystem extends SubsystemBase {
 		chamberMotor.getConfigurator()
 				.apply(new CurrentLimitsConfigs().withSupplyCurrentLimit(45).withSupplyCurrentLimitEnable(true));
 		groundMotor.getConfigurator()
-				.apply(new CurrentLimitsConfigs().withSupplyCurrentLimit(60).withSupplyCurrentLimitEnable(true));
+				.apply(new CurrentLimitsConfigs().withSupplyCurrentLimit(120).withSupplyCurrentLimitEnable(false));
 		kickMotor.getConfigurator()
-				.apply(new CurrentLimitsConfigs().withSupplyCurrentLimit(45).withSupplyCurrentLimitEnable(true));
+				.apply(new CurrentLimitsConfigs().withSupplyCurrentLimit(120).withSupplyCurrentLimitEnable(false));
 	}
 
 	public void setGroundMotorSpeed(double rps) {

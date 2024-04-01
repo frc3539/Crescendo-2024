@@ -55,6 +55,7 @@ public class RedCL4Piece extends SequentialCommandGroup {
 							new FollowTrajectoryCommand(RobotContainer.drivetrainSubsystem, loader.getNextTrajectory()),
 							new FollowTrajectoryCommand(RobotContainer.drivetrainSubsystem, loader.getNextTrajectory()),
 							new FollowTrajectoryCommand(RobotContainer.drivetrainSubsystem, loader.getNextTrajectory()),
+							new FollowTrajectoryCommand(RobotContainer.drivetrainSubsystem, loader.getNextTrajectory()),
 							new FollowTrajectoryCommand(RobotContainer.drivetrainSubsystem,
 									loader.getNextTrajectory())))};
 	/** Creates a new RedShootDrive. */

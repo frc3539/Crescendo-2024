@@ -22,8 +22,8 @@ import org.frcteam3539.Byte_Swerve_Lib.io.BBMPLoader;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class Blue5Piece extends SequentialCommandGroup {
-	BBMPLoader loader = new BBMPLoader("/home/lvuser/profiles/Blue5Piece.txt", false);
+public class Red5Piece extends SequentialCommandGroup {
+	BBMPLoader loader = new BBMPLoader("/home/lvuser/profiles/Red5Piece.txt", false);
 
 	private Command[] sequence = {
 			new InstantCommand(() -> RobotContainer.drivetrainSubsystem.seedFieldRelative(loader.getFirstTrajectory())),
@@ -52,7 +52,7 @@ public class Blue5Piece extends SequentialCommandGroup {
 									loader.getNextTrajectory())))};
 
 	/** Creates a new RedShootDrive. */
-	public Blue5Piece() {
+	public Red5Piece() {
 		addCommands(sequence);
 	}
 }

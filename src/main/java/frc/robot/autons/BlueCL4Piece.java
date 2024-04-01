@@ -29,7 +29,7 @@ public class BlueCL4Piece extends SequentialCommandGroup {
 			new InstantCommand(() -> RobotContainer.drivetrainSubsystem.seedFieldRelative(loader.getFirstTrajectory())),
 			new ParallelCommandGroup(new RevUpCommand(false, ShooterConstants.shootDps).withTimeout(15),
 
-					new SequentialCommandGroup(new WaitCommand(0.8), new AutoShootCommand().withTimeout(1.5)),
+					new SequentialCommandGroup(new WaitCommand(0.4), new AutoShootCommand().withTimeout(1.5)),
 					new SequentialCommandGroup(new WaitCommand(1.08), new ShootCommand().withTimeout(1)),
 
 					new SequentialCommandGroup(new WaitCommand(4.3), new AutoShootCommand().withTimeout(0.5)),
