@@ -206,6 +206,19 @@ public class ShooterSubsystem extends SubsystemBase {
 	public void initializeElevatorPosition() {
 		requestedElevatorPos = getElevatorPosition();
 	}
+	public Translation2d getOffsetTarget() {
+		double noteSpeed = 23;
+		double distanceToTarget = 0;
+		if (DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == Alliance.Red) {
+			distanceToTarget = RobotContainer.drivetrainSubsystem.getPose2d().getTranslation()
+					.getDistance(redSpeakerCoordinate);
+		} else {
+			distanceToTarget = RobotContainer.drivetrainSubsystem.getPose2d().getTranslation()
+					.getDistance(blueSpeakerCoordinate);
+		}
+		double timeToTarget = distanceToTarget / noteSpeed;
+		return null;
+	}
 	public double getEstimatedShooterAngle() {
 		double distanceToTarget = 0;
 		if (DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == Alliance.Red) {

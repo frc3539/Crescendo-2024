@@ -35,6 +35,9 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
 
 	private SwerveRequest swerveRequest = new SwerveRequest.Idle();
 
+	public double requestVelocityX = 0.0;
+	public double requestVelocityY = 0.0;
+
 	public double maxVelocity = 0.0;
 	public double maxRotationalVelocity = 0.0;
 

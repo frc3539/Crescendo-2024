@@ -103,7 +103,23 @@ public class DriveCommand extends Command {
 			RobotContainer.ledSubsystem.setShootAligning(false);
 
 		}
+		if (RobotContainer.driverButtonB.getAsBoolean()) {
+			var target = RobotContainer.visionSubsystem.getBestNote();
+			if (target != null) {
+				double noteTrackSpeedMultiplier = 0.2;
+				var angleToTarget = -target.getYaw() * Math.PI / 180;
+				rotationController.setSetpoint(
+						RobotContainer.drivetrainSubsystem.getPose2d().getRotation().getRadians() + angleToTarget);
+				request = driveRobotCentric.withVelocityX(maxVelocity * noteTrackSpeedMultiplier).withVelocityY(0);
+				driveRobotCentric.withRotationalRate(rotationController
+						.calculate(RobotContainer.drivetrainSubsystem.getPose2d().getRotation().getRadians(), 0.02)
+						* maxRotationalVelocity * .3).withRotationalDeadband(0);
+				driveFieldCentric.withRotationalRate(rotationController
+						.calculate(RobotContainer.drivetrainSubsystem.getPose2d().getRotation().getRadians(), 0.02)
+						* maxRotationalVelocity * .3).withRotationalDeadband(0);
 
+			}
+		}
 		RobotContainer.drivetrainSubsystem.applyRequest(request);
 	}
 

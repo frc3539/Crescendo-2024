@@ -45,6 +45,8 @@ public class VisionSubsystem extends Thread {
 	Transform3d robotToBackRightCam = new Transform3d(new Translation3d(-0.3302, -0.2286, 0.53975),
 			new Rotation3d(Math.toRadians(0), Math.toRadians(-16.3), Math.toRadians(180)));
 
+	public PhotonCamera noteCam;
+
 	PhotonPoseEstimator frontLeftPhotonPoseEstimator;
 	PhotonPoseEstimator frontRightPhotonPoseEstimator;
 	PhotonPoseEstimator backLeftPhotonPoseEstimator;
@@ -86,6 +88,8 @@ public class VisionSubsystem extends Thread {
 		backRightCam = new PhotonCamera("BackRight");
 		backRightPhotonPoseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout,
 				PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, backRightCam, robotToBackRightCam);
+
+		noteCam = new PhotonCamera("NoteCam");
 
 		setVisionWeights(.2, .2, 10);
 	}
@@ -131,6 +135,7 @@ public class VisionSubsystem extends Thread {
 		SmartDashboard.putBoolean("/Vision/BackRight/Connected", backRightCam.isConnected());
 		SmartDashboard.putBoolean("/Vision/FrontLeft/Connected", frontLeftCam.isConnected());
 		SmartDashboard.putBoolean("/Vision/FrontRight/Connected", frontRightCam.isConnected());
+		SmartDashboard.putBoolean("/Vision/NoteCam/Connected", noteCam.isConnected());
 
 	}
 	public Matrix<N3, N1> getVisionWeights(double distanceRatio, int numTargets) {
@@ -146,6 +151,11 @@ public class VisionSubsystem extends Thread {
 		Matrix<N3, N1> weights = new Matrix<N3, N1>(new SimpleMatrix(new double[]{distanceRatio * targetMultiplier,
 				distanceRatio * targetMultiplier, 3 + 15 * distanceRatio * targetMultiplier}));
 		return weights;
+	}
+	public PhotonTrackedTarget getBestNote() {
+		var result = noteCam.getLatestResult();
+		var bestTarget = result.getBestTarget();
+		return bestTarget;
 	}
 	@Override
 	public void run() {
