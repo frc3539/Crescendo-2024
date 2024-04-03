@@ -15,11 +15,14 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.Robot;
+import frc.robot.RobotContainer;
 import frc.robot.constants.DrivetrainConstants;
 import frc.robot.constants.IDConstants;
 import java.util.Arrays;
@@ -35,8 +38,11 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
 
 	private SwerveRequest swerveRequest = new SwerveRequest.Idle();
 
-	public double requestVelocityX = 0.0;
-	public double requestVelocityY = 0.0;
+	Translation2d blueSpeakerCoordinate = new Translation2d(0, 5.55);
+	Translation2d redSpeakerCoordinate = new Translation2d(0, 2.67);
+
+	public double velocityX = 0.0;
+	public double velocityY = 0.0;
 
 	public double maxVelocity = 0.0;
 	public double maxRotationalVelocity = 0.0;
@@ -101,6 +107,24 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
 		return Rotation2d.fromDegrees(
 				BaseStatusSignal.getLatencyCompensatedValue(pigeon.getRoll(), pigeon.getAngularVelocityYDevice()));
 	}
+	public Translation2d getOffsetTarget() {
+		double noteSpeed = 23;
+		double distanceToTarget = 0;
+		if (DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == Alliance.Red) {
+			distanceToTarget = RobotContainer.drivetrainSubsystem.getPose2d().getTranslation()
+					.getDistance(redSpeakerCoordinate);
+			double timeToTarget = distanceToTarget / noteSpeed;
+			return new Translation2d(redSpeakerCoordinate.getX() - velocityX * timeToTarget,
+					redSpeakerCoordinate.getY() - velocityY * timeToTarget);
+		} else {
+			distanceToTarget = RobotContainer.drivetrainSubsystem.getPose2d().getTranslation()
+					.getDistance(blueSpeakerCoordinate);
+			double timeToTarget = distanceToTarget / noteSpeed;
+			return new Translation2d(blueSpeakerCoordinate.getX() - velocityX * timeToTarget,
+					blueSpeakerCoordinate.getY() - velocityY * timeToTarget);
+		}
+
+	}
 
 	public void log() {
 		SmartDashboard.putNumber("/DriveTrain/RobotRoll", getRobotRoll().getDegrees());
@@ -114,6 +138,11 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
 
 	@Override
 	public void periodic() {
+
+		velocityX = ChassisSpeeds.fromRobotRelativeSpeeds(this.getState().speeds,
+				this.getPose2d().getRotation()).vxMetersPerSecond;
+		velocityY = ChassisSpeeds.fromRobotRelativeSpeeds(this.getState().speeds,
+				this.getPose2d().getRotation()).vyMetersPerSecond;
 
 		SwerveRequest request = new SwerveRequest.Idle();
 

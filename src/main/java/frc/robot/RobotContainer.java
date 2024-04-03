@@ -59,6 +59,8 @@ public class RobotContainer {
 	public static Trigger rightDriverBumper = driverController.rightBumper();
 	public static Trigger driverButtonA = driverController.a();
 	public static Trigger driverButtonB = driverController.b();
+	public static Trigger driverButtonX = driverController.x();
+
 	public static Trigger rightOperatorBumper = operatorController.rightBumper();
 
 	public static SendableChooser<Command> chooser = new SendableChooser<Command>();

@@ -13,8 +13,6 @@ import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
 import frc.robot.constants.DrivetrainConstants;
@@ -85,13 +83,9 @@ public class DriveCommand extends Command {
 		}
 		if (RobotContainer.driverButtonA.getAsBoolean()) {
 			RobotContainer.ledSubsystem.setShootAligning(true);
-			if (DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == Alliance.Red) {
-				rotationController.setSetpoint(RobotContainer.drivetrainSubsystem.getPose2d().getTranslation()
-						.minus(redSpeakerCoordinate).getAngle().getRadians());
-			} else {
-				rotationController.setSetpoint(RobotContainer.drivetrainSubsystem.getPose2d().getTranslation()
-						.minus(blueSpeakerCoordinate).getAngle().getRadians());
-			}
+			rotationController.setSetpoint(RobotContainer.drivetrainSubsystem.getPose2d().getTranslation()
+					.minus(RobotContainer.drivetrainSubsystem.getOffsetTarget()).getAngle().getRadians());
+
 			driveRobotCentric.withRotationalRate(rotationController
 					.calculate(RobotContainer.drivetrainSubsystem.getPose2d().getRotation().getRadians(), 0.02)
 					* maxRotationalVelocity * .3).withRotationalDeadband(0);
@@ -104,9 +98,30 @@ public class DriveCommand extends Command {
 
 		}
 		if (RobotContainer.driverButtonB.getAsBoolean()) {
-			var target = RobotContainer.visionSubsystem.getBestNote();
+			var target = RobotContainer.visionSubsystem.getBestBackNote();
 			if (target != null) {
-				double noteTrackSpeedMultiplier = 0.2;
+				RobotContainer.ledSubsystem.setNoteTracking(true);
+				double noteTrackSpeedMultiplier = 0.3;
+				var angleToTarget = -target.getYaw() * Math.PI / 180;
+				rotationController.setSetpoint(
+						RobotContainer.drivetrainSubsystem.getPose2d().getRotation().getRadians() + angleToTarget);
+				request = driveRobotCentric.withVelocityX(-maxVelocity * noteTrackSpeedMultiplier).withVelocityY(0);
+				driveRobotCentric.withRotationalRate(rotationController
+						.calculate(RobotContainer.drivetrainSubsystem.getPose2d().getRotation().getRadians(), 0.02)
+						* maxRotationalVelocity * .3).withRotationalDeadband(0);
+				driveFieldCentric.withRotationalRate(rotationController
+						.calculate(RobotContainer.drivetrainSubsystem.getPose2d().getRotation().getRadians(), 0.02)
+						* maxRotationalVelocity * .3).withRotationalDeadband(0);
+
+			} else {
+				RobotContainer.ledSubsystem.setNoteTracking(false);
+			}
+		} else if (RobotContainer.driverButtonX.getAsBoolean()) {
+			var target = RobotContainer.visionSubsystem.getBestFrontNote();
+			if (target != null) {
+				RobotContainer.ledSubsystem.setNoteTracking(true);
+
+				double noteTrackSpeedMultiplier = 0.3;
 				var angleToTarget = -target.getYaw() * Math.PI / 180;
 				rotationController.setSetpoint(
 						RobotContainer.drivetrainSubsystem.getPose2d().getRotation().getRadians() + angleToTarget);
@@ -118,7 +133,11 @@ public class DriveCommand extends Command {
 						.calculate(RobotContainer.drivetrainSubsystem.getPose2d().getRotation().getRadians(), 0.02)
 						* maxRotationalVelocity * .3).withRotationalDeadband(0);
 
+			} else {
+				RobotContainer.ledSubsystem.setNoteTracking(false);
 			}
+		} else {
+			RobotContainer.ledSubsystem.setNoteTracking(false);
 		}
 		RobotContainer.drivetrainSubsystem.applyRequest(request);
 	}

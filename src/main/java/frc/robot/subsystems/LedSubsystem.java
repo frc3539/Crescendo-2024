@@ -24,6 +24,7 @@ public class LedSubsystem extends SubsystemBase {
 	boolean aligning;
 	boolean autoShooting;
 	boolean shootAligning;
+	boolean noteTracking;
 	CANdle candle;
 
 	public LedSubsystem(boolean enabled) {
@@ -122,6 +123,9 @@ public class LedSubsystem extends SubsystemBase {
 	public void setShootAligning(boolean shootAligning) {
 		this.shootAligning = shootAligning;
 	}
+	public void setNoteTracking(boolean noteTracking) {
+		this.noteTracking = noteTracking;
+	}
 
 	@Override
 	public void periodic() {
@@ -145,6 +149,10 @@ public class LedSubsystem extends SubsystemBase {
 			return;
 		}
 		if (shootAligning) {
+			setLEDs(LEDState.AUTO);
+			return;
+		}
+		if (noteTracking) {
 			setLEDs(LEDState.AUTO);
 			return;
 		}
