@@ -99,7 +99,10 @@ public class DriveCommand extends Command {
 		}
 		if (RobotContainer.driverButtonB.getAsBoolean()) {
 			var target = RobotContainer.visionSubsystem.getBestBackNote();
-			if (target != null) {
+			if (target != null & !RobotContainer.intakeSubsystem.getBackSensor()
+					& !RobotContainer.intakeSubsystem.getFrontSensor()
+					& !RobotContainer.intakeSubsystem.getChamberSensor()
+					& !RobotContainer.shooterSubsystem.getShooterSensor()) {
 				RobotContainer.ledSubsystem.setNoteTracking(true);
 				double noteTrackSpeedMultiplier = 0.3;
 				var angleToTarget = -target.getYaw() * Math.PI / 180;
@@ -118,7 +121,10 @@ public class DriveCommand extends Command {
 			}
 		} else if (RobotContainer.driverButtonX.getAsBoolean()) {
 			var target = RobotContainer.visionSubsystem.getBestFrontNote();
-			if (target != null) {
+			if (target != null & !RobotContainer.intakeSubsystem.getBackSensor()
+					& !RobotContainer.intakeSubsystem.getFrontSensor()
+					& !RobotContainer.intakeSubsystem.getChamberSensor()
+					& !RobotContainer.shooterSubsystem.getShooterSensor()) {
 				RobotContainer.ledSubsystem.setNoteTracking(true);
 
 				double noteTrackSpeedMultiplier = 0.3;

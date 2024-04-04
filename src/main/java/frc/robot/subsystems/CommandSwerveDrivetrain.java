@@ -108,22 +108,25 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
 				BaseStatusSignal.getLatencyCompensatedValue(pigeon.getRoll(), pigeon.getAngularVelocityYDevice()));
 	}
 	public Translation2d getOffsetTarget() {
-		double noteSpeed = 23;
+		Translation2d offsetTarget;
+		double noteSpeed = 20;
 		double distanceToTarget = 0;
 		if (DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == Alliance.Red) {
 			distanceToTarget = RobotContainer.drivetrainSubsystem.getPose2d().getTranslation()
 					.getDistance(redSpeakerCoordinate);
 			double timeToTarget = distanceToTarget / noteSpeed;
-			return new Translation2d(redSpeakerCoordinate.getX() - velocityX * timeToTarget,
+			offsetTarget = new Translation2d(redSpeakerCoordinate.getX() - velocityX * timeToTarget,
 					redSpeakerCoordinate.getY() - velocityY * timeToTarget);
 		} else {
 			distanceToTarget = RobotContainer.drivetrainSubsystem.getPose2d().getTranslation()
 					.getDistance(blueSpeakerCoordinate);
 			double timeToTarget = distanceToTarget / noteSpeed;
-			return new Translation2d(blueSpeakerCoordinate.getX() - velocityX * timeToTarget,
+			offsetTarget = new Translation2d(blueSpeakerCoordinate.getX() - velocityX * timeToTarget,
 					blueSpeakerCoordinate.getY() - velocityY * timeToTarget);
 		}
-
+		SmartDashboard.putNumberArray("/DriveTrain/OffsetTarget",
+				new double[]{offsetTarget.getX(), offsetTarget.getY()});
+		return offsetTarget;
 	}
 
 	public void log() {
