@@ -5,9 +5,11 @@
   "paths": [
     {
       "name": "Path 1",
-      "id": "1eaf2f46-e275-48cc-87ac-24100803016f",
+      "id": "d1686b0e-39e8-4368-8c1a-8fd43bec4e35",
       "isSpline": true,
       "maxVelocity": 1.5,
+      "inVelocity": 0.0,
+      "outVelocity": 0.0,
       "maxAcceleration": 1.0,
       "maxCentripetalAcceleration": 2.5,
       "snapToPrevious": false,
@@ -34,9 +36,11 @@
     },
     {
       "name": "Path 2",
-      "id": "282d0f89-63c1-487d-9e08-33ca1d45a716",
+      "id": "ef065e7d-e409-4e5b-81a8-05b4a566b6ee",
       "isSpline": true,
       "maxVelocity": 2.0,
+      "inVelocity": 0.0,
+      "outVelocity": 0.0,
       "maxAcceleration": 1.0,
       "maxCentripetalAcceleration": 2.5,
       "snapToPrevious": true,

@@ -93,6 +93,7 @@ public class RobotContainer {
 		chooser.addOption("Blue Shoot Right Far", new BlueRightFar());
 		chooser.addOption("Blue Centerline 4 Piece", new BlueCL4Piece());
 		chooser.addOption("Blue Simple Left", new BlueSimpleLeft());
+		chooser.addOption("Blue 3 Right Auto Track", new Blue3NoteTracking());
 
 		chooser.addOption("Red Shoot and Drive", new RedShootDrive());
 		chooser.addOption("Red 3 Piece Left", new Red3Piece());
@@ -102,6 +103,7 @@ public class RobotContainer {
 		chooser.addOption("Red Shoot Left Far", new RedLeftFar());
 		chooser.addOption("Red Centerline 4 Piece", new RedCL4Piece());
 		chooser.addOption("Red Simple Right", new RedSimpleRight());
+		chooser.addOption("Red 3 Left Auto Track", new Red3NoteTracking());
 
 		SmartDashboard.putData(chooser);
 	}
