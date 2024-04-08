@@ -75,8 +75,8 @@ public class AutoAlignCommand extends Command {
 		// Generate trajectory command to nearest coordinate
 		RobotContainer.drivetrainSubsystem.getFollower()
 				.follow(new Trajectory(new SimplePathBuilder(robotPose).lineTo(target).build(),
-						new TrajectoryConstraint[]{(TrajectoryConstraint) new MaxAccelerationConstraint(1),
-								(TrajectoryConstraint) new MaxVelocityConstraint(1)},
+						new TrajectoryConstraint[]{(TrajectoryConstraint) new MaxAccelerationConstraint(3),
+								(TrajectoryConstraint) new MaxVelocityConstraint(3)},
 						.05));
 	}
 
