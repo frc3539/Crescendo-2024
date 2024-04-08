@@ -25,6 +25,8 @@ import com.ctre.phoenix6.signals.SensorDirectionValue;
 
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
@@ -216,6 +218,9 @@ public class ShooterSubsystem extends SubsystemBase {
 		double angleToTarget = -101 + 42.6667 * distanceToTarget - 8.25 * Math.pow(distanceToTarget, 2)
 				+ 0.5833 * Math.pow(distanceToTarget, 3);
 		angleToTarget = Math.max(angleToTarget, -55);
+		if (DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == Alliance.Blue) {
+			angleToTarget += 1;
+		}
 
 		return angleToTarget;
 

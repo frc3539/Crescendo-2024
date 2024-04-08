@@ -32,7 +32,7 @@ public class Red5Piece extends SequentialCommandGroup {
 
 					new SequentialCommandGroup(new WaitCommand(0.7), new ShootCommand().withTimeout(0.5)),
 					new SequentialCommandGroup(new WaitCommand(3.6), new ShootCommand().withTimeout(0.5)),
-					new SequentialCommandGroup(new WaitCommand(6.0), new ShootCommand().withTimeout(0.4)),
+					new SequentialCommandGroup(new WaitCommand(6.1), new ShootCommand().withTimeout(0.4)),
 					new SequentialCommandGroup(new WaitCommand(9), new ShootCommand().withTimeout(0.5)),
 					new SequentialCommandGroup(new WaitCommand(13.5), new AngleShooterCommand(-28.5).withTimeout(2.0)),
 					new SequentialCommandGroup(new WaitCommand(14.75), new ShootCommand().withTimeout(1.0)),

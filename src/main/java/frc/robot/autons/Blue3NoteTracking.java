@@ -31,32 +31,38 @@ public class Blue3NoteTracking extends SequentialCommandGroup {
 	private Command[] sequence = {
 			new InstantCommand(() -> RobotContainer.drivetrainSubsystem.seedFieldRelative(loader.getFirstTrajectory())),
 			new ParallelCommandGroup(new RevUpCommand(false, ShooterConstants.shootDps).withTimeout(15),
+					new SequentialCommandGroup(new ParallelCommandGroup(
+							new SequentialCommandGroup(new WaitCommand(0.4), new ShootCommand().withTimeout(1)),
+							new SequentialCommandGroup(new WaitCommand(3.5),
+									new IntakeCommand(true, IntakeMode.FRONT).withTimeout(4)),
+							new SequentialCommandGroup(new WaitCommand(0.2),
+									new FollowTrajectoryCommand(RobotContainer.drivetrainSubsystem,
+											loader.getNextTrajectory()),
+									new AutonNoteTrackCommand().withTimeout(1), new ReturnToPathCommand(
+											RobotContainer.drivetrainSubsystem, loader.getNextTrajectory())
 
-					new SequentialCommandGroup(new WaitCommand(0.4), new ShootCommand().withTimeout(1)),
-
-					new SequentialCommandGroup(new WaitCommand(6.75), new AngleShooterCommand(-25.5)),
-					new SequentialCommandGroup(new WaitCommand(7.68), new ShootCommand().withTimeout(1)),
-					new SequentialCommandGroup(new WaitCommand(8.25), new HomePositionCommand()),
-
+							)),
+							new ParallelCommandGroup(
+									new FollowTrajectoryCommand(RobotContainer.drivetrainSubsystem,
+											loader.getCurrentTrajectory()),
+									new SequentialCommandGroup(new WaitCommand(2), new AngleShooterCommand(-25.5)),
+									new SequentialCommandGroup(
+											new WaitCommand(2.85), new ShootCommand().withTimeout(1))),
+							new HomePositionCommand(),
+							new ParallelCommandGroup(
+									new SequentialCommandGroup(
+											new FollowTrajectoryCommand(RobotContainer.drivetrainSubsystem,
+													loader.getNextTrajectory()),
+											new AutonNoteTrackCommand().withTimeout(1),
+											new ReturnToPathCommand(RobotContainer.drivetrainSubsystem,
+													loader.getNextTrajectory())),
+									new SequentialCommandGroup(new WaitCommand(2),
+											new IntakeCommand(true, IntakeMode.FRONT).withTimeout(5))),
+							new FollowTrajectoryCommand(RobotContainer.drivetrainSubsystem,
+									loader.getCurrentTrajectory())),
 					new SequentialCommandGroup(new WaitCommand(13), new AngleShooterCommand(-23)),
-					new SequentialCommandGroup(new WaitCommand(14.75), new ShootCommand().withTimeout(1)),
+					new SequentialCommandGroup(new WaitCommand(14.75), new ShootCommand().withTimeout(1)))};
 
-					new SequentialCommandGroup(new WaitCommand(3.5),
-							new IntakeCommand(true, IntakeMode.FRONT).withTimeout(4)),
-					new SequentialCommandGroup(new WaitCommand(10.28),
-							new IntakeCommand(true, IntakeMode.FRONT).withTimeout(4)),
-
-					new SequentialCommandGroup(new WaitCommand(0.2),
-							new FollowTrajectoryCommand(RobotContainer.drivetrainSubsystem, loader.getNextTrajectory()),
-							new AutonNoteTrackCommand().withTimeout(1),
-							new ReturnToPathCommand(RobotContainer.drivetrainSubsystem, loader.getNextTrajectory()),
-							new FollowTrajectoryCommand(RobotContainer.drivetrainSubsystem,
-									loader.getCurrentTrajectory()),
-							new FollowTrajectoryCommand(RobotContainer.drivetrainSubsystem, loader.getNextTrajectory()),
-							new AutonNoteTrackCommand().withTimeout(1),
-							new ReturnToPathCommand(RobotContainer.drivetrainSubsystem, loader.getNextTrajectory()),
-							new FollowTrajectoryCommand(RobotContainer.drivetrainSubsystem,
-									loader.getCurrentTrajectory())))};
 	/** Creates a new RedShootDrive. */
 	public Blue3NoteTracking() {
 		addCommands(sequence);

@@ -153,6 +153,11 @@ public class LedSubsystem extends SubsystemBase {
 			return;
 		}
 		if (noteTracking) {
+			if (!RobotContainer.visionSubsystem.backNoteCam.isConnected()
+					|| !RobotContainer.visionSubsystem.frontNoteCam.isConnected()) {
+				setLEDs(LEDState.ERROR);
+				return;
+			}
 			setLEDs(LEDState.AUTO);
 			return;
 		}

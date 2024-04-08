@@ -145,7 +145,7 @@ public class RobotContainer {
 
 		// operatorController.start().whileTrue(new BuddyClimbCommand());
 		driverController.start().whileTrue(new ZeroGyroCommand());
-		driverController.y().whileTrue(new AutoAlignCommand(TagPosition.TRAP));
+		driverController.y().whileTrue(new AutoAlignCommand(TagPosition.AMP));
 
 		drivetrainSubsystem.setDefaultCommand(new DriveCommand());
 	}

@@ -32,10 +32,10 @@ public class AutoAlignCommand extends Command {
 			case AMP :
 
 				if (DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == Alliance.Blue) {
-					points.add(new Pose2d(1.8415, 7.75335, Rotation2d.fromDegrees(90)));
+					points.add(new Pose2d(1.9415, 7.75335, Rotation2d.fromDegrees(-90)));
 
 				} else {
-					points.add(new Pose2d(1.8415, 0.4572, Rotation2d.fromDegrees(-90)));
+					points.add(new Pose2d(1.9415, 0.4572, Rotation2d.fromDegrees(90)));
 
 				}
 				break;
