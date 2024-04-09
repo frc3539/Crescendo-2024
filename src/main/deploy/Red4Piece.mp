@@ -5,7 +5,7 @@
   "paths": [
     {
       "name": "Path 1",
-      "id": "34c658ae-9f57-4825-9114-cd410c337e66",
+      "id": "924cea36-89d7-470a-9be2-59c8442a1dab",
       "isSpline": true,
       "maxVelocity": 2.0,
       "inVelocity": 0.0,
@@ -18,49 +18,49 @@
           "x": 1.302,
           "y": 2.66655,
           "rotation": 0.0,
-          "id": "68332f8a-d3ae-42b9-bdd1-ae206913b120"
+          "id": "3145ffdc-c0c2-40a0-8c7e-dd0213eb106f"
         },
         {
           "x": 3.325,
           "y": 2.78355,
           "rotation": 0.0,
-          "id": "f047da14-6cf7-4d06-8a75-e1301fef68f5"
+          "id": "ed2b0e12-b436-4e96-821c-091432646186"
         },
         {
           "x": 1.7,
           "y": 3.11055,
           "rotation": 0.0,
-          "id": "7a5e635e-ba6b-4cb0-8211-251f2fed9a2c"
+          "id": "7e3aa8eb-c34d-4713-8660-504e0d0cb48a"
         },
         {
           "x": 1.6,
           "y": 2.16455,
           "rotation": 0.0,
-          "id": "697a14d1-24cc-4e5e-aef8-ab92ef1ff0cb"
+          "id": "b3b010b4-430d-44ac-a2d1-a5e50bd00a82"
         },
         {
           "x": 3.501,
           "y": 0.872,
           "rotation": 0.0,
-          "id": "f96af25b-4fdc-4079-9503-ce3564e34a02"
+          "id": "ed87a487-7164-4436-8fd3-8a6c594fb180"
         },
         {
           "x": 1.5,
           "y": 2.65555,
           "rotation": 0.0,
-          "id": "d50a0ceb-a232-4e7a-afcc-90f5b6ff12bc"
+          "id": "12e4ad6b-3596-4edf-b1fb-ed9332765c6a"
         },
         {
           "x": 2.559,
           "y": 4.09355,
           "rotation": 0.0,
-          "id": "06289f50-6648-4563-87df-c1fbfe5688a4"
+          "id": "c3109abd-644a-4422-8320-783339c98bdb"
         },
         {
           "x": 1.5,
           "y": 2.64955,
           "rotation": 0.0,
-          "id": "776854ff-a31f-4d91-95c5-8d6b8f0ffed9"
+          "id": "c537a3d7-feac-4425-a50a-31cf6cdb667a"
         }
       ]
     }

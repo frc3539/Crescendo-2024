@@ -8,6 +8,7 @@ import com.ctre.phoenix.led.CANdle;
 import com.ctre.phoenix.led.CANdle.LEDStripType;
 import com.ctre.phoenix.led.ColorFlowAnimation;
 import com.ctre.phoenix.led.LarsonAnimation;
+import com.ctre.phoenix.led.RainbowAnimation;
 import com.ctre.phoenix.led.LarsonAnimation.BounceMode;
 import com.ctre.phoenix.led.StrobeAnimation;
 
@@ -25,6 +26,7 @@ public class LedSubsystem extends SubsystemBase {
 	boolean autoShooting;
 	boolean shootAligning;
 	boolean noteTracking;
+	boolean climbing;
 	CANdle candle;
 
 	public LedSubsystem(boolean enabled) {
@@ -84,6 +86,8 @@ public class LedSubsystem extends SubsystemBase {
 				break;
 
 			case CLIMBING :
+				candle.animate(new RainbowAnimation(LedConstants.maxBrightness, LedConstants.flashSpeed,
+						LedConstants.numLights));
 				break;
 
 			case AUTO :
@@ -126,6 +130,9 @@ public class LedSubsystem extends SubsystemBase {
 	public void setNoteTracking(boolean noteTracking) {
 		this.noteTracking = noteTracking;
 	}
+	public void setClimbing(boolean climbing) {
+		this.climbing = climbing;
+	}
 
 	@Override
 	public void periodic() {
@@ -148,8 +155,13 @@ public class LedSubsystem extends SubsystemBase {
 			setLEDs(LEDState.AUTO);
 			return;
 		}
+
 		if (shootAligning) {
 			setLEDs(LEDState.AUTO);
+			return;
+		}
+		if (climbing) {
+			setLEDs(LEDState.CLIMBING);
 			return;
 		}
 		if (noteTracking) {

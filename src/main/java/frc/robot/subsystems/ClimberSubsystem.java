@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.configs.HardwareLimitSwitchConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
@@ -46,6 +47,10 @@ public class ClimberSubsystem extends SubsystemBase {
 
 		leftClimbMotor.setNeutralMode(NeutralModeValue.Brake);
 		rightClimbMotor.setNeutralMode(NeutralModeValue.Brake);
+
+		leftClimbMotor.getConfigurator().apply(new HardwareLimitSwitchConfigs().withReverseLimitEnable(true));
+		rightClimbMotor.getConfigurator().apply(new HardwareLimitSwitchConfigs().withReverseLimitEnable(true));
+
 	}
 
 	public void setLeftClimbMotorSpeed(double rps) {
