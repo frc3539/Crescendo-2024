@@ -5,7 +5,7 @@
   "paths": [
     {
       "name": "Path 1",
-      "id": "e9bbe696-311e-4948-8ac5-a17a4920864a",
+      "id": "692bdadf-abb5-472a-b16d-98b8c689d0ea",
       "isSpline": true,
       "maxVelocity": 2.0,
       "inVelocity": 0.0,
@@ -18,61 +18,61 @@
           "x": 0.793,
           "y": 6.649,
           "rotation": 60.0,
-          "id": "637e1a2b-f3df-4fff-b610-b8ed90965ca9"
+          "id": "2b994151-6068-421f-bc25-27121aabf707"
         },
         {
           "x": 1.72,
           "y": 6.992,
           "rotation": 0.0,
-          "id": "ac0d4221-73f6-4f6f-90ea-17f7e2ea6d7a"
+          "id": "5ec17296-0950-45a6-be6f-ed0279fee1b5"
         },
         {
           "x": 3.474,
           "y": 7.006,
           "rotation": 0.0,
-          "id": "32ff4100-48e9-45f2-8c30-cc414398ec8d"
+          "id": "ec7d9122-7fe9-41a8-a7bf-e1bd715ebc06"
         },
         {
           "x": 0.793,
           "y": 6.649,
           "rotation": 60.0,
-          "id": "2d2b901c-4bb9-493f-995e-12d134aaa5c6"
+          "id": "bd375bed-b647-4f05-86d0-16c5c2ca9928"
         },
         {
           "x": 1.506,
           "y": 6.718,
           "rotation": 60.0,
-          "id": "ddd83373-52b2-4835-a4b8-64462890ce5d"
+          "id": "f2a35072-3d35-44b1-a577-ae9baafe346b"
         },
         {
           "x": 2.504,
           "y": 6.087,
           "rotation": -40.0,
-          "id": "277989b8-13ee-4237-9415-2ca7a573797d"
+          "id": "9292a2f3-da57-4697-ab32-8446ccd2e0fe"
         },
         {
           "x": 3.289,
           "y": 5.154,
           "rotation": -40.0,
-          "id": "5d8ea38f-77b6-4f72-912f-acf44126612a"
+          "id": "0c5de724-675b-4b79-bdfc-28c173f0d714"
         },
         {
           "x": 2.504,
           "y": 6.087,
           "rotation": -40.0,
-          "id": "e0829b78-9678-44b1-a501-5b80e04d66be"
+          "id": "5ecf25d5-ca16-4f7a-9e64-dc0059e90d64"
         },
         {
           "x": 1.506,
           "y": 6.718,
           "rotation": 60.0,
-          "id": "bd9e3383-ff6f-48a0-89b9-04be4765d905"
+          "id": "4b3bbb9c-c8a5-4d0c-a190-8a13414ec82c"
         },
         {
           "x": 0.793,
           "y": 6.649,
           "rotation": 60.0,
-          "id": "f7345760-aadf-437d-81bd-cdfc5e31ecb4"
+          "id": "edbdc988-3cb0-4684-9369-a0969799edc0"
         }
       ]
     }

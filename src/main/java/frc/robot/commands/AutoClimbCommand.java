@@ -24,14 +24,14 @@ public class AutoClimbCommand extends Command {
 	@Override
 	public void execute() {
 		if (RobotContainer.drivetrainSubsystem.getRobotRoll().getDegrees() < -4) {
-			RobotContainer.climberSubsystem.setLeftClimbMotorVoltage(6);
+			RobotContainer.climberSubsystem.setLeftClimbMotorVoltage(10);
 			RobotContainer.climberSubsystem.setRightClimbMotorVoltage(0);
 		} else if (RobotContainer.drivetrainSubsystem.getRobotRoll().getDegrees() > 4) {
 			RobotContainer.climberSubsystem.setLeftClimbMotorVoltage(0);
-			RobotContainer.climberSubsystem.setRightClimbMotorVoltage(6);
+			RobotContainer.climberSubsystem.setRightClimbMotorVoltage(10);
 		} else {
-			RobotContainer.climberSubsystem.setLeftClimbMotorVoltage(6);
-			RobotContainer.climberSubsystem.setRightClimbMotorVoltage(6);
+			RobotContainer.climberSubsystem.setLeftClimbMotorVoltage(10);
+			RobotContainer.climberSubsystem.setRightClimbMotorVoltage(10);
 		}
 	}
 

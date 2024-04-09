@@ -25,8 +25,8 @@ import org.frcteam3539.Byte_Swerve_Lib.io.BBMPLoader;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class Blue3NoteTracking extends SequentialCommandGroup {
-	BBMPLoader loader = new BBMPLoader("/home/lvuser/profiles/Blue3NoteTracking.txt", false);
+public class BlueLeftCL extends SequentialCommandGroup {
+	BBMPLoader loader = new BBMPLoader("/home/lvuser/profiles/BlueLeftCL.txt", false);
 
 	private Command[] sequence = {
 		new InstantCommand(() -> RobotContainer.drivetrainSubsystem.seedFieldRelative(loader.getFirstTrajectory())),
@@ -39,17 +39,18 @@ public class Blue3NoteTracking extends SequentialCommandGroup {
 						.andThen(new ShootCommand().withTimeout(1)),
 					new WaitCommand(0.2)
 						.andThen(new FollowTrajectoryCommand(RobotContainer.drivetrainSubsystem, loader.getNextTrajectory()))
+						.andThen(new FollowTrajectoryCommand(RobotContainer.drivetrainSubsystem, loader.getNextTrajectory()))
 						.andThen(new AutonNoteTrackCommand().withTimeout(1))
 						.andThen(new ReturnToPathCommand(RobotContainer.drivetrainSubsystem, loader.getNextTrajectory())),
-					new WaitCommand(3.5)
+					new WaitCommand(3.03)
 						.andThen(new IntakeCommand(true, IntakeMode.FRONT).withTimeout(4))
 				),
 				// Return and shoot second note
 				new ParallelCommandGroup(
 					new FollowTrajectoryCommand(RobotContainer.drivetrainSubsystem, loader.getCurrentTrajectory()),
-					new WaitCommand(2)
+					new WaitCommand(0.60)
 						.andThen(new AngleShooterCommand(-25.5)),
-					new WaitCommand(2.85)
+					new WaitCommand(1.78)
 						.andThen(new ShootCommand().withTimeout(1))
 						.andThen(new HomePositionCommand())
 				),
@@ -58,21 +59,33 @@ public class Blue3NoteTracking extends SequentialCommandGroup {
 					new FollowTrajectoryCommand(RobotContainer.drivetrainSubsystem, loader.getNextTrajectory())
 						.andThen(new AutonNoteTrackCommand().withTimeout(1))
 						.andThen(new ReturnToPathCommand(RobotContainer.drivetrainSubsystem, loader.getNextTrajectory())),
-					new WaitCommand(2)
+					new WaitCommand(1.37)
 						.andThen(new IntakeCommand(true, IntakeMode.FRONT).withTimeout(5))
 				),
 				// Return and shoot third note
 				new ParallelCommandGroup(
 					new FollowTrajectoryCommand(RobotContainer.drivetrainSubsystem, loader.getCurrentTrajectory()),
-					new WaitCommand(13).andThen(new AngleShooterCommand(-23)),
-					new WaitCommand(14.75).andThen(new ShootCommand().withTimeout(1))
+					new WaitCommand(0.59)
+					.andThen(new AngleShooterCommand(-23)),
+					new WaitCommand(1.56)
+					.andThen(new ShootCommand().withTimeout(1))
+					.andThen(new HomePositionCommand())
+
+				),
+				//pick up note 4
+				new ParallelCommandGroup(
+					new FollowTrajectoryCommand(RobotContainer.drivetrainSubsystem, loader.getNextTrajectory())
+						.andThen(new AutonNoteTrackCommand().withTimeout(1)),
+						//.andThen(new ReturnToPathCommand(RobotContainer.drivetrainSubsystem, loader.getNextTrajectory())),
+					new WaitCommand(1.58)
+						.andThen(new IntakeCommand(true, IntakeMode.FRONT).withTimeout(5))
 				)
 			)
 		)
 	};
 
 	/** Creates a new RedShootDrive. */
-	public Blue3NoteTracking() {
+	public BlueLeftCL() {
 		addCommands(sequence);
 	}
 }

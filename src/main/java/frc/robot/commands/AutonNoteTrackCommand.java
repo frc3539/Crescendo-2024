@@ -19,6 +19,7 @@ public class AutonNoteTrackCommand extends Command {
 	double rotationSpeedMultiplier = DrivetrainConstants.rotationSpeedMultiplier;
 	double maxRotationalVelocity = RobotContainer.drivetrainSubsystem.maxRotationalVelocity;
 	double maxVelocity = RobotContainer.drivetrainSubsystem.maxVelocity;
+	int noNoteCounter = 0;
 
 	private PidController rotationController;
 	double rotationDeadband = maxRotationalVelocity * 0.05;
@@ -52,6 +53,7 @@ public class AutonNoteTrackCommand extends Command {
 		if (target != null & !RobotContainer.intakeSubsystem.getBackSensor()
 				& !RobotContainer.intakeSubsystem.getFrontSensor() & !RobotContainer.intakeSubsystem.getChamberSensor()
 				& !RobotContainer.shooterSubsystem.getShooterSensor()) {
+			noNoteCounter = 0;
 			RobotContainer.ledSubsystem.setNoteTracking(true);
 
 			double noteTrackSpeedMultiplier = 0.5;
@@ -65,6 +67,7 @@ public class AutonNoteTrackCommand extends Command {
 			RobotContainer.drivetrainSubsystem.applyRequest(request);
 
 		} else {
+			noNoteCounter++;
 			RobotContainer.ledSubsystem.setNoteTracking(false);
 		}
 
@@ -81,6 +84,6 @@ public class AutonNoteTrackCommand extends Command {
 	public boolean isFinished() {
 		return RobotContainer.intakeSubsystem.getBackSensor() || RobotContainer.intakeSubsystem.getFrontSensor()
 				|| RobotContainer.intakeSubsystem.getChamberSensor()
-				|| RobotContainer.shooterSubsystem.getShooterSensor();
+				|| RobotContainer.shooterSubsystem.getShooterSensor() || noNoteCounter > 10;
 	}
 }
