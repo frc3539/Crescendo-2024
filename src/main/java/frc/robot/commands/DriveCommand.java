@@ -27,13 +27,13 @@ public class DriveCommand extends Command {
 
 	double maxRotationalVelocity = RobotContainer.drivetrainSubsystem.maxRotationalVelocity;
 
-	double rotationDeadband = maxRotationalVelocity * 0.05;
+	double rotationDeadband = maxRotationalVelocity * 0.02;
 	private final SwerveRequest.FieldCentric driveFieldCentric = new SwerveRequest.FieldCentric()
-			.withDeadband(maxVelocity * 0.1).withRotationalDeadband(rotationDeadband) // Add a 10% deadband
+			.withDeadband(maxVelocity * 0.02).withRotationalDeadband(rotationDeadband) // Add a 10% deadband
 			.withDriveRequestType(DriveRequestType.OpenLoopVoltage); // I want field-centric
 
 	private final SwerveRequest.RobotCentric driveRobotCentric = new SwerveRequest.RobotCentric()
-			.withDeadband(maxVelocity * 0.1).withRotationalDeadband(rotationDeadband) // Add a 10% deadband
+			.withDeadband(maxVelocity * 0.02).withRotationalDeadband(rotationDeadband) // Add a 10% deadband
 			.withDriveRequestType(DriveRequestType.OpenLoopVoltage); // I want field-centric
 
 	public DriveCommand() {

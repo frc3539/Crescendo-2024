@@ -5,7 +5,7 @@
   "paths": [
     {
       "name": "Path 1",
-      "id": "d12a6644-8a7a-413b-aebe-b76cce2f1dd1",
+      "id": "53662b04-2934-4f53-93d6-81f26acbc3d1",
       "isSpline": true,
       "maxVelocity": 3.0,
       "inVelocity": 0.0,
@@ -18,19 +18,19 @@
           "x": 0.845,
           "y": 6.616,
           "rotation": 60.0,
-          "id": "2b66122c-beca-4ca5-adb8-74b55c179e77"
+          "id": "c8faa193-ebc4-4447-8c25-460a36dac091"
         },
         {
           "x": 2.076,
           "y": 6.901,
           "rotation": 0.0,
-          "id": "a06c6f0a-1d1d-4c5d-80ed-8ff15e3818bd"
+          "id": "7c4a9b98-238d-4eba-a12a-fef98544202d"
         },
         {
           "x": 6.105,
           "y": 6.952,
           "rotation": 0.0,
-          "id": "20caa5dc-4bde-4833-a283-78c02a687fc5"
+          "id": "c6b000c7-dca0-4495-8961-083c810f854b"
         }
       ]
     }
