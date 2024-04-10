@@ -16,6 +16,8 @@ public class IndependantClimbRightCommand extends Command {
 	// Called when the command is initially scheduled.
 	@Override
 	public void initialize() {
+		RobotContainer.ledSubsystem.setClimbing(true);
+
 	}
 
 	// Called every time the scheduler runs while the command is scheduled.
@@ -29,6 +31,8 @@ public class IndependantClimbRightCommand extends Command {
 	@Override
 	public void end(boolean interrupted) {
 		RobotContainer.climberSubsystem.setRightClimbMotorVoltage(0);
+		RobotContainer.ledSubsystem.setClimbing(false);
+
 	}
 
 	// Returns true when the command should end.

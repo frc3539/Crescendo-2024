@@ -48,8 +48,8 @@ public class ClimberSubsystem extends SubsystemBase {
 		leftClimbMotor.setNeutralMode(NeutralModeValue.Brake);
 		rightClimbMotor.setNeutralMode(NeutralModeValue.Brake);
 
-		leftClimbMotor.getConfigurator().apply(new HardwareLimitSwitchConfigs().withReverseLimitEnable(true));
-		rightClimbMotor.getConfigurator().apply(new HardwareLimitSwitchConfigs().withReverseLimitEnable(true));
+		leftClimbMotor.getConfigurator().apply(new HardwareLimitSwitchConfigs().withForwardLimitEnable(true));
+		rightClimbMotor.getConfigurator().apply(new HardwareLimitSwitchConfigs().withForwardLimitEnable(true));
 
 	}
 

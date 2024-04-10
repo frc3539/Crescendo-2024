@@ -96,7 +96,6 @@ public class RobotContainer {
 		chooser.addOption("Blue 3 Right Auto Track", new Blue3NoteTracking());
 		chooser.addOption("Blue Left Centerline", new BlueLeftCL());
 
-
 		chooser.addOption("Red Shoot and Drive", new RedShootDrive());
 		chooser.addOption("Red 3 Piece Left", new Red3Piece());
 		chooser.addOption("Red 4 Piece Center", new Red4Piece());

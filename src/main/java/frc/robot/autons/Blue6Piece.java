@@ -75,10 +75,32 @@ public class Blue6Piece extends SequentialCommandGroup {
 				// Go pick up fourth note
 				new ParallelCommandGroup(
 					new FollowTrajectoryCommand(RobotContainer.drivetrainSubsystem, loader.getNextTrajectory())
-						.andThen(new AutonNoteTrackCommand().withTimeout(1))
-						.andThen(new ReturnToPathCommand(RobotContainer.drivetrainSubsystem, loader.getNextTrajectory())),
+						.andThen(new AutonNoteTrackCommand().withTimeout(1)),
 					(new IntakeCommand(true, IntakeMode.FRONT).withTimeout(5))
 				),
+				//shoot fourth note
+				new ParallelCommandGroup(
+					new WaitCommand(1.80)
+					.andThen(new ShootCommand().withTimeout(1))
+				),
+				//pick up fifth note 
+				new ParallelCommandGroup(
+					new FollowTrajectoryCommand(RobotContainer.drivetrainSubsystem, loader.getNextTrajectory())
+						.andThen(new AutonNoteTrackCommand().withTimeout(1)),
+					(new IntakeCommand(true, IntakeMode.FRONT).withTimeout(4))
+				),
+				//shoot fifth note and pick up sixth
+				new ParallelCommandGroup(
+					new FollowTrajectoryCommand(RobotContainer.drivetrainSubsystem, loader.getNextTrajectory()),
+					new WaitCommand(0.75)
+					.andThen(new ShootCommand().withTimeout(1)),
+					new WaitCommand(1.27).andThen(new IntakeCommand(true, IntakeMode.FRONT).withTimeout(5))
+				),
+				new ParallelCommandGroup(
+					new WaitCommand(1.33)
+					.andThen(new ShootCommand().withTimeout(1))
+				)
+
 			)
 		)
 	};

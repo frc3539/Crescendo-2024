@@ -106,7 +106,7 @@ public class LedSubsystem extends SubsystemBase {
 				break;
 			case BACK :
 				candle.animate(new StrobeAnimation(LedConstants.Yellow.getRed(), LedConstants.Yellow.getGreen(),
-						LedConstants.Yellow.getBlue(), 0, LedConstants.flashSpeed, LedConstants.numLights));
+						LedConstants.Yellow.getBlue(), 0, LedConstants.flashSpeed, LedConstants.numLights, 34));
 				candle.setLEDs(LedConstants.Yellow.getRed(), LedConstants.Yellow.getGreen(),
 						LedConstants.Yellow.getBlue(), 0, 0, 34);
 				break;
