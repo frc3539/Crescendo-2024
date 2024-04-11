@@ -6,7 +6,9 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.led.CANdle;
 import com.ctre.phoenix.led.CANdle.LEDStripType;
+import com.ctre.phoenix.led.ColorFlowAnimation.Direction;
 import com.ctre.phoenix.led.ColorFlowAnimation;
+import com.ctre.phoenix.led.FireAnimation;
 import com.ctre.phoenix.led.LarsonAnimation;
 import com.ctre.phoenix.led.RainbowAnimation;
 import com.ctre.phoenix.led.LarsonAnimation.BounceMode;
@@ -27,6 +29,7 @@ public class LedSubsystem extends SubsystemBase {
 	boolean shootAligning;
 	boolean noteTracking;
 	boolean climbing;
+	boolean reverseClimbing;
 	CANdle candle;
 
 	public LedSubsystem(boolean enabled) {
@@ -35,12 +38,11 @@ public class LedSubsystem extends SubsystemBase {
 		this.candle = new CANdle(IDConstants.CANdleID, IDConstants.CandleCanName);
 		candle.configLEDType(LEDStripType.GRB);
 		candle.configBrightnessScalar(LedConstants.maxBrightness);
-		candle.animate(null);
-		candle.setLEDs(0, 255, 0, 0, 0, LedConstants.numLights);
+		setLEDs(LEDState.ON);
 	}
 
 	public enum LEDState {
-		ON, OFF, READY, INTAKING, INTAKING_EMPTY, SHOOTING, PREPARED, CLIMBING, AUTO, ERROR, FRONT, BACK
+		ON, OFF, CONNECTED, READY, INTAKING, INTAKING_EMPTY, SHOOTING, PREPARED, CLIMBING, REVERSE_CLIMBING, AUTO, ERROR, FRONT, BACK
 	}
 
 	public LEDState state;
@@ -55,10 +57,15 @@ public class LedSubsystem extends SubsystemBase {
 				candle.setLEDs(0, 0, 0);
 				break;
 			case ON :
+				candle.animate(new ColorFlowAnimation(LedConstants.Green.getRed(), LedConstants.Green.getGreen(),
+						LedConstants.Green.getBlue(), 0, LedConstants.flashSpeed, LedConstants.numLights,
+						Direction.Forward));
+
+				break;
+			case CONNECTED :
 				candle.animate(null);
 				candle.setLEDs(LedConstants.Green.getRed(), LedConstants.Green.getGreen(),
 						LedConstants.Green.getBlue());
-
 				break;
 
 			case READY :
@@ -86,10 +93,12 @@ public class LedSubsystem extends SubsystemBase {
 				break;
 
 			case CLIMBING :
-				candle.animate(new RainbowAnimation(LedConstants.maxBrightness, LedConstants.flashSpeed,
-						LedConstants.numLights));
+				candle.animate(new RainbowAnimation(LedConstants.maxBrightness, 0.5, LedConstants.numLights));
 				break;
-
+			case REVERSE_CLIMBING :
+				candle.animate(new FireAnimation(LedConstants.maxBrightness, LedConstants.flashSpeed,
+						LedConstants.numLights, 0, 1));
+				break;
 			case AUTO :
 				candle.animate(new StrobeAnimation(LedConstants.Blue.getRed(), LedConstants.Blue.getGreen(),
 						LedConstants.Blue.getBlue(), 0, LedConstants.flashSpeed, LedConstants.numLights));
@@ -133,6 +142,9 @@ public class LedSubsystem extends SubsystemBase {
 	public void setClimbing(boolean climbing) {
 		this.climbing = climbing;
 	}
+	public void setReverseClimbing(boolean reverseClimbing) {
+		this.reverseClimbing = reverseClimbing;
+	}
 
 	@Override
 	public void periodic() {
@@ -160,8 +172,12 @@ public class LedSubsystem extends SubsystemBase {
 			setLEDs(LEDState.AUTO);
 			return;
 		}
-		if (climbing) {
+		if (RobotContainer.climberSubsystem.doneClimbing()) {
 			setLEDs(LEDState.CLIMBING);
+			return;
+		}
+		if (reverseClimbing) {
+			setLEDs(LEDState.REVERSE_CLIMBING);
 			return;
 		}
 		if (noteTracking) {
@@ -206,6 +222,6 @@ public class LedSubsystem extends SubsystemBase {
 			}
 		}
 
-		setLEDs(LEDState.ON);
+		setLEDs(LEDState.CONNECTED);
 	}
 }

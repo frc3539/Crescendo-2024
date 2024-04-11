@@ -57,6 +57,10 @@ public class IntakeCommand extends Command {
 			// RobotContainer.intakeSubsystem.setGroundMotorSpeed(-IntakeConstants.intakeRps);
 			// RobotContainer.intakeSubsystem.setGrabMotorSpeed(-IntakeConstants.intakeRps);
 
+			RobotContainer.shooterSubsystem.setFeedMotorSpeed(-IntakeConstants.intakeDps);
+			RobotContainer.shooterSubsystem.setTopMotorSpeed(-IntakeConstants.intakeDps);
+			RobotContainer.shooterSubsystem.setBottomMotorSpeed(-IntakeConstants.intakeDps);
+
 			RobotContainer.intakeSubsystem.setGroundMotorSpeed(
 					BBMath.getRps(-IntakeConstants.intakeDps * 3, IntakeConstants.groundWheelDiameter));
 			RobotContainer.intakeSubsystem.setChamberMotorSpeed(
@@ -140,6 +144,11 @@ public class IntakeCommand extends Command {
 		// RobotContainer.intakeSubsystem.setGrabMotorSpeed(0);
 		// RobotContainer.intakeSubsystem.setGroundMotorSpeed(0);
 		// RobotContainer.intakeSubsystem.setKickMotorSpeed(0);
+		if (!intaking) {
+			RobotContainer.shooterSubsystem.setFeedMotorSpeed(0);
+			RobotContainer.shooterSubsystem.setTopMotorSpeed(0);
+			RobotContainer.shooterSubsystem.setBottomMotorSpeed(0);
+		}
 		RobotContainer.ledSubsystem.setIntaking(false);
 
 		RobotContainer.intakeSubsystem.setChamberMotorVoltage(0);

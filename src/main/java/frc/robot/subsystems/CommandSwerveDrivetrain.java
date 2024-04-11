@@ -109,17 +109,19 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
 	}
 	public Translation2d getOffsetTarget() {
 		Translation2d offsetTarget;
-		double noteSpeed = 20;
+		double noteSpeed = 18;
 		double distanceToTarget = 0;
 		if (DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == Alliance.Red) {
-			distanceToTarget = RobotContainer.drivetrainSubsystem.getPose2d().getTranslation()
-					.getDistance(redSpeakerCoordinate);
+			distanceToTarget = Math.sqrt(Math.pow(
+					RobotContainer.drivetrainSubsystem.getPose2d().getTranslation().getDistance(redSpeakerCoordinate),
+					2) + Math.pow(2.05, 2));
 			double timeToTarget = distanceToTarget / noteSpeed;
 			offsetTarget = new Translation2d(redSpeakerCoordinate.getX() - velocityX * timeToTarget,
 					redSpeakerCoordinate.getY() - velocityY * timeToTarget);
 		} else {
-			distanceToTarget = RobotContainer.drivetrainSubsystem.getPose2d().getTranslation()
-					.getDistance(blueSpeakerCoordinate);
+			distanceToTarget = Math.sqrt(Math.pow(
+					RobotContainer.drivetrainSubsystem.getPose2d().getTranslation().getDistance(blueSpeakerCoordinate),
+					2) + Math.pow(2.05, 2));
 			double timeToTarget = distanceToTarget / noteSpeed;
 			offsetTarget = new Translation2d(blueSpeakerCoordinate.getX() - velocityX * timeToTarget,
 					blueSpeakerCoordinate.getY() - velocityY * timeToTarget);

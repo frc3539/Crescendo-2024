@@ -130,6 +130,8 @@ public class RobotContainer {
 		// CommandScheduler.getInstance().schedule(new HomePositionCommand());
 		// }));
 		operatorController.leftStick().whileTrue(new RevUpCommand(false, ShooterConstants.shootDps * 0.6));
+		operatorController.rightStick().whileTrue(new ReverseClimb());
+
 		// operatorController.a().whileTrue(new AngleShooterCommand(-29.5));
 		operatorController.start().whileTrue(new AutoClimbCommand());
 		// operatorController.y().onTrue(new SetElevatorCommand(8));

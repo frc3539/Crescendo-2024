@@ -9,6 +9,7 @@ import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.ForwardLimitValue;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
@@ -95,6 +96,11 @@ public class ClimberSubsystem extends SubsystemBase {
 			leftClimbMotor.setNeutralMode(NeutralModeValue.Coast);
 			rightClimbMotor.setNeutralMode(NeutralModeValue.Coast);
 		}
+	}
+	public boolean doneClimbing() {
+		return leftClimbMotor.getForwardLimit().getValue() == ForwardLimitValue.ClosedToGround
+				&& rightClimbMotor.getForwardLimit().getValue() == ForwardLimitValue.ClosedToGround;
+
 	}
 
 	public void log() {
