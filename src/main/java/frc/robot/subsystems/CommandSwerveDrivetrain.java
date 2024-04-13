@@ -109,7 +109,7 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
 	}
 	public Translation2d getOffsetTarget() {
 		Translation2d offsetTarget;
-		double noteSpeed = 18;
+		double noteSpeed = 16;
 		double distanceToTarget = 0;
 		if (DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == Alliance.Red) {
 			distanceToTarget = Math.sqrt(Math.pow(
@@ -152,6 +152,13 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
 		SwerveRequest request = new SwerveRequest.Idle();
 
 		var driveSignalOpt = follower.update(getPose2d(), Timer.getFPGATimestamp(), Robot.kDefaultPeriod);
+
+		if (follower.getLastState() != null) {
+			VisionSubsystem.publishPose2d("/DriveTrain/PoseRequested",
+					follower.getLastState().getPathState().getPose2d());
+		} else {
+			VisionSubsystem.publishPose2d("/DriveTrain/PoseRequested", new Pose2d());
+		}
 
 		// If we should be running a profile use those chassisspeeds instead.
 		if (driveSignalOpt.isPresent()) {

@@ -20,43 +20,57 @@ import frc.robot.commands.RevUpCommand;
 import frc.robot.commands.ShootCommand;
 import frc.robot.commands.IntakeCommand.IntakeMode;
 import frc.robot.constants.ShooterConstants;
+
+import org.frcteam3539.Byte_Swerve_Lib.control.Trajectory;
 import org.frcteam3539.Byte_Swerve_Lib.io.BBMPLoader;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class Red3NoteTracking extends SequentialCommandGroup {
-	BBMPLoader loader = new BBMPLoader("/home/lvuser/profiles/Red3NoteTracking.txt", false);
-
+	BBMPLoader loader = new BBMPLoader("/home/lvuser/profiles/Red3NoteTracking.txt", true);
+	Trajectory[] trajectories = loader.getTrajectories();
 	private Command[] sequence = {
-			new InstantCommand(() -> RobotContainer.drivetrainSubsystem.seedFieldRelative(loader.getFirstTrajectory())),
-			new ParallelCommandGroup(new RevUpCommand(false, ShooterConstants.shootDps).withTimeout(15),
+		new InstantCommand(() -> RobotContainer.drivetrainSubsystem.seedFieldRelative(loader.getFirstTrajectory())),
+		new ParallelCommandGroup(
+			new RevUpCommand(false, ShooterConstants.shootDps).withTimeout(15),
+			new SequentialCommandGroup(
+				// Go pick up second note
+				new ParallelCommandGroup(
+					new WaitCommand(0.4)
+						.andThen(new ShootCommand().withTimeout(1)),
+					new WaitCommand(0.2)
+						.andThen(new FollowTrajectoryCommand(RobotContainer.drivetrainSubsystem, trajectories[0]))
+						.andThen(new AutonNoteTrackCommand().withTimeout(1))
+						.andThen(new ReturnToPathCommand(RobotContainer.drivetrainSubsystem, trajectories[1])),
+					new WaitCommand(2.5)
+						.andThen(new IntakeCommand(true, IntakeMode.FRONT).withTimeout(4))
+				),
+				// Return and shoot second note
+				new ParallelCommandGroup(
+					new FollowTrajectoryCommand(RobotContainer.drivetrainSubsystem, trajectories[1]).andThen(new ShootCommand().withTimeout(.5))
+						.andThen(new HomePositionCommand()),
+					new WaitCommand(.5)
+						.andThen(new AngleShooterCommand(-25.5))
+						
+				),
+				// Go pick up third note
+				new ParallelCommandGroup(
+					new FollowTrajectoryCommand(RobotContainer.drivetrainSubsystem, trajectories[2])
+						.andThen(new AutonNoteTrackCommand().withTimeout(1))
+						.andThen(new ReturnToPathCommand(RobotContainer.drivetrainSubsystem, trajectories[3])),
+					new WaitCommand(2)
+						.andThen(new IntakeCommand(true, IntakeMode.FRONT).withTimeout(5))
+				),
+				// Return and shoot third note
+				new ParallelCommandGroup(
+					new FollowTrajectoryCommand(RobotContainer.drivetrainSubsystem, trajectories[3]).andThen(new ShootCommand().withTimeout(1)),
+					new WaitCommand(0.5).andThen(new AngleShooterCommand(-23))
+				)
+			)
+		)
+	};
 
-					new SequentialCommandGroup(new WaitCommand(0.4), new ShootCommand().withTimeout(1)),
-
-					new SequentialCommandGroup(new WaitCommand(6.75), new AngleShooterCommand(-25.5)),
-					new SequentialCommandGroup(new WaitCommand(7.8), new ShootCommand().withTimeout(1)),
-					new SequentialCommandGroup(new WaitCommand(8.25), new HomePositionCommand()),
-
-					new SequentialCommandGroup(new WaitCommand(13), new AngleShooterCommand(-23)),
-					new SequentialCommandGroup(new WaitCommand(14.75), new ShootCommand().withTimeout(1)),
-
-					new SequentialCommandGroup(new WaitCommand(2.5),
-							new IntakeCommand(true, IntakeMode.FRONT).withTimeout(4)),
-					new SequentialCommandGroup(new WaitCommand(10.28),
-							new IntakeCommand(true, IntakeMode.FRONT).withTimeout(4)),
-
-					new SequentialCommandGroup(new WaitCommand(0.2),
-							new FollowTrajectoryCommand(RobotContainer.drivetrainSubsystem, loader.getNextTrajectory()),
-							new AutonNoteTrackCommand().withTimeout(1),
-							new ReturnToPathCommand(RobotContainer.drivetrainSubsystem, loader.getNextTrajectory()),
-							new FollowTrajectoryCommand(RobotContainer.drivetrainSubsystem,
-									loader.getCurrentTrajectory()),
-							new FollowTrajectoryCommand(RobotContainer.drivetrainSubsystem, loader.getNextTrajectory()),
-							new AutonNoteTrackCommand().withTimeout(1),
-							new ReturnToPathCommand(RobotContainer.drivetrainSubsystem, loader.getNextTrajectory()),
-							new FollowTrajectoryCommand(RobotContainer.drivetrainSubsystem,
-									loader.getCurrentTrajectory())))};
 	/** Creates a new RedShootDrive. */
 	public Red3NoteTracking() {
 		addCommands(sequence);

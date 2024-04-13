@@ -77,6 +77,7 @@ public class AutonNoteTrackCommand extends Command {
 	@Override
 	public void end(boolean interrupted) {
 		RobotContainer.ledSubsystem.setNoteTracking(false);
+		RobotContainer.drivetrainSubsystem.applyRequest(new SwerveRequest.Idle());
 	}
 
 	// Returns true when the command should end.

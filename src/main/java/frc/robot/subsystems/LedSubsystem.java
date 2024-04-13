@@ -93,7 +93,7 @@ public class LedSubsystem extends SubsystemBase {
 				break;
 
 			case CLIMBING :
-				candle.animate(new RainbowAnimation(LedConstants.maxBrightness, 0.5, LedConstants.numLights));
+				candle.animate(new RainbowAnimation(LedConstants.maxBrightness, 1, LedConstants.numLights));
 				break;
 			case REVERSE_CLIMBING :
 				candle.animate(new FireAnimation(LedConstants.maxBrightness, LedConstants.flashSpeed,

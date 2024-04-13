@@ -23,8 +23,8 @@ public class ReverseClimb extends Command {
 	// Called every time the scheduler runs while the command is scheduled.
 	@Override
 	public void execute() {
-		RobotContainer.climberSubsystem.setLeftClimbMotorVoltage(-3);
-		RobotContainer.climberSubsystem.setRightClimbMotorVoltage(-3);
+		RobotContainer.climberSubsystem.setLeftClimbMotorVoltage(-12);
+		RobotContainer.climberSubsystem.setRightClimbMotorVoltage(-12);
 	}
 
 	// Called once the command ends or is interrupted.

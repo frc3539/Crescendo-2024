@@ -5,7 +5,7 @@
   "paths": [
     {
       "name": "Path 1",
-      "id": "6894ca62-1ab8-4971-9ea6-4a9d4a7fd11a",
+      "id": "f0a0a780-77c3-4fab-862c-6e494d664a8c",
       "isSpline": true,
       "maxVelocity": 3.0,
       "inVelocity": 0.0,
@@ -42,7 +42,7 @@
     },
     {
       "name": "Path 4",
-      "id": "db87a04b-fdcd-4918-8630-8482885f2aac",
+      "id": "8e48e186-393e-4a1f-b7e4-4f3bf6ab6cdb",
       "isSpline": true,
       "maxVelocity": 3.0,
       "inVelocity": 1.0,
@@ -73,7 +73,7 @@
     },
     {
       "name": "Path 2",
-      "id": "bf38942a-3946-48c4-93a0-403a5d50829c",
+      "id": "1460cc2f-4482-4f93-a09a-07c64a8c6a1c",
       "isSpline": true,
       "maxVelocity": 3.0,
       "inVelocity": 0.0,
@@ -104,7 +104,7 @@
     },
     {
       "name": "Path 3",
-      "id": "20e6d475-6288-42a9-9dff-37a5a9e1b263",
+      "id": "5542f8a6-8d4f-4b4c-be95-7a7afbd2b7b1",
       "isSpline": true,
       "maxVelocity": 3.0,
       "inVelocity": 1.0,

@@ -5,7 +5,7 @@
   "paths": [
     {
       "name": "Path 1",
-      "id": "eca4ea28-c0b2-4589-bbb9-fff1478867ae",
+      "id": "e0ae0d23-d9cf-4e82-a1cd-c7346a55a0f4",
       "isSpline": true,
       "maxVelocity": 2.0,
       "inVelocity": 0.0,
@@ -30,7 +30,7 @@
     },
     {
       "name": "Path 2",
-      "id": "824dba22-14ed-4548-b440-8c4481ddbc98",
+      "id": "d92b79a9-31bc-452d-8e89-a51fa34c877f",
       "isSpline": true,
       "maxVelocity": 4.0,
       "inVelocity": 2.0,
@@ -79,7 +79,7 @@
     },
     {
       "name": "Path 3",
-      "id": "61734866-bf8e-4244-8589-e5af12f12ee0",
+      "id": "1f43424b-4740-4133-ac97-714a74bc015a",
       "isSpline": true,
       "maxVelocity": 4.0,
       "inVelocity": 4.0,
@@ -116,7 +116,7 @@
     },
     {
       "name": "Path 4",
-      "id": "30c2ddf6-6b38-4a7a-81fe-c16dd7c8954a",
+      "id": "dfaa42e6-22a0-48a7-bdbd-d197213911d0",
       "isSpline": true,
       "maxVelocity": 4.0,
       "inVelocity": 0.0,
@@ -153,7 +153,7 @@
     },
     {
       "name": "Path 5",
-      "id": "3a7635b8-f7a2-4bbd-822b-09b779961116",
+      "id": "e189fd98-60cc-474a-88af-c7ac703bc6fe",
       "isSpline": true,
       "maxVelocity": 4.0,
       "inVelocity": 4.0,
@@ -190,7 +190,7 @@
     },
     {
       "name": "Path 6",
-      "id": "1b1a5450-8b74-40f6-8450-c8a735142b9f",
+      "id": "31aac66d-5156-4ccd-aa8d-d5123d680201",
       "isSpline": true,
       "maxVelocity": 4.0,
       "inVelocity": 0.0,
@@ -215,7 +215,7 @@
     },
     {
       "name": "Path 7",
-      "id": "e2f5936a-b6fb-4bf3-a1a3-34cad9b789ea",
+      "id": "f584a88d-b5f7-42c4-978d-e87d2309a0a2",
       "isSpline": true,
       "maxVelocity": 3.0,
       "inVelocity": 0.0,
@@ -246,7 +246,7 @@
     },
     {
       "name": "Path 8",
-      "id": "67af5dae-9c82-47f2-a0e3-b02669eab0ae",
+      "id": "486cb61a-76dc-4c40-8300-b4c2300a6ecf",
       "isSpline": true,
       "maxVelocity": 3.0,
       "inVelocity": 2.0,
@@ -289,7 +289,7 @@
     },
     {
       "name": "Path 9",
-      "id": "a1ba9d73-b504-4fd4-a89a-4801e62ccf0a",
+      "id": "3a07bd89-f31e-4e78-b63d-64497bcdd36e",
       "isSpline": true,
       "maxVelocity": 4.0,
       "inVelocity": 0.0,
