@@ -219,7 +219,7 @@ public class ShooterSubsystem extends SubsystemBase {
 				+ 0.5833 * Math.pow(distanceToTarget, 3);
 		angleToTarget = Math.max(angleToTarget, -55);
 		if (DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == Alliance.Blue) {
-			angleToTarget += 1;
+			angleToTarget += 0;
 		}
 
 		return angleToTarget;

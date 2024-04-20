@@ -48,10 +48,10 @@ public class Red3NoteTracking extends SequentialCommandGroup {
 				),
 				// Return and shoot second note
 				new ParallelCommandGroup(
-					new FollowTrajectoryCommand(RobotContainer.drivetrainSubsystem, trajectories[1]).andThen(new ShootCommand().withTimeout(.5))
+					new FollowTrajectoryCommand(RobotContainer.drivetrainSubsystem, trajectories[1]).andThen(new WaitCommand(0.3)).andThen(new ShootCommand().withTimeout(.5))
 						.andThen(new HomePositionCommand()),
 					new WaitCommand(.5)
-						.andThen(new AngleShooterCommand(-25.5))
+						.andThen(new AngleShooterCommand(-25))
 						
 				),
 				// Go pick up third note
@@ -64,8 +64,8 @@ public class Red3NoteTracking extends SequentialCommandGroup {
 				),
 				// Return and shoot third note
 				new ParallelCommandGroup(
-					new FollowTrajectoryCommand(RobotContainer.drivetrainSubsystem, trajectories[3]).andThen(new ShootCommand().withTimeout(1)),
-					new WaitCommand(0.5).andThen(new AngleShooterCommand(-23))
+					new FollowTrajectoryCommand(RobotContainer.drivetrainSubsystem, trajectories[3]).andThen(new WaitCommand(0.1)).andThen(new ShootCommand().withTimeout(1)),
+					new WaitCommand(0.5).andThen(new AngleShooterCommand(-24.5))
 				)
 			)
 		)
