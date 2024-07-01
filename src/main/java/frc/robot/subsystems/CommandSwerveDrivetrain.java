@@ -11,10 +11,16 @@ import com.ctre.phoenix6.mechanisms.swerve.SwerveDrivetrain;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveDrivetrainConstants;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModuleConstants;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
+
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.geometry.Twist3d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.kinematics.SwerveDriveWheelPositions;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
+import edu.wpi.first.util.WPIUtilJNI;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.RobotController;
@@ -25,6 +31,8 @@ import frc.robot.Robot;
 import frc.robot.RobotContainer;
 import frc.robot.constants.DrivetrainConstants;
 import frc.robot.constants.IDConstants;
+import frc.robot.vision.photonvision.gtsam.GtsamInterface;
+
 import java.util.Arrays;
 import org.frcteam3539.Byte_Swerve_Lib.control.HolonomicMotionProfiledTrajectoryFollower;
 import org.frcteam3539.Byte_Swerve_Lib.control.PidConstants;
@@ -35,6 +43,8 @@ import org.frcteam3539.Byte_Swerve_Lib.util.HolonomicFeedforward;
 public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsystem {
 	/** Creates a new DrivetrainSubsystem. */
 	private final HolonomicMotionProfiledTrajectoryFollower follower;
+
+	public GtsamInterface iface;
 
 	private SwerveRequest swerveRequest = new SwerveRequest.Idle();
 
@@ -77,6 +87,8 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
 				new PidConstants(DrivetrainConstants.RotationkP, DrivetrainConstants.RotationkI,
 						DrivetrainConstants.RotationkD),
 				new HolonomicFeedforward(FEEDFORWARD_CONSTANTS));
+
+		this.registerTelemetry(this::updateGtSam);
 	}
 
 	public HolonomicMotionProfiledTrajectoryFollower getFollower() {
@@ -85,10 +97,12 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
 
 	public void seedFieldRelative(Trajectory trajectory) {
 		this.seedFieldRelative(trajectory.calculate(0).getPathState().getPose2d());
+		this.iface.sendGuess(WPIUtilJNI.now(),new Pose3d(trajectory.calculate(0).getPathState().getPose2d()));
 	}
 
 	public Pose2d getPose2d() {
-		return m_odometry.getEstimatedPosition();
+		return this.iface.getLatencyCompensatedPoseEstimate().toPose2d();
+		//return m_odometry.getEstimatedPosition();
 	}
 
 	public void applyRequest(SwerveRequest request) {
@@ -139,6 +153,19 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
 		// ? follower.getLastState().getPathState().getPose2d()
 		// : new Pose2d(-1, -1, new Rotation2d(0));
 		// Logger.recordOutput("/DriveTrain/Trajectory", trajectory);
+	}
+	SwerveModulePosition[] m_last_modulePositions;
+	public void updateGtSam(SwerveDriveState state)
+	{
+		var now = WPIUtilJNI.now();
+		if(m_last_modulePositions == null)
+		{
+			m_last_modulePositions = this.m_modulePositions;
+		}
+		var twist = m_kinematics.toTwist2d(new SwerveDriveWheelPositions(m_last_modulePositions), new SwerveDriveWheelPositions(m_modulePositions));
+		m_last_modulePositions = this.m_modulePositions;
+		var twist3 = new Twist3d(twist.dx, twist.dy, 0, 0, 0, twist.dtheta);
+		iface.sendOdomUpdate(now, twist3);
 	}
 
 	@Override
