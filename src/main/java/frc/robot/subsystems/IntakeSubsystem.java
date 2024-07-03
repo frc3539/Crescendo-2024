@@ -27,14 +27,13 @@ public class IntakeSubsystem extends SubsystemBase {
 		groundMotor = new TalonFX(IDConstants.groundMotorID, "rio");
 		groundMotor.getConfigurator().apply(new TalonFXConfiguration());
 		groundMotor.setInverted(true);
-		groundMotor.setNeutralMode(NeutralModeValue.Brake);
+		groundMotor.setNeutralMode(NeutralModeValue.Coast);
 		kickMotor = new TalonFX(IDConstants.kickMotorID, "rio");
 		kickMotor.getConfigurator().apply(new TalonFXConfiguration());
 		kickMotor.setInverted(true);
-		kickMotor.setNeutralMode(NeutralModeValue.Brake);
+		kickMotor.setNeutralMode(NeutralModeValue.Coast);
 
 		chamberMotor = new TalonFX(IDConstants.grabMotorID, "rio");
-		groundMotor.setNeutralMode(NeutralModeValue.Brake);
 
 		frontSensor = new DigitalInput(IDConstants.frontSensorChannel);
 		backSensor = new DigitalInput(IDConstants.backSensorChannel);

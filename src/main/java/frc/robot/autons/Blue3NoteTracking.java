@@ -44,7 +44,7 @@ public class Blue3NoteTracking extends SequentialCommandGroup {
 						.andThen(new AutonNoteTrackCommand().withTimeout(1))
 						.andThen(new ReturnToPathCommand(RobotContainer.drivetrainSubsystem, trajectories[1])),
 					new WaitCommand(2.5)
-						.andThen(new IntakeCommand(true, IntakeMode.FRONT).withTimeout(4))
+						.andThen(new IntakeCommand(true, IntakeMode.FRONT).withTimeout(3))
 				),
 				// Return and shoot second note
 				new ParallelCommandGroup(

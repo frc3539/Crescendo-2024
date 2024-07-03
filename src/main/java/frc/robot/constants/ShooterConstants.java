@@ -8,8 +8,8 @@ public class ShooterConstants extends BBConstants {
 		save();
 	}
 
-	public static double shootDps = 1000.0;
-	public static double feedDps = 1000.0;
+	public static double shootDps = 1000;
+	public static double feedDps = 1000;
 	public static double elevatorDps = 0.0;
 	public static double angleShooterP = 120.0;
 	public static double angleShooterI = 0.0;
