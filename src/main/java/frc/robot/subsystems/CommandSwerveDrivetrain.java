@@ -11,6 +11,7 @@ import com.ctre.phoenix6.mechanisms.swerve.SwerveDrivetrain;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveDrivetrainConstants;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModuleConstants;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
+import java.util.List;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
@@ -88,7 +89,10 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
 						DrivetrainConstants.RotationkD),
 				new HolonomicFeedforward(FEEDFORWARD_CONSTANTS));
 
-		this.registerTelemetry(this::updateGtSam);
+		this.iface = new GtsamInterface(List.of("BackLeft", "BackRight"));
+
+		// this.registerTelemetry(this::updateGtSam);
+
 	}
 
 	public HolonomicMotionProfiledTrajectoryFollower getFollower() {
@@ -97,12 +101,12 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
 
 	public void seedFieldRelative(Trajectory trajectory) {
 		this.seedFieldRelative(trajectory.calculate(0).getPathState().getPose2d());
-		this.iface.sendGuess(WPIUtilJNI.now(),new Pose3d(trajectory.calculate(0).getPathState().getPose2d()));
+		this.iface.sendGuess(WPIUtilJNI.now(), new Pose3d(trajectory.calculate(0).getPathState().getPose2d()));
 	}
 
 	public Pose2d getPose2d() {
 		return this.iface.getLatencyCompensatedPoseEstimate().toPose2d();
-		//return m_odometry.getEstimatedPosition();
+		// return m_odometry.getEstimatedPosition();
 	}
 
 	public void applyRequest(SwerveRequest request) {
@@ -154,22 +158,47 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
 		// : new Pose2d(-1, -1, new Rotation2d(0));
 		// Logger.recordOutput("/DriveTrain/Trajectory", trajectory);
 	}
-	SwerveModulePosition[] m_last_modulePositions;
-	public void updateGtSam(SwerveDriveState state)
-	{
-		var now = WPIUtilJNI.now();
-		if(m_last_modulePositions == null)
-		{
-			m_last_modulePositions = this.m_modulePositions;
-		}
-		var twist = m_kinematics.toTwist2d(new SwerveDriveWheelPositions(m_last_modulePositions), new SwerveDriveWheelPositions(m_modulePositions));
-		m_last_modulePositions = this.m_modulePositions;
-		var twist3 = new Twist3d(twist.dx, twist.dy, 0, 0, 0, twist.dtheta);
-		iface.sendOdomUpdate(now, twist3);
-	}
+	public void updateGtSam(SwerveDriveState state) {
 
+	}
+	SwerveModulePosition[] m_last_modulePositions;
+	int test = 0;
 	@Override
 	public void periodic() {
+		var now = RobotController.getFPGATime();
+		if (m_last_modulePositions == null) {
+			System.out.println("init");
+			this.m_last_modulePositions = new SwerveModulePosition[m_modulePositions.length];
+			for (int i = 0; i < m_modulePositions.length; i++) {
+				this.m_last_modulePositions[i] = m_modulePositions[i].copy();
+			}
+		}
+		// System.out.println("Periodic");
+		test++;
+		if (test % 100 == 0) {
+			System.out.println("last mod pos:");
+
+			for (SwerveModulePosition pos : m_last_modulePositions) {
+				System.out.println(pos.toString());
+			}
+			System.out.println("current mod pos:");
+			for (SwerveModulePosition pos : m_modulePositions) {
+				System.out.println(pos.toString());
+			}
+		}
+
+		var twist = m_kinematics.toTwist2d(new SwerveDriveWheelPositions(m_last_modulePositions),
+				new SwerveDriveWheelPositions(m_modulePositions));
+		// System.out.println(twist.dx);
+
+		this.m_last_modulePositions = new SwerveModulePosition[m_modulePositions.length];
+		for (int i = 0; i < m_modulePositions.length; i++) {
+			this.m_last_modulePositions[i] = m_modulePositions[i].copy();
+		}
+
+		var twist3 = new Twist3d(twist.dx, twist.dy, 0, 0, 0, twist.dtheta);
+
+		iface.sendOdomUpdate(now, twist3);
 
 		velocityX = ChassisSpeeds.fromRobotRelativeSpeeds(this.getState().speeds,
 				this.getPose2d().getRotation()).vxMetersPerSecond;

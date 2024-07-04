@@ -71,7 +71,7 @@ public class RobotContainer {
 		configureBindings();
 		putCommands();
 		putAutons();
-		//visionSubsystem.start();
+		visionSubsystem.start();
 	}
 
 	/**
@@ -160,7 +160,8 @@ public class RobotContainer {
 		SmartDashboard.putData(new DisableElevatorBreakModeCommand().ignoringDisable(true));
 		SmartDashboard.putData(new DisableClimberBreakModeCommand().ignoringDisable(true));
 
-		//SmartDashboard.putData(new InstantCommand(gtsamRunner::sendTagLayout).withName("Send tag layout"));
+		// SmartDashboard.putData(new
+		// InstantCommand(gtsamRunner::sendTagLayout).withName("Send tag layout"));
 		SmartDashboard.putData(new InstantCommand(visionSubsystem::sendInitialGuess).withName("Reset tag layout"));
 	}
 

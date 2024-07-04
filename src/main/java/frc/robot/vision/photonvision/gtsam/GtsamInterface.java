@@ -241,14 +241,14 @@ public class GtsamInterface {
 
 			if (poseAtSample.isEmpty()) {
 				// huh
-				System.err.println("pose outside buffer?");
+				// System.err.println("pose outside buffer?");
 				return new Pose3d();
 			}
 
 			var poseDelta = poseNow.minus(poseAtSample.get());
 			return poseEst.value.transformBy(poseDelta);
 		} else {
-			System.err.println("No pose estimate yet");
+			// System.err.println("No pose estimate yet");
 			return new Pose3d();
 		}
 	}

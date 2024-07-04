@@ -3,16 +3,11 @@ package frc.robot.subsystems;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFieldLayout.OriginPosition;
 import edu.wpi.first.apriltag.AprilTagFields;
-import edu.wpi.first.math.Matrix;
-import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
-import edu.wpi.first.math.numbers.N1;
-import edu.wpi.first.math.numbers.N3;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.RobotController;
@@ -23,7 +18,6 @@ import frc.robot.vision.photonvision.gtsam.TagDetection;
 
 import java.util.ArrayList;
 import java.util.Optional;
-import org.ejml.simple.SimpleMatrix;
 import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
@@ -50,7 +44,7 @@ public class VisionSubsystem extends Thread {
 
 	PhotonPoseEstimator backLeftPhotonPoseEstimator;
 	PhotonPoseEstimator backRightPhotonPoseEstimator;
-	
+
 	PhotonPipelineResult lastBackLeftResult = new PhotonPipelineResult();
 	PhotonPipelineResult lastBackRightResult = new PhotonPipelineResult();
 
@@ -75,7 +69,13 @@ public class VisionSubsystem extends Thread {
 		frontNoteCam = new PhotonCamera("FrontNoteCam");
 		backNoteCam = new PhotonCamera("BackNoteCam");
 
+		backLeftCam.setVersionCheckEnabled(false);
+		backRightCam.setVersionCheckEnabled(false);
+		backNoteCam.setVersionCheckEnabled(false);
+		frontNoteCam.setVersionCheckEnabled(false);
+
 		this.iface = RobotContainer.drivetrainSubsystem.iface;
+		sendTagLayout();
 	}
 
 	// Vision Methods
@@ -87,7 +87,6 @@ public class VisionSubsystem extends Thread {
 	public Optional<EstimatedRobotPose> getEstimatedBackRightGlobalPose() {
 		return backRightPhotonPoseEstimator.update();
 	}
-
 
 	public static void publishPose2d(String key, Pose2d pose) {
 		SmartDashboard.putNumberArray(key, new double[]{pose.getTranslation().getX(), pose.getTranslation().getY(),
@@ -115,21 +114,21 @@ public class VisionSubsystem extends Thread {
 		var bestTarget = result.getBestTarget();
 		return bestTarget;
 	}
-	
+
 	public void sendTagLayout() {
 		iface.sendLayout(aprilTagFieldLayout);
 	}
 
 	public void sendInitialGuess() {
-		if(getEstimatedBackLeftGlobalPose().isPresent())
-		{
-			iface.sendGuess(RobotController.getFPGATime(),getEstimatedBackLeftGlobalPose().get().estimatedPose);
-		} else if (getEstimatedBackRightGlobalPose().isPresent()) {
-			iface.sendGuess(RobotController.getFPGATime(),getEstimatedBackRightGlobalPose().get().estimatedPose);
-		}
-		else{
+		var val = getEstimatedBackLeftGlobalPose();
+		var val2 = getEstimatedBackRightGlobalPose();
+		if (val.isPresent()) {
+			iface.sendGuess(RobotController.getFPGATime(), val.get().estimatedPose);
+		} else if (val2.isPresent()) {
+			iface.sendGuess(RobotController.getFPGATime(), val2.get().estimatedPose);
+		} else {
 			DriverStation.reportWarning("Sending Empty Pose3d", false);
-			iface.sendGuess(RobotController.getFPGATime(),new Pose3d());
+			iface.sendGuess(RobotController.getFPGATime(), new Pose3d());
 		}
 		iface.setCamIntrinsics("BackLeft", backLeftCam.getCameraMatrix(), backLeftCam.getDistCoeffs());
 		iface.setCamIntrinsics("BackRight", backRightCam.getCameraMatrix(), backRightCam.getDistCoeffs());
@@ -138,7 +137,7 @@ public class VisionSubsystem extends Thread {
 	public void run() {
 		while (true) {
 			try {
-				Thread.sleep(10);
+				Thread.sleep(20);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
