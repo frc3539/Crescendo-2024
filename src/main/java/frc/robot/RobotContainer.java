@@ -105,6 +105,7 @@ public class RobotContainer {
 		chooser.addOption("Red Centerline 4 Piece", new RedCL4Piece());
 		chooser.addOption("Red Simple Right", new RedSimpleRight());
 		chooser.addOption("Red 3 Left Auto Track", new Red3NoteTracking());
+		chooser.addOption("Red 5 Center Auto Track", new Red5NoteTracking());
 
 		SmartDashboard.putData(chooser);
 	}
