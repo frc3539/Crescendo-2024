@@ -1,11 +1,11 @@
 {
-  "name": "Blue5Piece",
-  "edited": "07/19/24, 06:50:50 PM",
+  "name": "Blue5NoteTracking",
+  "edited": "07/19/24, 06:52:33 PM",
   "isRed": false,
   "paths": [
     {
       "name": "Path 1",
-      "id": "289dc607-d2a4-44ea-a3ac-c21261ea3f1d",
+      "id": "0475c4be-4dda-459d-a088-b6ba0886ebe5",
       "isSpline": true,
       "maxVelocity": 3.0,
       "inVelocity": 0.0,
@@ -66,7 +66,7 @@
     },
     {
       "name": "Path 2",
-      "id": "3d2409da-324b-4701-a2fb-0c7497712b40",
+      "id": "a90a2f06-9978-40fa-ae95-4cf5ef67d5b2",
       "isSpline": true,
       "maxVelocity": 4.0,
       "inVelocity": 0.0,
@@ -103,7 +103,7 @@
     },
     {
       "name": "Path 3",
-      "id": "7faa1677-4958-4386-a907-2212115ee651",
+      "id": "53a48eb2-d4b1-4d0f-9f6c-9212ed53e7c9",
       "isSpline": true,
       "maxVelocity": 4.0,
       "inVelocity": 0.0,
