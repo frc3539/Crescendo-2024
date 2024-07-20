@@ -6,7 +6,6 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
-import com.ctre.phoenix6.hardware.Pigeon2;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveDrivetrain;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveDrivetrainConstants;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModuleConstants;
@@ -24,7 +23,6 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.Robot;
 import frc.robot.RobotContainer;
 import frc.robot.constants.DrivetrainConstants;
-import frc.robot.constants.IDConstants;
 import java.util.Arrays;
 import org.frcteam3539.Byte_Swerve_Lib.control.HolonomicMotionProfiledTrajectoryFollower;
 import org.frcteam3539.Byte_Swerve_Lib.control.PidConstants;
@@ -46,8 +44,6 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
 
 	public double maxVelocity = 0.0;
 	public double maxRotationalVelocity = 0.0;
-
-	public Pigeon2 pigeon = new Pigeon2(IDConstants.PigeonID, "canivore");
 
 	public CommandSwerveDrivetrain(SwerveDrivetrainConstants driveTrainConstants, SwerveModuleConstants... modules) {
 		super(driveTrainConstants, modules);
@@ -103,10 +99,18 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
 		follower.follow(t);
 	}
 
-	public Rotation2d getRobotRoll() {
-		return Rotation2d.fromDegrees(
-				BaseStatusSignal.getLatencyCompensatedValue(pigeon.getRoll(), pigeon.getAngularVelocityYDevice()));
+	@Override
+	public void simulationPeriodic() {
+		/* Assume 20ms update rate, get battery voltage from WPILib */
+		updateSimState(0.020, RobotController.getBatteryVoltage());
+		RobotContainer.visionSubsystem.updateSimState(getPose2d());
 	}
+
+	public Rotation2d getRobotRoll() {
+		return Rotation2d.fromDegrees(BaseStatusSignal.getLatencyCompensatedValue(getPigeon2().getRoll(),
+				getPigeon2().getAngularVelocityYDevice()));
+	}
+
 	public Translation2d getOffsetTarget() {
 		Translation2d offsetTarget;
 		double noteSpeed = 16;

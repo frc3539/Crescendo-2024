@@ -35,6 +35,9 @@ public class LedSubsystem extends SubsystemBase {
 	public LedSubsystem(boolean enabled) {
 		this.enabled = enabled;
 
+		if (!enabled)
+			return;
+
 		this.candle = new CANdle(IDConstants.CANdleID, IDConstants.CandleCanName);
 		candle.configLEDType(LEDStripType.GRB);
 		candle.configBrightnessScalar(LedConstants.maxBrightness);

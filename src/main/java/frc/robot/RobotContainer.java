@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -18,7 +19,6 @@ import frc.robot.constants.*;
 import frc.robot.generated.*;
 import frc.robot.subsystems.*;
 import frc.robot.utilities.LogController;
-import frc.robot.subsystems.LedSubsystem;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -44,7 +44,7 @@ public class RobotContainer {
 	public static IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
 
 	public static ClimberSubsystem climberSubsystem = new ClimberSubsystem();
-	public static LedSubsystem ledSubsystem = new LedSubsystem(true);
+	public static LedSubsystem ledSubsystem;
 	public static VisionSubsystem visionSubsystem = new VisionSubsystem();
 	public static ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
 
@@ -66,6 +66,7 @@ public class RobotContainer {
 	public static SendableChooser<Command> chooser = new SendableChooser<Command>();
 
 	public RobotContainer() {
+		ledSubsystem = new LedSubsystem(!RobotBase.isSimulation());
 		// Configure the trigger bindings
 		configureBindings();
 		putCommands();
@@ -85,26 +86,29 @@ public class RobotContainer {
 	 *
 	 */
 	private void putAutons() {
-		chooser.setDefaultOption("Blue Shoot and Drive", new BlueShootDrive());
-		chooser.addOption("Blue 3 Piece Right", new Blue3Piece());
-		chooser.addOption("Blue 4 Piece Center", new Blue4Piece());
-		chooser.addOption("Blue 5 Piece Center", new Blue5Piece());
-		chooser.addOption("Blue Shoot Left", new BlueShootLeft());
-		chooser.addOption("Blue Shoot Right Far", new BlueRightFar());
-		chooser.addOption("Blue Centerline 4 Piece", new BlueCL4Piece());
-		chooser.addOption("Blue Simple Left", new BlueSimpleLeft());
-		chooser.addOption("Blue 3 Right Auto Track", new Blue3NoteTracking());
-		chooser.addOption("Blue Left Centerline", new BlueLeftCL());
+		if(!RobotBase.isSimulation())
+		{
+			chooser.setDefaultOption("Blue Shoot and Drive", new BlueShootDrive());
+			chooser.addOption("Blue 3 Piece Right", new Blue3Piece());
+			chooser.addOption("Blue 4 Piece Center", new Blue4Piece());
+			chooser.addOption("Blue 5 Piece Center", new Blue5Piece());
+			chooser.addOption("Blue Shoot Left", new BlueShootLeft());
+			chooser.addOption("Blue Shoot Right Far", new BlueRightFar());
+			chooser.addOption("Blue Centerline 4 Piece", new BlueCL4Piece());
+			chooser.addOption("Blue Simple Left", new BlueSimpleLeft());
+			chooser.addOption("Blue 3 Right Auto Track", new Blue3NoteTracking());
+			chooser.addOption("Blue Left Centerline", new BlueLeftCL());
 
-		chooser.addOption("Red Shoot and Drive", new RedShootDrive());
-		chooser.addOption("Red 3 Piece Left", new Red3Piece());
-		chooser.addOption("Red 4 Piece Center", new Red4Piece());
-		chooser.addOption("Red 5 Piece Center", new Red5Piece());
-		chooser.addOption("Red Shoot Right", new RedShootRight());
-		chooser.addOption("Red Shoot Left Far", new RedLeftFar());
-		chooser.addOption("Red Centerline 4 Piece", new RedCL4Piece());
-		chooser.addOption("Red Simple Right", new RedSimpleRight());
-		chooser.addOption("Red 3 Left Auto Track", new Red3NoteTracking());
+			chooser.addOption("Red Shoot and Drive", new RedShootDrive());
+			chooser.addOption("Red 3 Piece Left", new Red3Piece());
+			chooser.addOption("Red 4 Piece Center", new Red4Piece());
+			chooser.addOption("Red 5 Piece Center", new Red5Piece());
+			chooser.addOption("Red Shoot Right", new RedShootRight());
+			chooser.addOption("Red Shoot Left Far", new RedLeftFar());
+			chooser.addOption("Red Centerline 4 Piece", new RedCL4Piece());
+			chooser.addOption("Red Simple Right", new RedSimpleRight());
+			chooser.addOption("Red 3 Left Auto Track", new Red3NoteTracking());
+		}
 
 		SmartDashboard.putData(chooser);
 	}

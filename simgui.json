@@ -1,0 +1,15 @@
+{
+  "NTProvider": {
+    "types": {
+      "/FMSInfo": "FMSInfo",
+      "/SmartDashboard/DisableArmBreakModeCommand": "Command",
+      "/SmartDashboard/DisableClimberBreakModeCommand": "Command",
+      "/SmartDashboard/DisableElevatorBreakModeCommand": "Command",
+      "/SmartDashboard/SendableChooser[0]": "String Chooser",
+      "/SmartDashboard/VisionSystemSim-main/Sim Field": "Field2d"
+    }
+  },
+  "NetworkTables Info": {
+    "visible": true
+  }
+}

@@ -11,7 +11,12 @@ import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.RobotBase;
+import edu.wpi.first.wpilibj.RobotController;
+import edu.wpi.first.wpilibj.simulation.DCMotorSim;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.IDConstants;
@@ -20,6 +25,8 @@ import frc.robot.constants.IntakeConstants;
 public class IntakeSubsystem extends SubsystemBase {
 	/** Creates a new IntakeSubsystem. */
 	private TalonFX groundMotor, kickMotor, chamberMotor;
+	private DCMotorSim groundSim, kickSim, chamberSim;
+
 
 	private DigitalInput frontSensor, backSensor, chamberSensor;
 
@@ -122,6 +129,51 @@ public class IntakeSubsystem extends SubsystemBase {
 
 	@Override
 	public void periodic() {
+		if(RobotBase.isSimulation())
+		{
+
+			var groundMotorSim = groundMotor.getSimState();
+			var kickMotorSim = kickMotor.getSimState();
+			var chamberMotorSim = chamberMotor.getSimState();
+
+			groundMotorSim.setSupplyVoltage(RobotController.getBatteryVoltage());
+			kickMotorSim.setSupplyVoltage(RobotController.getBatteryVoltage());
+			chamberMotorSim.setSupplyVoltage(RobotController.getBatteryVoltage());
+
+			// get the motor voltage of the TalonFX
+			var groundMotorVoltage = groundMotorSim.getMotorVoltage();
+			var kickbMotorVoltage = kickMotorSim.getMotorVoltage();
+			var chamberMotorVoltage = chamberMotorSim.getMotorVoltage();
+
+			groundSim.setInputVoltage(groundMotorVoltage);
+			groundSim.update(0.020); // assume 20 ms loop time
+
+
+			kickSim.setInputVoltage(kickbMotorVoltage);
+			kickSim.update(0.020); // assume 20 ms loop time
+
+			chamberSim.setInputVoltage(chamberMotorVoltage);
+			chamberSim.update(0.020); // assume 20 ms loop time
+
+			// apply the new rotor position and velocity to the TalonFX;
+			// note that this is rotor position/velocity (before gear ratios)
+			groundMotorSim.setRawRotorPosition(groundSim.getAngularPositionRotations());
+			groundMotorSim.setRotorVelocity(
+				Units.radiansToRotations(groundSim.getAngularVelocityRadPerSec()));
+
+							// apply the new rotor position and velocity to the TalonFX;
+			// note that this is rotor position/velocity (before gear ratios)
+			kickMotorSim.setRawRotorPosition(kickSim.getAngularPositionRotations());
+			kickMotorSim.setRotorVelocity(
+				Units.radiansToRotations(kickSim.getAngularVelocityRadPerSec()));
+				
+
+			// apply the new rotor position and velocity to the TalonFX;
+			// note that this is rotor position/velocity (before gear ratios)
+			chamberMotorSim.setRawRotorPosition(chamberSim.getAngularPositionRotations());
+			chamberMotorSim.setRotorVelocity(
+				Units.radiansToRotations(chamberSim.getAngularVelocityRadPerSec()));
+		}
 		// This method will be called once per scheduler run
 	}
 }

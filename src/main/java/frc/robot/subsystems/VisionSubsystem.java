@@ -6,6 +6,7 @@ import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -17,6 +18,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Robot;
 import frc.robot.RobotContainer;
 import java.util.Optional;
 import org.ejml.simple.SimpleMatrix;
@@ -24,6 +26,9 @@ import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.PhotonPoseEstimator.PoseStrategy;
+import org.photonvision.simulation.PhotonCameraSim;
+import org.photonvision.simulation.SimCameraProperties;
+import org.photonvision.simulation.VisionSystemSim;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
 public class VisionSubsystem extends Thread {
@@ -53,6 +58,11 @@ public class VisionSubsystem extends Thread {
 
 	double visionRatio = 10;
 
+	// Simulation
+	private PhotonCameraSim backLeftCamSim;
+	private PhotonCameraSim backRightCamSim;
+	private VisionSystemSim visionSim;
+
 	public VisionSubsystem() {
 		super();
 		try {
@@ -75,6 +85,37 @@ public class VisionSubsystem extends Thread {
 		backNoteCam = new PhotonCamera("BackNoteCam");
 
 		setVisionWeights(.2, .2, 10);
+
+		// ----- Simulation
+		if (Robot.isSimulation()) {
+			// Create the vision system simulation which handles cameras and targets on the
+			// field.
+			visionSim = new VisionSystemSim("main");
+			// Add all the AprilTags inside the tag layout as visible targets to this
+			// simulated field.
+			visionSim.addAprilTags(aprilTagFieldLayout);
+			// Create simulated camera properties. These can be set to mimic your actual
+			// camera.
+			var cameraProp = new SimCameraProperties();
+			cameraProp.setCalibration(1280, 800, Rotation2d.fromDegrees(70));
+			cameraProp.setCalibError(0.35, 0.10);
+			cameraProp.setFPS(30);
+			cameraProp.setAvgLatencyMs(50);
+			cameraProp.setLatencyStdDevMs(15);
+
+			// Create a PhotonCameraSim which will update the linked PhotonCamera's values
+			// with visible
+			// targets.
+			backLeftCamSim = new PhotonCameraSim(backLeftCam, cameraProp);
+			backRightCamSim = new PhotonCameraSim(backRightCam, cameraProp);
+
+			// Add the simulated cameras to view the targets on this simulated field.
+			visionSim.addCamera(backLeftCamSim, robotToBackLeftCam);
+			visionSim.addCamera(backRightCamSim, robotToBackRightCam);
+
+			backLeftCamSim.enableDrawWireframe(true);
+			backRightCamSim.enableDrawWireframe(true);
+		}
 	}
 
 	// Vision Methods
@@ -89,6 +130,10 @@ public class VisionSubsystem extends Thread {
 
 	public void useVision(boolean useVision) {
 		this.useVision = useVision;
+	}
+
+	public void updateSimState(Pose2d pose) {
+		visionSim.update(pose);
 	}
 
 	public void setVisionWeights(double visionX, double visionY, double visionDeg) {
@@ -145,7 +190,6 @@ public class VisionSubsystem extends Thread {
 			try {
 				Thread.sleep(10);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			// Vision Calculations

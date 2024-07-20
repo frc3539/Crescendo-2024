@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.HardwareLimitSwitchConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.controls.VelocityVoltage;
@@ -13,15 +14,21 @@ import com.ctre.phoenix6.signals.ForwardLimitValue;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
-import edu.wpi.first.wpilibj.Servo;
+import edu.wpi.first.math.VecBuilder;
+import edu.wpi.first.math.system.plant.DCMotor;
+import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.RobotBase;
+import edu.wpi.first.wpilibj.RobotController;
+import edu.wpi.first.wpilibj.simulation.ElevatorSim;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.IDConstants;
 
 public class ClimberSubsystem extends SubsystemBase {
-	private TalonFX leftClimbMotor, rightClimbMotor;
-	private Servo leftServo, rightServo;
-	private double leftServoPosition = 1;
-	private double rightServoPosition = 0;
+	private TalonFX leftClimbMotor, rightClimbMotor;	
+	// Simulation classes help us simulate what's going on, including gravity.
+  	private ElevatorSim elevatorSimLeft, elevatorSimRight;
+  
+
 
 	public ClimberSubsystem() {
 		MotorOutputConfigs rightOutputConfig = new MotorOutputConfigs();
@@ -40,18 +47,40 @@ public class ClimberSubsystem extends SubsystemBase {
 		rightClimbMotor = new TalonFX(IDConstants.rightClimbMotorID, "rio");
 		rightClimbMotor.getConfigurator().apply(rightOutputConfig);
 
-		leftServo = new Servo(IDConstants.leftServoChannel);
-		rightServo = new Servo(IDConstants.rightServoChannel);
-
-		// buddyClimbMotor = new TalonFX(IDConstants.buddyClimbMotorID, "rio");
-		// buddyClimbMotor.getConfigurator().apply(buddyOutputConfig);
-
 		leftClimbMotor.setNeutralMode(NeutralModeValue.Brake);
 		rightClimbMotor.setNeutralMode(NeutralModeValue.Brake);
 
 		leftClimbMotor.getConfigurator().apply(new HardwareLimitSwitchConfigs().withForwardLimitEnable(true));
 		rightClimbMotor.getConfigurator().apply(new HardwareLimitSwitchConfigs().withForwardLimitEnable(true));
 
+
+		if(RobotBase.isSimulation())
+		{
+			elevatorSimLeft =
+				new ElevatorSim(
+					DCMotor.getKrakenX60Foc(1),
+					25,//25:1
+					Units.lbsToKilograms(120)/2.0, //Half the robot weight per side
+					Units.inchesToMeters(1),
+					0,
+					Units.inchesToMeters(60),
+					true,
+					0,
+					VecBuilder.fill(0.01));
+
+			elevatorSimRight =
+				new ElevatorSim(
+					DCMotor.getKrakenX60Foc(1),
+					25,//25:1
+					Units.lbsToKilograms(120)/2.0, //Half the robot weight per side
+					Units.inchesToMeters(1),
+					0,
+					Units.inchesToMeters(60),
+					true,
+					0,
+					VecBuilder.fill(0.01));
+		}
+		
 	}
 
 	public void setLeftClimbMotorSpeed(double rps) {
@@ -70,24 +99,6 @@ public class ClimberSubsystem extends SubsystemBase {
 		rightClimbMotor.setControl(new VoltageOut(voltage).withEnableFOC(true));
 	}
 
-	public void setLeftServoPosition(double position) {
-		leftServoPosition = position;
-	}
-	public void setRightServoPosition(double position) {
-		rightServoPosition = position;
-	}
-	// public void setBuddyClimbMotorSpeed(double rps) {
-	// buddyClimbMotor.setControl(new VelocityVoltage(rps).withEnableFOC(true));
-	// }
-
-	// public void setBuddyClimbMotorVoltage(double voltage) {
-	// buddyClimbMotor.setControl(new VoltageOut(voltage).withEnableFOC(true));
-	// }
-
-	// public double getBuddyClimbMotorSpeed() {
-
-	// return buddyClimbMotor.getVelocity().getValue();
-	// }
 	public void setClimberBreakMode(boolean enabled) {
 		if (enabled) {
 			leftClimbMotor.setNeutralMode(NeutralModeValue.Brake);
@@ -106,10 +117,46 @@ public class ClimberSubsystem extends SubsystemBase {
 	public void log() {
 	}
 
+	StatusSignal<Double> leftMotorCurrent = leftClimbMotor.getSupplyCurrent();
+	StatusSignal<Double> rightMotorCurrent = rightClimbMotor.getSupplyCurrent();
+	public double getTotalCurrent()
+	{
+		if(RobotBase.isSimulation())
+		{
+			return elevatorSimLeft.getCurrentDrawAmps() + elevatorSimRight.getCurrentDrawAmps();
+		}
+		return leftMotorCurrent.getValueAsDouble() + rightMotorCurrent.getValueAsDouble();
+	}
+
 	@Override
 	public void periodic() {
-		leftServo.set(leftServoPosition);
-		rightServo.set(rightServoPosition);
-		// This method will be called once per scheduler run
+		if(RobotBase.isSimulation())
+		{
+			var leftClimbMotorSim = leftClimbMotor.getSimState();
+			var rightClimbMotorSim = rightClimbMotor.getSimState();
+
+			leftClimbMotorSim.setSupplyVoltage(RobotController.getBatteryVoltage());
+			rightClimbMotorSim.setSupplyVoltage(RobotController.getBatteryVoltage());
+
+			// get the motor voltage of the TalonFX
+			var leftClimbMotorVoltage = leftClimbMotorSim.getMotorVoltage();
+			var rightClimbMotorVoltage = rightClimbMotorSim.getMotorVoltage();
+
+			elevatorSimLeft.setInputVoltage(leftClimbMotorVoltage);
+			elevatorSimLeft.update(0.020);
+
+			elevatorSimRight.setInputVoltage(rightClimbMotorVoltage);
+			elevatorSimRight.update(0.020);
+
+			// apply the new rotor position and velocity to the TalonFX;
+			// note that this is rotor position/velocity (before gear ratios)
+			leftClimbMotorSim.setRawRotorPosition(Units.metersToInches((elevatorSimLeft.getPositionMeters())/(1.0*Math.PI))*25); // Account for the diameter of the drum, and the gear ratio.
+			leftClimbMotorSim.setRotorVelocity(Units.metersToInches((elevatorSimLeft.getVelocityMetersPerSecond())/(1.0*Math.PI))*25);
+
+			// apply the new rotor position and velocity to the TalonFX;
+			// note that this is rotor position/velocity (before gear ratios)
+			rightClimbMotorSim.setRawRotorPosition(Units.metersToInches((elevatorSimRight.getPositionMeters())/(1.0*Math.PI))*25); // Account for the diameter of the drum, and the gear ratio.
+			rightClimbMotorSim.setRotorVelocity(Units.metersToInches((elevatorSimRight.getVelocityMetersPerSecond())/(1.0*Math.PI))*25);
+		}
 	}
 }
