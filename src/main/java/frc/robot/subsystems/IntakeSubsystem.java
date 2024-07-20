@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.SlotConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
@@ -125,6 +126,20 @@ public class IntakeSubsystem extends SubsystemBase {
 		SmartDashboard.putNumber("/Intake/GroundRPS", getGroundMotorSpeed());
 		SmartDashboard.putNumber("/Intake/KickRPS", getKickMotorSpeed());
 		SmartDashboard.putNumber("/Intake/ChamberRPS", getChamberMotorSpeed());
+	}
+
+	public StatusSignal<Double> groundMotorCurrent = groundMotor.getSupplyCurrent();
+	public StatusSignal<Double> kickMotorCurrent = kickMotor.getSupplyCurrent();
+	public StatusSignal<Double> chamberMotorCurrent = chamberMotor.getSupplyCurrent();
+
+	public double getTotalCurrent()
+	{
+		if(RobotBase.isSimulation())
+		{
+			return groundSim.getCurrentDrawAmps() + kickSim.getCurrentDrawAmps() + chamberSim.getCurrentDrawAmps();
+		}
+		return groundMotorCurrent.getValueAsDouble() + kickMotorCurrent.getValueAsDouble() + chamberMotorCurrent.getValueAsDouble();
+		
 	}
 
 	@Override

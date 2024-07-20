@@ -23,10 +23,16 @@ import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.signals.SensorDirectionValue;
 
+import edu.wpi.first.math.VecBuilder;
+import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.simulation.DCMotorSim;
+import edu.wpi.first.wpilibj.simulation.ElevatorSim;
+import edu.wpi.first.wpilibj.simulation.SingleJointedArmSim;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
@@ -39,6 +45,12 @@ public class ShooterSubsystem extends SubsystemBase {
 
 	/** Creates a new ShooterSubsystem. */
 	private TalonFX topMotor, bottomMotor, feedMotor, elevatorMotor, angleMotor;
+
+	private DCMotorSim groundSim, kickSim, chamberSim;
+
+	private ElevatorSim elevatorSim;
+	private SingleJointedArmSim armSim;
+
 
 	private CANcoder angleCanCoder;
 
@@ -85,6 +97,19 @@ public class ShooterSubsystem extends SubsystemBase {
 						.withFeedbackSensorSource(FeedbackSensorSourceValue.FusedCANcoder));
 
 		shooterSensor = new DigitalInput(IDConstants.shooterSensorChannel);
+
+		if(RobotBase.isSimulation())
+		{
+			armSim = new SingleJointedArmSim(
+				DCMotor.getFalcon500(1),
+				81.0,
+				0.3219,
+				Units.inchesToMeters(9.625),
+				0,
+				Math.PI,
+				true,
+				0);
+		}
 	}
 
 	public void reloadFromConfig() {

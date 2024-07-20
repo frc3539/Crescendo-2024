@@ -60,11 +60,11 @@ public class ClimberSubsystem extends SubsystemBase {
 				new ElevatorSim(
 					DCMotor.getKrakenX60Foc(1),
 					25,//25:1
-					Units.lbsToKilograms(120)/2.0, //Half the robot weight per side
+					Units.lbsToKilograms(-120)/2.0, //Half the robot weight per side
 					Units.inchesToMeters(1),
 					0,
 					Units.inchesToMeters(60),
-					true,
+					false,
 					0,
 					VecBuilder.fill(0.01));
 
@@ -72,11 +72,11 @@ public class ClimberSubsystem extends SubsystemBase {
 				new ElevatorSim(
 					DCMotor.getKrakenX60Foc(1),
 					25,//25:1
-					Units.lbsToKilograms(120)/2.0, //Half the robot weight per side
+					Units.lbsToKilograms(-120)/2.0, //Half the robot weight per side
 					Units.inchesToMeters(1),
 					0,
 					Units.inchesToMeters(60),
-					true,
+					false,
 					0,
 					VecBuilder.fill(0.01));
 		}
