@@ -55,8 +55,8 @@ public class Blue5NoteTracking extends SequentialCommandGroup {
 									new AutonNoteTrackCommand().withTimeout(1),
 									new ReturnToPathCommand(RobotContainer.drivetrainSubsystem, loader.getNextTrajectory()),
 									new ParallelCommandGroup(
-								 	new WaitCommand(1).andThen(new AngleShooterCommand(-28.5)),
-									new FollowTrajectoryCommand(RobotContainer.drivetrainSubsystem, loader.getCurrentTrajectory()))
+										new WaitCommand(1).andThen(new AngleShooterCommand(-28.5)),
+										new FollowTrajectoryCommand(RobotContainer.drivetrainSubsystem, loader.getCurrentTrajectory()))
 									
 								),
 								new IntakeCommand(true, IntakeMode.FRONT)

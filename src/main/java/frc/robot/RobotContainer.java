@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -69,7 +70,6 @@ public class RobotContainer {
 		// Configure the trigger bindings
 		configureBindings();
 		putCommands();
-		putAutons();
 		visionSubsystem.start();
 	}
 
@@ -84,30 +84,32 @@ public class RobotContainer {
 	 * Flight joysticks}.
 	 *
 	 */
-	private void putAutons() {
-		chooser.setDefaultOption("Blue Shoot and Drive", new BlueShootDrive());
-		chooser.addOption("Blue 3 Piece Right", new Blue3Piece());
-		chooser.addOption("Blue 4 Piece Center", new Blue4Piece());
-		chooser.addOption("Blue 5 Piece Center", new Blue5Piece());
-		chooser.addOption("Blue Shoot Left", new BlueShootLeft());
-		chooser.addOption("Blue Shoot Right Far", new BlueRightFar());
-		chooser.addOption("Blue Centerline 4 Piece", new BlueCL4Piece());
-		chooser.addOption("Blue Simple Left", new BlueSimpleLeft());
-		chooser.addOption("Blue 3 Right Auto Track", new Blue3NoteTracking());
-		chooser.addOption("Blue 5 Center Auto Track", new Blue5NoteTracking());
-		chooser.addOption("Blue Left Centerline", new BlueLeftCL());
+	public void putAutons(Alliance alliance) {
 
-		chooser.addOption("Red Shoot and Drive", new RedShootDrive());
-		chooser.addOption("Red 3 Piece Left", new Red3Piece());
-		chooser.addOption("Red 4 Piece Center", new Red4Piece());
-		chooser.addOption("Red 5 Piece Center", new Red5Piece());
-		chooser.addOption("Red Shoot Right", new RedShootRight());
-		chooser.addOption("Red Shoot Left Far", new RedLeftFar());
-		chooser.addOption("Red Centerline 4 Piece", new RedCL4Piece());
-		chooser.addOption("Red Simple Right", new RedSimpleRight());
-		chooser.addOption("Red 3 Left Auto Track", new Red3NoteTracking());
-		chooser.addOption("Red 5 Center Auto Track", new Red5NoteTracking());
-
+		if (alliance == Alliance.Blue) {
+			chooser.setDefaultOption("Blue Shoot and Drive", new BlueShootDrive());
+			chooser.addOption("Blue 3 Piece Right", new Blue3Piece());
+			chooser.addOption("Blue 4 Piece Center", new Blue4Piece());
+			chooser.addOption("Blue 5 Piece Center", new Blue5Piece());
+			chooser.addOption("Blue Shoot Left", new BlueShootLeft());
+			chooser.addOption("Blue Shoot Right Far", new BlueRightFar());
+			chooser.addOption("Blue Centerline 4 Piece", new BlueCL4Piece());
+			chooser.addOption("Blue Simple Left", new BlueSimpleLeft());
+			chooser.addOption("Blue 3 Right Auto Track", new Blue3NoteTracking());
+			chooser.addOption("Blue 5 Center Auto Track", new Blue5NoteTracking());
+			chooser.addOption("Blue Left Centerline", new BlueLeftCL());
+		} else {
+			chooser.setDefaultOption("Red Shoot and Drive", new RedShootDrive());
+			chooser.addOption("Red 3 Piece Left", new Red3Piece());
+			chooser.addOption("Red 4 Piece Center", new Red4Piece());
+			chooser.addOption("Red 5 Piece Center", new Red5Piece());
+			chooser.addOption("Red Shoot Right", new RedShootRight());
+			chooser.addOption("Red Shoot Left Far", new RedLeftFar());
+			chooser.addOption("Red Centerline 4 Piece", new RedCL4Piece());
+			chooser.addOption("Red Simple Right", new RedSimpleRight());
+			chooser.addOption("Red 3 Left Auto Track", new Red3NoteTracking());
+			chooser.addOption("Red 5 Center Auto Track", new Red5NoteTracking());
+		}
 		SmartDashboard.putData(chooser);
 	}
 	private void configureBindings() {
