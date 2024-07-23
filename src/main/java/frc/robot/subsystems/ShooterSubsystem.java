@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.FeedbackConfigs;
 import com.ctre.phoenix6.configs.HardwareLimitSwitchConfigs;
@@ -46,6 +47,12 @@ public class ShooterSubsystem extends SubsystemBase {
 
 	private double requestedElevatorPos = 0;
 	private double requestedArmPos = 0;
+	StatusSignal<Double> velocitySignalTop, velocitySignalBottom, velocitySignalFeed, positionSignalElevator,
+			positionSignalAngle;
+
+	VelocityVoltage velocityVoltageControlTop, velocityVoltageControlBottom, velocityVoltageControlFeed = new VelocityVoltage(0).withEnableFOC(true);
+	VoltageOut voltageOutControlTop, voltageOutControlBottom, voltageOutControlFeed = new VoltageOut(0).withEnableFOC(true);
+	
 
 	public ShooterSubsystem() {
 
@@ -124,6 +131,13 @@ public class ShooterSubsystem extends SubsystemBase {
 
 		feedMotor.getConfigurator()
 				.apply(new SlotConfigs().withKP(ShooterConstants.feedP).withKV(ShooterConstants.feedV));
+
+		velocitySignalBottom = bottomMotor.getVelocity();
+		velocitySignalTop = topMotor.getVelocity();
+		velocitySignalFeed = feedMotor.getVelocity();
+
+		positionSignalElevator = elevatorMotor.getPosition();
+		positionSignalAngle = angleCanCoder.getAbsolutePosition();
 	}
 
 	public void setArmBreakMode(boolean enabled) {
@@ -143,31 +157,31 @@ public class ShooterSubsystem extends SubsystemBase {
 	}
 
 	public void setTopMotorSpeed(double rps) {
-		topMotor.setControl(new VelocityVoltage(rps).withEnableFOC(true));
+		topMotor.setControl(velocityVoltageControlTop.withVelocity(rps));
 	}
 
 	public void setTopMotorVoltage(double voltage) {
-		topMotor.setControl(new VoltageOut(voltage).withEnableFOC(true));
+		topMotor.setControl(voltageOutControlTop.withOutput(voltage));
 	}
 
 	public void setBottomMotorSpeed(double rps) {
-		bottomMotor.setControl(new VelocityVoltage(rps).withEnableFOC(true));
+		bottomMotor.setControl(velocityVoltageControlBottom.withVelocity(rps));
 	}
 
 	public void setBottomMotorVoltage(double voltage) {
-		bottomMotor.setControl(new VoltageOut(voltage).withEnableFOC(true));
+		bottomMotor.setControl(voltageOutControlBottom.withOutput(voltage));
 	}
 
 	public void setFeedMotorSpeed(double rps) {
-		feedMotor.setControl(new VelocityVoltage(rps).withEnableFOC(true));
+		feedMotor.setControl(velocityVoltageControlFeed.withVelocity(rps));
 	}
 
 	public void setFeedMotorVoltage(double voltage) {
-		feedMotor.setControl(new VoltageOut(voltage).withEnableFOC(true));
+		feedMotor.setControl(voltageOutControlFeed.withOutput(voltage));
 	}
 
 	public double getFeedMotorSpeed() {
-		return feedMotor.getVelocity().getValue();
+		return velocitySignalFeed.getValue();
 	}
 
 	public void setShooterAngle(double angle) {
@@ -181,19 +195,19 @@ public class ShooterSubsystem extends SubsystemBase {
 	}
 
 	public double getTopMotorSpeed() {
-		return topMotor.getVelocity().getValue();
+		return velocitySignalTop.getValue();
 	}
 
 	public double getBottomMotorSpeed() {
-		return bottomMotor.getVelocity().getValue();
+		return velocitySignalBottom.getValue();
 	}
 
-	public void setElevatoPosition(double request) {
+	public void setElevatorPosition(double request) {
 		requestedElevatorPos = request;
 	}
 
 	public double getElevatorPosition() {
-		return elevatorMotor.getPosition().getValue() * ShooterConstants.elevatorMotorToInches;
+		return positionSignalElevator.getValue() * ShooterConstants.elevatorMotorToInches;
 	}
 
 	public void initializeArmAngle() {
@@ -245,15 +259,17 @@ public class ShooterSubsystem extends SubsystemBase {
 
 	public double getShooterAngle() {
 		return Units.rotationsToDegrees(
-				angleCanCoder.getAbsolutePosition().getValue() - ShooterConstants.shooterRestingRotations)
+				positionSignalAngle.getValue() - ShooterConstants.shooterRestingRotations)
 				+ ShooterConstants.restShooterAngle;
 	}
 
+	MotionMagicVoltage elevatorControl = new MotionMagicVoltage(0);
+	MotionMagicVoltage angleControl = new MotionMagicVoltage(0);
 	@Override
 	public void periodic() {
-		elevatorMotor
-				.setControl(new MotionMagicVoltage((requestedElevatorPos / ShooterConstants.elevatorMotorToInches)));
+		elevatorMotor.setControl(
+				elevatorControl.withPosition((requestedElevatorPos / ShooterConstants.elevatorMotorToInches)));
 
-		angleMotor.setControl(new MotionMagicVoltage(degreesToShooterRotations(requestedArmPos)));
+		angleMotor.setControl(angleControl.withPosition(degreesToShooterRotations(requestedArmPos)));
 	}
 }

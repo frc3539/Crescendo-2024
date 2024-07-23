@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.HardwareLimitSwitchConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.controls.VelocityVoltage;
@@ -13,15 +14,14 @@ import com.ctre.phoenix6.signals.ForwardLimitValue;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
-import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.IDConstants;
 
 public class ClimberSubsystem extends SubsystemBase {
 	private TalonFX leftClimbMotor, rightClimbMotor;
-	private Servo leftServo, rightServo;
-	private double leftServoPosition = 1;
-	private double rightServoPosition = 0;
+	StatusSignal<ForwardLimitValue> leftLimitSwitch, rightLimitSwitch;
+	VelocityVoltage velocityVoltageControlLeft, velocityVoltageControlRight = new VelocityVoltage(0).withEnableFOC(true);
+	VoltageOut voltageControlLeft, voltageControlRight = new VoltageOut(0).withEnableFOC(true);
 
 	public ClimberSubsystem() {
 		MotorOutputConfigs rightOutputConfig = new MotorOutputConfigs();
@@ -40,54 +40,33 @@ public class ClimberSubsystem extends SubsystemBase {
 		rightClimbMotor = new TalonFX(IDConstants.rightClimbMotorID, "rio");
 		rightClimbMotor.getConfigurator().apply(rightOutputConfig);
 
-		leftServo = new Servo(IDConstants.leftServoChannel);
-		rightServo = new Servo(IDConstants.rightServoChannel);
-
-		// buddyClimbMotor = new TalonFX(IDConstants.buddyClimbMotorID, "rio");
-		// buddyClimbMotor.getConfigurator().apply(buddyOutputConfig);
-
 		leftClimbMotor.setNeutralMode(NeutralModeValue.Brake);
 		rightClimbMotor.setNeutralMode(NeutralModeValue.Brake);
 
 		leftClimbMotor.getConfigurator().apply(new HardwareLimitSwitchConfigs().withForwardLimitEnable(true));
 		rightClimbMotor.getConfigurator().apply(new HardwareLimitSwitchConfigs().withForwardLimitEnable(true));
 
+		leftLimitSwitch = leftClimbMotor.getForwardLimit();
+		rightLimitSwitch = rightClimbMotor.getForwardLimit();
+
 	}
 
 	public void setLeftClimbMotorSpeed(double rps) {
-		leftClimbMotor.setControl(new VelocityVoltage(rps).withEnableFOC(true));
+		leftClimbMotor.setControl(velocityVoltageControlLeft.withVelocity(rps));
 	}
 
 	public void setLeftClimbMotorVoltage(double voltage) {
-		leftClimbMotor.setControl(new VoltageOut(voltage).withEnableFOC(true));
+		leftClimbMotor.setControl(voltageControlLeft.withOutput(voltage));
 	}
 
 	public void setRightClimbMotorSpeed(double rps) {
-		rightClimbMotor.setControl(new VelocityVoltage(rps).withEnableFOC(true));
+		rightClimbMotor.setControl(velocityVoltageControlRight.withVelocity(rps));
 	}
 
 	public void setRightClimbMotorVoltage(double voltage) {
-		rightClimbMotor.setControl(new VoltageOut(voltage).withEnableFOC(true));
+		rightClimbMotor.setControl(voltageControlRight.withOutput(voltage));
 	}
 
-	public void setLeftServoPosition(double position) {
-		leftServoPosition = position;
-	}
-	public void setRightServoPosition(double position) {
-		rightServoPosition = position;
-	}
-	// public void setBuddyClimbMotorSpeed(double rps) {
-	// buddyClimbMotor.setControl(new VelocityVoltage(rps).withEnableFOC(true));
-	// }
-
-	// public void setBuddyClimbMotorVoltage(double voltage) {
-	// buddyClimbMotor.setControl(new VoltageOut(voltage).withEnableFOC(true));
-	// }
-
-	// public double getBuddyClimbMotorSpeed() {
-
-	// return buddyClimbMotor.getVelocity().getValue();
-	// }
 	public void setClimberBreakMode(boolean enabled) {
 		if (enabled) {
 			leftClimbMotor.setNeutralMode(NeutralModeValue.Brake);
@@ -97,9 +76,10 @@ public class ClimberSubsystem extends SubsystemBase {
 			rightClimbMotor.setNeutralMode(NeutralModeValue.Coast);
 		}
 	}
+
 	public boolean doneClimbing() {
-		return leftClimbMotor.getForwardLimit().getValue() == ForwardLimitValue.ClosedToGround
-				&& rightClimbMotor.getForwardLimit().getValue() == ForwardLimitValue.ClosedToGround;
+		return leftLimitSwitch.getValue() == ForwardLimitValue.ClosedToGround
+				&& rightLimitSwitch.getValue() == ForwardLimitValue.ClosedToGround;
 
 	}
 
@@ -108,8 +88,6 @@ public class ClimberSubsystem extends SubsystemBase {
 
 	@Override
 	public void periodic() {
-		leftServo.set(leftServoPosition);
-		rightServo.set(rightServoPosition);
 		// This method will be called once per scheduler run
 	}
 }

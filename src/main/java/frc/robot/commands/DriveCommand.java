@@ -11,7 +11,6 @@ import org.frcteam3539.Byte_Swerve_Lib.control.PidController;
 
 import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
 
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
@@ -52,10 +51,11 @@ public class DriveCommand extends Command {
 	}
 
 	// Called every time the scheduler runs while the command is scheduled.
+	SwerveRequest.Idle idleRequest = new SwerveRequest.Idle();
 	@Override
 	public void execute() {
 
-		SwerveRequest request = new SwerveRequest.Idle();
+		SwerveRequest request = idleRequest;
 
 		double speedMultiplier = DrivetrainConstants.speedMultiplier;
 		double rotationSpeedMultiplier = DrivetrainConstants.rotationSpeedMultiplier;
@@ -157,15 +157,5 @@ public class DriveCommand extends Command {
 	@Override
 	public boolean isFinished() {
 		return false;
-	}
-
-	private static Translation2d modifyJoystick(Translation2d joystick) {
-		// Deadband
-		Rotation2d rotation = joystick.getAngle();
-		double distance = joystick.getNorm();
-
-		double distanceModified = Math.copySign(Math.pow(distance, 3), distance);
-
-		return new Translation2d(distanceModified, rotation);
 	}
 }

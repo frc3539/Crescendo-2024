@@ -141,6 +141,8 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
 		// Logger.recordOutput("/DriveTrain/Trajectory", trajectory);
 	}
 
+	SwerveRequest.RobotCentric autonRequest = new SwerveRequest.RobotCentric();
+	SwerveRequest.Idle idleRequest = new SwerveRequest.Idle();
 	@Override
 	public void periodic() {
 
@@ -149,7 +151,7 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
 		velocityY = ChassisSpeeds.fromRobotRelativeSpeeds(this.getState().speeds,
 				this.getPose2d().getRotation()).vyMetersPerSecond;
 
-		SwerveRequest request = new SwerveRequest.Idle();
+		SwerveRequest request = idleRequest;
 
 		var driveSignalOpt = follower.update(getPose2d(), Timer.getFPGATimestamp(), Robot.kDefaultPeriod);
 
@@ -163,7 +165,7 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
 		// If we should be running a profile use those chassisspeeds instead.
 		if (driveSignalOpt.isPresent()) {
 			ChassisSpeeds speeds = driveSignalOpt.get();
-			request = new SwerveRequest.RobotCentric().withVelocityX(speeds.vxMetersPerSecond)
+			request = autonRequest.withVelocityX(speeds.vxMetersPerSecond)
 					.withVelocityY(speeds.vyMetersPerSecond).withRotationalRate(speeds.omegaRadiansPerSecond);
 		} else
 			request = swerveRequest;

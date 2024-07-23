@@ -21,7 +21,7 @@ public class SetElevatorCommand extends Command {
 	// Called when the command is initially scheduled.
 	@Override
 	public void initialize() {
-		RobotContainer.shooterSubsystem.setElevatoPosition(height);
+		RobotContainer.shooterSubsystem.setElevatorPosition(height);
 	}
 
 	// Called every time the scheduler runs while the command is scheduled.

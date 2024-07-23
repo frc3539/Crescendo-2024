@@ -45,9 +45,10 @@ public class AutonNoteTrackCommand extends Command {
 	}
 
 	// Called every time the scheduler runs while the command is scheduled.
+	SwerveRequest.Idle idleRequest = new SwerveRequest.Idle();
 	@Override
 	public void execute() {
-		SwerveRequest request = new SwerveRequest.Idle();
+		SwerveRequest request = idleRequest;
 
 		var target = RobotContainer.visionSubsystem.getBestFrontNote();
 		if (target != null & !RobotContainer.intakeSubsystem.getBackSensor()
@@ -77,7 +78,7 @@ public class AutonNoteTrackCommand extends Command {
 	@Override
 	public void end(boolean interrupted) {
 		RobotContainer.ledSubsystem.setNoteTracking(false);
-		RobotContainer.drivetrainSubsystem.applyRequest(new SwerveRequest.Idle());
+		RobotContainer.drivetrainSubsystem.applyRequest(idleRequest);
 	}
 
 	// Returns true when the command should end.

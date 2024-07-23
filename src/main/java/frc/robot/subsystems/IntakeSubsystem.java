@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.SlotConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
@@ -23,6 +24,8 @@ public class IntakeSubsystem extends SubsystemBase {
 
 	private DigitalInput frontSensor, backSensor, chamberSensor;
 
+	StatusSignal<Double> groundMotorVelocity, kickMotorVelocity, chamberMotorVelocity;
+
 	public IntakeSubsystem() {
 		groundMotor = new TalonFX(IDConstants.groundMotorID, "rio");
 		groundMotor.getConfigurator().apply(new TalonFXConfiguration());
@@ -39,6 +42,10 @@ public class IntakeSubsystem extends SubsystemBase {
 		backSensor = new DigitalInput(IDConstants.backSensorChannel);
 		chamberSensor = new DigitalInput(IDConstants.chamberSensorChannel);
 		reloadFromConfig();
+
+		groundMotorVelocity = groundMotor.getVelocity();
+		kickMotorVelocity = kickMotor.getVelocity();
+		chamberMotorVelocity = chamberMotor.getVelocity();
 	}
 
 	public void reloadFromConfig() {
@@ -57,40 +64,46 @@ public class IntakeSubsystem extends SubsystemBase {
 				.apply(new CurrentLimitsConfigs().withSupplyCurrentLimit(120).withSupplyCurrentLimitEnable(false));
 	}
 
+	VelocityVoltage groundMotorVelocityControl = new VelocityVoltage(0).withEnableFOC(true);
 	public void setGroundMotorSpeed(double rps) {
-		groundMotor.setControl(new VelocityVoltage(rps).withEnableFOC(true));
+		groundMotor.setControl(groundMotorVelocityControl.withVelocity(rps));
 	}
 
+	VoltageOut groundMotorVoltageControl = new VoltageOut(0).withEnableFOC(true);
 	public void setGroundMotorVoltage(double voltage) {
-		groundMotor.setControl(new VoltageOut(voltage).withEnableFOC(true));
+		groundMotor.setControl(groundMotorVoltageControl.withOutput(voltage));
 	}
 
 	public double getGroundMotorSpeed() {
-		return groundMotor.getVelocity().getValue();
+		return groundMotorVelocity.getValue();
 	}
 
+	VelocityVoltage kickMotorVelocityControl = new VelocityVoltage(0).withEnableFOC(true);
 	public void setKickMotorSpeed(double rps) {
-		kickMotor.setControl(new VelocityVoltage(rps).withEnableFOC(true));
+		kickMotor.setControl(kickMotorVelocityControl.withVelocity(rps));
 	}
 
+	VoltageOut kickMotorVoltageControl = new VoltageOut(0).withEnableFOC(true);
 	public void setKickMotorVoltage(double voltage) {
-		kickMotor.setControl(new VoltageOut(voltage).withEnableFOC(true));
+		kickMotor.setControl(kickMotorVoltageControl.withOutput(voltage));
 	}
 
 	public double getKickMotorSpeed() {
-		return kickMotor.getVelocity().getValue();
+		return kickMotorVelocity.getValue();
 	}
 
+	VelocityVoltage chamberMotorVelocityControl = new VelocityVoltage(0).withEnableFOC(true);
 	public void setChamberMotorSpeed(double rps) {
-		chamberMotor.setControl(new VelocityVoltage(rps).withEnableFOC(true));
+		chamberMotor.setControl(chamberMotorVelocityControl.withVelocity(rps));
 	}
 
+	VoltageOut chamberMotorVoltageControl = new VoltageOut(0).withEnableFOC(true);
 	public void setChamberMotorVoltage(double voltage) {
-		chamberMotor.setControl(new VoltageOut(voltage).withEnableFOC(true));
+		chamberMotor.setControl(chamberMotorVoltageControl.withOutput(voltage));
 	}
 
 	public double getChamberMotorSpeed() {
-		return chamberMotor.getVelocity().getValue();
+		return chamberMotorVelocity.getValue();
 	}
 
 	public boolean getChamberSensor() {

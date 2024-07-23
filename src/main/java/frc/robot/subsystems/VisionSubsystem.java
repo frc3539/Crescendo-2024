@@ -19,7 +19,6 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotContainer;
 import java.util.Optional;
-import org.ejml.simple.SimpleMatrix;
 import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
@@ -120,13 +119,12 @@ public class VisionSubsystem extends Thread {
 		distanceRatio = 0.1466 * Math.pow(1.6903, distanceRatio);
 		if (numTargets == 1) {
 			if (distanceRatio > visionCutOffDistance) {
-				return new Matrix<N3, N1>(new SimpleMatrix(new double[]{99999, 99999, 99999}));
+				return VecBuilder.fill(99999, 99999, Units.degreesToRadians(99999));
 			}
 			targetMultiplier = 3;
 		}
-		Matrix<N3, N1> weights = new Matrix<N3, N1>(new SimpleMatrix(new double[]{distanceRatio * targetMultiplier,
-				distanceRatio * targetMultiplier, 3 + 15 * distanceRatio * targetMultiplier}));
-		return weights;
+		return VecBuilder.fill(distanceRatio * targetMultiplier, distanceRatio * targetMultiplier,
+				3 + 15 * distanceRatio * targetMultiplier);
 	}
 	public PhotonTrackedTarget getBestFrontNote() {
 		var result = frontNoteCam.getLatestResult();
@@ -145,7 +143,6 @@ public class VisionSubsystem extends Thread {
 			try {
 				Thread.sleep(10);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			// Vision Calculations

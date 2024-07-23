@@ -12,8 +12,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class ClimbPositionCommand extends SequentialCommandGroup {
-	private Command[] commands = {
-			new ParallelCommandGroup(new AngleShooterCommand(71), new SetElevatorCommand(6), new ReleaseStabbyFeet())};
+	private Command[] commands = {new ParallelCommandGroup(new AngleShooterCommand(71), new SetElevatorCommand(6))};
 
 	/** Creates a new AmpCommand. */
 	public ClimbPositionCommand() {
