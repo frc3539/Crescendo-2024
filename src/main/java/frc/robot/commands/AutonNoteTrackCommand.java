@@ -13,6 +13,9 @@ import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
 import frc.robot.constants.DrivetrainConstants;
+import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.LedSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 
 public class AutonNoteTrackCommand extends Command {
 	double speedMultiplier = DrivetrainConstants.speedMultiplier;
@@ -51,11 +54,10 @@ public class AutonNoteTrackCommand extends Command {
 		SwerveRequest request = idleRequest;
 
 		var target = RobotContainer.visionSubsystem.getBestFrontNote();
-		if (target != null & !RobotContainer.intakeSubsystem.getBackSensor()
-				& !RobotContainer.intakeSubsystem.getFrontSensor() & !RobotContainer.intakeSubsystem.getChamberSensor()
-				& !RobotContainer.shooterSubsystem.getShooterSensor()) {
+		if (target != null & !IntakeSubsystem.getBackSensor() & !IntakeSubsystem.getFrontSensor()
+				& !IntakeSubsystem.getChamberSensor() & !ShooterSubsystem.getShooterSensor()) {
 			noNoteCounter = 0;
-			RobotContainer.ledSubsystem.setNoteTracking(true);
+			LedSubsystem.setNoteTracking(true);
 
 			double noteTrackSpeedMultiplier = 0.5;
 			var angleToTarget = -target.getYaw() * Math.PI / 180;
@@ -69,7 +71,7 @@ public class AutonNoteTrackCommand extends Command {
 
 		} else {
 			noNoteCounter++;
-			RobotContainer.ledSubsystem.setNoteTracking(false);
+			LedSubsystem.setNoteTracking(false);
 		}
 
 	}
@@ -77,15 +79,14 @@ public class AutonNoteTrackCommand extends Command {
 	// Called once the command ends or is interrupted.
 	@Override
 	public void end(boolean interrupted) {
-		RobotContainer.ledSubsystem.setNoteTracking(false);
+		LedSubsystem.setNoteTracking(false);
 		RobotContainer.drivetrainSubsystem.applyRequest(idleRequest);
 	}
 
 	// Returns true when the command should end.
 	@Override
 	public boolean isFinished() {
-		return RobotContainer.intakeSubsystem.getBackSensor() || RobotContainer.intakeSubsystem.getFrontSensor()
-				|| RobotContainer.intakeSubsystem.getChamberSensor()
-				|| RobotContainer.shooterSubsystem.getShooterSensor() || noNoteCounter > 10;
+		return IntakeSubsystem.getBackSensor() || IntakeSubsystem.getFrontSensor() || IntakeSubsystem.getChamberSensor()
+				|| ShooterSubsystem.getShooterSensor() || noNoteCounter > 10;
 	}
 }

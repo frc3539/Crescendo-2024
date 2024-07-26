@@ -6,7 +6,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.RobotContainer;
+import frc.robot.subsystems.ShooterSubsystem;
 
 public class SetElevatorCommand extends Command {
 	/** Creates a new SetElevatorCommand. */
@@ -21,7 +21,7 @@ public class SetElevatorCommand extends Command {
 	// Called when the command is initially scheduled.
 	@Override
 	public void initialize() {
-		RobotContainer.shooterSubsystem.setElevatorPosition(height);
+		ShooterSubsystem.setElevatorPosition(height);
 	}
 
 	// Called every time the scheduler runs while the command is scheduled.
@@ -38,7 +38,7 @@ public class SetElevatorCommand extends Command {
 	@Override
 	public boolean isFinished() {
 		// System.out.println(height + " " +
-		// RobotContainer.shooterSubsystem.getElevatorPosition());
-		return MathUtil.isNear(height, RobotContainer.shooterSubsystem.getElevatorPosition(), 0.2);
+		// ShooterSubsystem.getElevatorPosition());
+		return MathUtil.isNear(height, ShooterSubsystem.getElevatorPosition(), 0.2);
 	}
 }

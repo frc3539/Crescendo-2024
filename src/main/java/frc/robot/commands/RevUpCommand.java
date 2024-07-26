@@ -6,8 +6,8 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.RobotContainer;
 import frc.robot.constants.ShooterConstants;
+import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.utilities.BBMath;
 
 public class RevUpCommand extends Command {
@@ -28,26 +28,24 @@ public class RevUpCommand extends Command {
 	// Called when the command is initially scheduled.
 	@Override
 	public void initialize() {
-		// RobotContainer.shooterSubsystem.setBottomMotorSpeed(ShooterConstants.revRps);
-		// RobotContainer.shooterSubsystem.setTopMotorSpeed(-ShooterConstants.revRps);
+		// ShooterSubsystem.setBottomMotorSpeed(ShooterConstants.revRps);
+		// ShooterSubsystem.setTopMotorSpeed(-ShooterConstants.revRps);
 	}
 
 	// Called every time the scheduler runs while the command is scheduled.
 	@Override
 	public void execute() {
-		RobotContainer.shooterSubsystem
-				.setBottomMotorSpeed(BBMath.getRps(shootSpeed, ShooterConstants.shootWheelDiameter));
-		RobotContainer.shooterSubsystem
-				.setTopMotorSpeed(BBMath.getRps(shootSpeed, ShooterConstants.shootWheelDiameter));
+		ShooterSubsystem.setBottomMotorSpeed(BBMath.getRps(shootSpeed, ShooterConstants.shootWheelDiameter));
+		ShooterSubsystem.setTopMotorSpeed(BBMath.getRps(shootSpeed, ShooterConstants.shootWheelDiameter));
 	}
 
 	// Called once the command ends or is interrupted.
 	@Override
 	public void end(boolean interrupted) {
-		// RobotContainer.shooterSubsystem.setBottomMotorSpeed(0);
-		// RobotContainer.shooterSubsystem.setTopMotorSpeed(0);
-		RobotContainer.shooterSubsystem.setBottomMotorVoltage(0);
-		RobotContainer.shooterSubsystem.setTopMotorVoltage(0);
+		// ShooterSubsystem.setBottomMotorSpeed(0);
+		// ShooterSubsystem.setTopMotorSpeed(0);
+		ShooterSubsystem.setBottomMotorVoltage(0);
+		ShooterSubsystem.setTopMotorVoltage(0);
 		shootTimer.stop();
 		shootTimer.reset();
 		timerStarted = false;
@@ -59,7 +57,7 @@ public class RevUpCommand extends Command {
 		if (!endOnShoot) {
 			return false;
 		}
-		if (!RobotContainer.shooterSubsystem.getShooterSensor() && !timerStarted) {
+		if (!ShooterSubsystem.getShooterSensor() && !timerStarted) {
 			shootTimer.start();
 			timerStarted = true;
 		}

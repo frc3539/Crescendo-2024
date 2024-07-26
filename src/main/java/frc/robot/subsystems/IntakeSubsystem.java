@@ -20,11 +20,11 @@ import frc.robot.constants.IntakeConstants;
 
 public class IntakeSubsystem extends SubsystemBase {
 	/** Creates a new IntakeSubsystem. */
-	private TalonFX groundMotor, kickMotor, chamberMotor;
+	private static TalonFX groundMotor, kickMotor, chamberMotor;
 
-	private DigitalInput frontSensor, backSensor, chamberSensor;
+	private static DigitalInput frontSensor, backSensor, chamberSensor;
 
-	StatusSignal<Double> groundMotorVelocity, kickMotorVelocity, chamberMotorVelocity;
+	static StatusSignal<Double> groundMotorVelocity, kickMotorVelocity, chamberMotorVelocity;
 
 	public IntakeSubsystem() {
 		groundMotor = new TalonFX(IDConstants.groundMotorID, "rio");
@@ -48,7 +48,7 @@ public class IntakeSubsystem extends SubsystemBase {
 		chamberMotorVelocity = chamberMotor.getVelocity();
 	}
 
-	public void reloadFromConfig() {
+	public static void reloadFromConfig() {
 		groundMotor.getConfigurator()
 				.apply(new SlotConfigs().withKP(IntakeConstants.groundP).withKV(IntakeConstants.groundV));
 		chamberMotor.getConfigurator()
@@ -64,67 +64,70 @@ public class IntakeSubsystem extends SubsystemBase {
 				.apply(new CurrentLimitsConfigs().withSupplyCurrentLimit(120).withSupplyCurrentLimitEnable(false));
 	}
 
-	VelocityVoltage groundMotorVelocityControl = new VelocityVoltage(0).withEnableFOC(true);
-	public void setGroundMotorSpeed(double rps) {
+	static VelocityVoltage groundMotorVelocityControl = new VelocityVoltage(0).withEnableFOC(true);
+	public static void setGroundMotorSpeed(double rps) {
 		groundMotor.setControl(groundMotorVelocityControl.withVelocity(rps));
 	}
 
-	VoltageOut groundMotorVoltageControl = new VoltageOut(0).withEnableFOC(true);
-	public void setGroundMotorVoltage(double voltage) {
+	static VoltageOut groundMotorVoltageControl = new VoltageOut(0).withEnableFOC(true);
+	public static void setGroundMotorVoltage(double voltage) {
 		groundMotor.setControl(groundMotorVoltageControl.withOutput(voltage));
 	}
 
-	public double getGroundMotorSpeed() {
+	public static double getGroundMotorSpeed() {
+		groundMotorVelocity.refresh();
 		return groundMotorVelocity.getValue();
 	}
 
-	VelocityVoltage kickMotorVelocityControl = new VelocityVoltage(0).withEnableFOC(true);
-	public void setKickMotorSpeed(double rps) {
+	static VelocityVoltage kickMotorVelocityControl = new VelocityVoltage(0).withEnableFOC(true);
+	public static void setKickMotorSpeed(double rps) {
 		kickMotor.setControl(kickMotorVelocityControl.withVelocity(rps));
 	}
 
-	VoltageOut kickMotorVoltageControl = new VoltageOut(0).withEnableFOC(true);
-	public void setKickMotorVoltage(double voltage) {
+	static VoltageOut kickMotorVoltageControl = new VoltageOut(0).withEnableFOC(true);
+	public static void setKickMotorVoltage(double voltage) {
 		kickMotor.setControl(kickMotorVoltageControl.withOutput(voltage));
 	}
 
-	public double getKickMotorSpeed() {
+	public static double getKickMotorSpeed() {
+		kickMotorVelocity.refresh();
 		return kickMotorVelocity.getValue();
 	}
 
-	VelocityVoltage chamberMotorVelocityControl = new VelocityVoltage(0).withEnableFOC(true);
-	public void setChamberMotorSpeed(double rps) {
+	static VelocityVoltage chamberMotorVelocityControl = new VelocityVoltage(0).withEnableFOC(true);
+	public static void setChamberMotorSpeed(double rps) {
 		chamberMotor.setControl(chamberMotorVelocityControl.withVelocity(rps));
 	}
 
-	VoltageOut chamberMotorVoltageControl = new VoltageOut(0).withEnableFOC(true);
-	public void setChamberMotorVoltage(double voltage) {
+	static VoltageOut chamberMotorVoltageControl = new VoltageOut(0).withEnableFOC(true);
+	public static void setChamberMotorVoltage(double voltage) {
 		chamberMotor.setControl(chamberMotorVoltageControl.withOutput(voltage));
 	}
 
-	public double getChamberMotorSpeed() {
+	public static double getChamberMotorSpeed() {
+		chamberMotorVelocity.refresh();
 		return chamberMotorVelocity.getValue();
 	}
 
-	public boolean getChamberSensor() {
+	public static boolean getChamberSensor() {
 		if (IntakeConstants.invertSensors == 1)
 			return chamberSensor.get();
 		return !chamberSensor.get();
 	}
 
-	public boolean getFrontSensor() {
+	public static boolean getFrontSensor() {
 		if (IntakeConstants.invertSensors == 1)
 			return frontSensor.get();
 		return !frontSensor.get();
 	}
 
-	public boolean getBackSensor() {
+	public static boolean getBackSensor() {
 		if (IntakeConstants.invertSensors == 1)
 			return backSensor.get();
 		return !backSensor.get();
 	}
 
-	public void log() {
+	public static void log() {
 		SmartDashboard.putBoolean("/Intake/FrontSensor", getFrontSensor());
 		SmartDashboard.putBoolean("/Intake/BackSensor", getBackSensor());
 		SmartDashboard.putBoolean("/Intake/ChamberSensor", getChamberSensor());

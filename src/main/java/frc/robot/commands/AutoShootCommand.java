@@ -7,6 +7,9 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
 import frc.robot.constants.IntakeConstants;
+import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.LedSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 
 public class AutoShootCommand extends Command {
 
@@ -18,7 +21,7 @@ public class AutoShootCommand extends Command {
 	// Called when the command is initially scheduled.
 	@Override
 	public void initialize() {
-		RobotContainer.ledSubsystem.setAutoShooting(true);
+		LedSubsystem.setAutoShooting(true);
 		// RobotContainer.shooterSubsystem
 		// .setTopMotorSpeed(BBMath.getRps(ShooterConstants.shootDps,
 		// ShooterConstants.shootWheelDiameter));
@@ -46,13 +49,13 @@ public class AutoShootCommand extends Command {
 		// RobotContainer.shooterSubsystem
 		// .setFeedMotorSpeed(BBMath.getRps(ShooterConstants.feedDps,
 		// ShooterConstants.feedWheelDiameter));
-		double angleToTarget = RobotContainer.shooterSubsystem.getEstimatedShooterAngle();
-		RobotContainer.shooterSubsystem.setShooterAngle(angleToTarget);
+		double angleToTarget = ShooterSubsystem.getEstimatedShooterAngle();
+		ShooterSubsystem.setShooterAngle(angleToTarget);
 		if (!RobotContainer.rightOperatorBumper.getAsBoolean()) {
 			if (angleToTarget > -50) {
-				RobotContainer.intakeSubsystem.setChamberMotorSpeed(IntakeConstants.intakeDps / 30);
+				IntakeSubsystem.setChamberMotorSpeed(IntakeConstants.intakeDps / 30);
 			} else {
-				RobotContainer.intakeSubsystem.setChamberMotorVoltage(0);
+				IntakeSubsystem.setChamberMotorVoltage(0);
 			}
 		}
 
@@ -61,13 +64,13 @@ public class AutoShootCommand extends Command {
 	// Called once the command ends or is interrupted.
 	@Override
 	public void end(boolean interrupted) {
-		RobotContainer.shooterSubsystem.setTopMotorVoltage(0);
-		RobotContainer.shooterSubsystem.setBottomMotorVoltage(0);
-		RobotContainer.shooterSubsystem.setFeedMotorVoltage(0);
+		ShooterSubsystem.setTopMotorVoltage(0);
+		ShooterSubsystem.setBottomMotorVoltage(0);
+		ShooterSubsystem.setFeedMotorVoltage(0);
 		if (!RobotContainer.rightOperatorBumper.getAsBoolean()) {
-			RobotContainer.intakeSubsystem.setChamberMotorVoltage(0);
+			IntakeSubsystem.setChamberMotorVoltage(0);
 		}
-		RobotContainer.ledSubsystem.setAutoShooting(false);
+		LedSubsystem.setAutoShooting(false);
 
 	}
 

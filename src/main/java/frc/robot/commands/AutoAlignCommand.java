@@ -10,6 +10,8 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
+import frc.robot.subsystems.LedSubsystem;
+
 import java.util.ArrayList;
 import java.util.List;
 import org.frcteam3539.Byte_Swerve_Lib.control.MaxAccelerationConstraint;
@@ -67,7 +69,7 @@ public class AutoAlignCommand extends Command {
 	// Called when the command is initially scheduled.
 	@Override
 	public void initialize() {
-		RobotContainer.ledSubsystem.setAligning(true);
+		LedSubsystem.setAligning(true);
 		Pose2d robotPose = RobotContainer.drivetrainSubsystem.getPose2d();
 
 		Pose2d target = robotPose.nearest(points);
@@ -91,7 +93,7 @@ public class AutoAlignCommand extends Command {
 	// Called once the command ends or is interrupted.
 	@Override
 	public void end(boolean interrupted) {
-		RobotContainer.ledSubsystem.setAligning(false);
+		LedSubsystem.setAligning(false);
 
 		RobotContainer.drivetrainSubsystem.getFollower().cancel();
 	}

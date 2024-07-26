@@ -36,23 +36,25 @@ import frc.robot.constants.IntakeConstants;
 import frc.robot.constants.ShooterConstants;
 
 public class ShooterSubsystem extends SubsystemBase {
-	double targetZOffset = -0.0254;
+	static double targetZOffset = -0.0254;
 
 	/** Creates a new ShooterSubsystem. */
-	private TalonFX topMotor, bottomMotor, feedMotor, elevatorMotor, angleMotor;
+	private static TalonFX topMotor, bottomMotor, feedMotor, elevatorMotor, angleMotor;
 
-	private CANcoder angleCanCoder;
+	private static CANcoder angleCanCoder;
 
-	private DigitalInput shooterSensor;
+	private static DigitalInput shooterSensor;
 
-	private double requestedElevatorPos = 0;
-	private double requestedArmPos = 0;
-	StatusSignal<Double> velocitySignalTop, velocitySignalBottom, velocitySignalFeed, positionSignalElevator,
+	private static double requestedElevatorPos = 0;
+	private static double requestedArmPos = 0;
+	static StatusSignal<Double> velocitySignalTop, velocitySignalBottom, velocitySignalFeed, positionSignalElevator,
 			positionSignalAngle;
 
-	VelocityVoltage velocityVoltageControlTop, velocityVoltageControlBottom,
+	static VelocityVoltage velocityVoltageControlTop = new VelocityVoltage(0).withEnableFOC(true),
+			velocityVoltageControlBottom = new VelocityVoltage(0).withEnableFOC(true),
 			velocityVoltageControlFeed = new VelocityVoltage(0).withEnableFOC(true);
-	VoltageOut voltageOutControlTop, voltageOutControlBottom,
+	static VoltageOut voltageOutControlTop = new VoltageOut(0).withEnableFOC(true),
+			voltageOutControlBottom = new VoltageOut(0).withEnableFOC(true),
 			voltageOutControlFeed = new VoltageOut(0).withEnableFOC(true);
 
 	public ShooterSubsystem() {
@@ -95,7 +97,7 @@ public class ShooterSubsystem extends SubsystemBase {
 		shooterSensor = new DigitalInput(IDConstants.shooterSensorChannel);
 	}
 
-	public void reloadFromConfig() {
+	public static void reloadFromConfig() {
 
 		angleCanCoder.getConfigurator()
 				.apply(new MagnetSensorConfigs().withAbsoluteSensorRange(AbsoluteSensorRangeValue.Signed_PlusMinusHalf)
@@ -141,7 +143,7 @@ public class ShooterSubsystem extends SubsystemBase {
 		positionSignalAngle = angleCanCoder.getAbsolutePosition();
 	}
 
-	public void setArmBreakMode(boolean enabled) {
+	public static void setArmBreakMode(boolean enabled) {
 		if (enabled) {
 			angleMotor.setNeutralMode(NeutralModeValue.Brake);
 		} else {
@@ -149,7 +151,7 @@ public class ShooterSubsystem extends SubsystemBase {
 		}
 	}
 
-	public void setElevatorBreakMode(boolean enabled) {
+	public static void setElevatorBreakMode(boolean enabled) {
 		if (enabled) {
 			elevatorMotor.setNeutralMode(NeutralModeValue.Brake);
 		} else {
@@ -157,69 +159,73 @@ public class ShooterSubsystem extends SubsystemBase {
 		}
 	}
 
-	public void setTopMotorSpeed(double rps) {
+	public static void setTopMotorSpeed(double rps) {
 		topMotor.setControl(velocityVoltageControlTop.withVelocity(rps));
 	}
 
-	public void setTopMotorVoltage(double voltage) {
+	public static void setTopMotorVoltage(double voltage) {
 		topMotor.setControl(voltageOutControlTop.withOutput(voltage));
 	}
 
-	public void setBottomMotorSpeed(double rps) {
+	public static void setBottomMotorSpeed(double rps) {
 		bottomMotor.setControl(velocityVoltageControlBottom.withVelocity(rps));
 	}
 
-	public void setBottomMotorVoltage(double voltage) {
+	public static void setBottomMotorVoltage(double voltage) {
 		bottomMotor.setControl(voltageOutControlBottom.withOutput(voltage));
 	}
 
-	public void setFeedMotorSpeed(double rps) {
+	public static void setFeedMotorSpeed(double rps) {
 		feedMotor.setControl(velocityVoltageControlFeed.withVelocity(rps));
 	}
 
-	public void setFeedMotorVoltage(double voltage) {
+	public static void setFeedMotorVoltage(double voltage) {
 		feedMotor.setControl(voltageOutControlFeed.withOutput(voltage));
 	}
 
-	public double getFeedMotorSpeed() {
+	public static double getFeedMotorSpeed() {
+		velocitySignalFeed.refresh();
 		return velocitySignalFeed.getValue();
 	}
 
-	public void setShooterAngle(double angle) {
+	public static void setShooterAngle(double angle) {
 		requestedArmPos = angle;
 	}
 
-	public boolean getShooterSensor() {
+	public static boolean getShooterSensor() {
 		if (IntakeConstants.invertSensors == 1)
 			return shooterSensor.get();
 		return !shooterSensor.get();
 	}
 
-	public double getTopMotorSpeed() {
+	public static double getTopMotorSpeed() {
+		velocitySignalTop.refresh();
 		return velocitySignalTop.getValue();
 	}
 
-	public double getBottomMotorSpeed() {
+	public static double getBottomMotorSpeed() {
+		velocitySignalBottom.refresh();
 		return velocitySignalBottom.getValue();
 	}
 
-	public void setElevatorPosition(double request) {
+	public static void setElevatorPosition(double request) {
 		requestedElevatorPos = request;
 	}
 
-	public double getElevatorPosition() {
+	public static double getElevatorPosition() {
+		positionSignalElevator.refresh();
 		return positionSignalElevator.getValue() * ShooterConstants.elevatorMotorToInches;
 	}
 
-	public void initializeArmAngle() {
+	public static void initializeArmAngle() {
 		requestedArmPos = getShooterAngle();
 	}
 
-	public void initializeElevatorPosition() {
+	public static void initializeElevatorPosition() {
 		requestedElevatorPos = getElevatorPosition();
 	}
 
-	public double getEstimatedShooterAngle() {
+	public static double getEstimatedShooterAngle() {
 		double distanceToTarget = 0;
 		distanceToTarget = RobotContainer.drivetrainSubsystem.getPose2d().getTranslation()
 				.getDistance(RobotContainer.drivetrainSubsystem.getOffsetTarget());
@@ -241,7 +247,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
 	}
 
-	public void log() {
+	public static void log() {
 		SmartDashboard.putBoolean("/Shooter/ShooterSensor", getShooterSensor());
 		SmartDashboard.putNumber("/Shooter/FeederRPS", getFeedMotorSpeed());
 		SmartDashboard.putNumber("/Shooter/TopShooterRPS", getTopMotorSpeed());
@@ -253,12 +259,13 @@ public class ShooterSubsystem extends SubsystemBase {
 		SmartDashboard.putNumber("/Drivetrain/EstimatedAngle", getEstimatedShooterAngle());
 	}
 
-	public double degreesToShooterRotations(double degrees) {
+	public static double degreesToShooterRotations(double degrees) {
 		return Units.degreesToRotations(degrees - ShooterConstants.restShooterAngle)
 				+ ShooterConstants.shooterRestingRotations;
 	}
 
-	public double getShooterAngle() {
+	public static double getShooterAngle() {
+		positionSignalAngle.refresh();
 		return Units.rotationsToDegrees(positionSignalAngle.getValue() - ShooterConstants.shooterRestingRotations)
 				+ ShooterConstants.restShooterAngle;
 	}

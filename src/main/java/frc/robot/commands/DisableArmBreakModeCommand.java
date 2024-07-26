@@ -6,7 +6,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.RobotContainer;
+import frc.robot.subsystems.ShooterSubsystem;
 
 public class DisableArmBreakModeCommand extends Command {
 	/** Creates a new DisableArmBreakModeCommand. */
@@ -17,7 +17,7 @@ public class DisableArmBreakModeCommand extends Command {
 	// Called when the command is initially scheduled.
 	@Override
 	public void initialize() {
-		RobotContainer.shooterSubsystem.setArmBreakMode(false);
+		ShooterSubsystem.setArmBreakMode(false);
 	}
 
 	// Called every time the scheduler runs while the command is scheduled.
@@ -28,7 +28,7 @@ public class DisableArmBreakModeCommand extends Command {
 	// Called once the command ends or is interrupted.
 	@Override
 	public void end(boolean interrupted) {
-		RobotContainer.shooterSubsystem.setArmBreakMode(true);
+		ShooterSubsystem.setArmBreakMode(true);
 	}
 
 	// Returns true when the command should end.

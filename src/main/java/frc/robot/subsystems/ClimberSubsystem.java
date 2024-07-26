@@ -18,11 +18,12 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.IDConstants;
 
 public class ClimberSubsystem extends SubsystemBase {
-	private TalonFX leftClimbMotor, rightClimbMotor;
-	StatusSignal<ForwardLimitValue> leftLimitSwitch, rightLimitSwitch;
-	VelocityVoltage velocityVoltageControlLeft,
+	private static TalonFX leftClimbMotor, rightClimbMotor;
+	static StatusSignal<ForwardLimitValue> leftLimitSwitch, rightLimitSwitch;
+	static VelocityVoltage velocityVoltageControlLeft = new VelocityVoltage(0).withEnableFOC(true),
 			velocityVoltageControlRight = new VelocityVoltage(0).withEnableFOC(true);
-	VoltageOut voltageControlLeft, voltageControlRight = new VoltageOut(0).withEnableFOC(true);
+	static VoltageOut voltageControlLeft = new VoltageOut(0).withEnableFOC(true),
+			voltageControlRight = new VoltageOut(0).withEnableFOC(true);
 
 	public ClimberSubsystem() {
 		MotorOutputConfigs rightOutputConfig = new MotorOutputConfigs();
@@ -52,23 +53,23 @@ public class ClimberSubsystem extends SubsystemBase {
 
 	}
 
-	public void setLeftClimbMotorSpeed(double rps) {
+	public static void setLeftClimbMotorSpeed(double rps) {
 		leftClimbMotor.setControl(velocityVoltageControlLeft.withVelocity(rps));
 	}
 
-	public void setLeftClimbMotorVoltage(double voltage) {
+	public static void setLeftClimbMotorVoltage(double voltage) {
 		leftClimbMotor.setControl(voltageControlLeft.withOutput(voltage));
 	}
 
-	public void setRightClimbMotorSpeed(double rps) {
+	public static void setRightClimbMotorSpeed(double rps) {
 		rightClimbMotor.setControl(velocityVoltageControlRight.withVelocity(rps));
 	}
 
-	public void setRightClimbMotorVoltage(double voltage) {
+	public static void setRightClimbMotorVoltage(double voltage) {
 		rightClimbMotor.setControl(voltageControlRight.withOutput(voltage));
 	}
 
-	public void setClimberBreakMode(boolean enabled) {
+	public static void setClimberBreakMode(boolean enabled) {
 		if (enabled) {
 			leftClimbMotor.setNeutralMode(NeutralModeValue.Brake);
 			rightClimbMotor.setNeutralMode(NeutralModeValue.Brake);
@@ -78,7 +79,9 @@ public class ClimberSubsystem extends SubsystemBase {
 		}
 	}
 
-	public boolean doneClimbing() {
+	public static boolean doneClimbing() {
+		leftLimitSwitch.refresh();
+		rightLimitSwitch.refresh();
 		return leftLimitSwitch.getValue() == ForwardLimitValue.ClosedToGround
 				&& rightLimitSwitch.getValue() == ForwardLimitValue.ClosedToGround;
 

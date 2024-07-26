@@ -6,6 +6,8 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
+import frc.robot.subsystems.ClimberSubsystem;
+import frc.robot.subsystems.LedSubsystem;
 
 public class AutoClimbCommand extends Command {
 	/** Creates a new AutoClimbCommand. */
@@ -16,7 +18,7 @@ public class AutoClimbCommand extends Command {
 	// Called when the command is initially scheduled.
 	@Override
 	public void initialize() {
-		RobotContainer.ledSubsystem.setClimbing(true);
+		LedSubsystem.setClimbing(true);
 
 	}
 
@@ -24,24 +26,24 @@ public class AutoClimbCommand extends Command {
 	@Override
 	public void execute() {
 		if (RobotContainer.drivetrainSubsystem.getRobotRoll().getDegrees() < -4) {
-			RobotContainer.climberSubsystem.setLeftClimbMotorVoltage(10);
-			RobotContainer.climberSubsystem.setRightClimbMotorVoltage(0);
+			ClimberSubsystem.setLeftClimbMotorVoltage(10);
+			ClimberSubsystem.setRightClimbMotorVoltage(0);
 		} else if (RobotContainer.drivetrainSubsystem.getRobotRoll().getDegrees() > 4) {
-			RobotContainer.climberSubsystem.setLeftClimbMotorVoltage(0);
-			RobotContainer.climberSubsystem.setRightClimbMotorVoltage(10);
+			ClimberSubsystem.setLeftClimbMotorVoltage(0);
+			ClimberSubsystem.setRightClimbMotorVoltage(10);
 		} else {
-			RobotContainer.climberSubsystem.setLeftClimbMotorVoltage(10);
-			RobotContainer.climberSubsystem.setRightClimbMotorVoltage(10);
+			ClimberSubsystem.setLeftClimbMotorVoltage(10);
+			ClimberSubsystem.setRightClimbMotorVoltage(10);
 		}
 	}
 
 	// Called once the command ends or is interrupted.
 	@Override
 	public void end(boolean interrupted) {
-		RobotContainer.ledSubsystem.setClimbing(false);
+		LedSubsystem.setClimbing(false);
 
-		RobotContainer.climberSubsystem.setLeftClimbMotorVoltage(0);
-		RobotContainer.climberSubsystem.setRightClimbMotorVoltage(0);
+		ClimberSubsystem.setLeftClimbMotorVoltage(0);
+		ClimberSubsystem.setRightClimbMotorVoltage(0);
 	}
 
 	// Returns true when the command should end.

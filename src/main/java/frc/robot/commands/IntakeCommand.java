@@ -6,9 +6,11 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.RobotContainer;
 import frc.robot.constants.IntakeConstants;
 import frc.robot.constants.ShooterConstants;
+import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.LedSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.utilities.BBMath;
 
 public class IntakeCommand extends Command {
@@ -32,43 +34,43 @@ public class IntakeCommand extends Command {
 	// Called when the command is initially scheduled.
 	@Override
 	public void initialize() {
-		RobotContainer.ledSubsystem.setIntaking(true);
+		LedSubsystem.setIntaking(true);
 
-		if (RobotContainer.shooterSubsystem.getShooterSensor() && intaking == true) {
-			RobotContainer.intakeSubsystem.setGroundMotorVoltage(0);
-			RobotContainer.intakeSubsystem.setChamberMotorVoltage(0);
-			RobotContainer.intakeSubsystem.setKickMotorVoltage(0);
-			RobotContainer.shooterSubsystem.setFeedMotorVoltage(0);
+		if (ShooterSubsystem.getShooterSensor() && intaking == true) {
+			IntakeSubsystem.setGroundMotorVoltage(0);
+			IntakeSubsystem.setChamberMotorVoltage(0);
+			IntakeSubsystem.setKickMotorVoltage(0);
+			ShooterSubsystem.setFeedMotorVoltage(0);
 
 			return;
 		}
 		if (intaking == true) {
-			// RobotContainer.intakeSubsystem.setGroundMotorSpeed(IntakeConstants.intakeRps);
-			// RobotContainer.intakeSubsystem.setGrabMotorSpeed(IntakeConstants.intakeRps);
+			// IntakeSubsystem.setGroundMotorSpeed(IntakeConstants.intakeRps);
+			// IntakeSubsystem.setGrabMotorSpeed(IntakeConstants.intakeRps);
 
-			RobotContainer.intakeSubsystem.setGroundMotorSpeed(
+			IntakeSubsystem.setGroundMotorSpeed(
 					BBMath.getRps(IntakeConstants.intakeDps * 3, IntakeConstants.groundWheelDiameter));
-			RobotContainer.intakeSubsystem.setChamberMotorSpeed(
+			IntakeSubsystem.setChamberMotorSpeed(
 					BBMath.getRps(IntakeConstants.intakeDps, IntakeConstants.chamberWheelDiameter));
-			RobotContainer.shooterSubsystem
+			ShooterSubsystem
 					.setFeedMotorSpeed(BBMath.getRps(IntakeConstants.intakeDps, ShooterConstants.feedWheelDiameter));
 
 		} else {
-			// RobotContainer.intakeSubsystem.setGroundMotorSpeed(-IntakeConstants.intakeRps);
-			// RobotContainer.intakeSubsystem.setGrabMotorSpeed(-IntakeConstants.intakeRps);
+			// IntakeSubsystem.setGroundMotorSpeed(-IntakeConstants.intakeRps);
+			// IntakeSubsystem.setGrabMotorSpeed(-IntakeConstants.intakeRps);
 
-			RobotContainer.shooterSubsystem.setFeedMotorSpeed(-IntakeConstants.intakeDps);
-			RobotContainer.shooterSubsystem.setTopMotorSpeed(-IntakeConstants.intakeDps);
-			RobotContainer.shooterSubsystem.setBottomMotorSpeed(-IntakeConstants.intakeDps);
+			ShooterSubsystem.setFeedMotorSpeed(-IntakeConstants.intakeDps);
+			ShooterSubsystem.setTopMotorSpeed(-IntakeConstants.intakeDps);
+			ShooterSubsystem.setBottomMotorSpeed(-IntakeConstants.intakeDps);
 
-			RobotContainer.intakeSubsystem.setGroundMotorSpeed(
+			IntakeSubsystem.setGroundMotorSpeed(
 					BBMath.getRps(-IntakeConstants.intakeDps * 3, IntakeConstants.groundWheelDiameter));
-			RobotContainer.intakeSubsystem.setChamberMotorSpeed(
+			IntakeSubsystem.setChamberMotorSpeed(
 					BBMath.getRps(-IntakeConstants.intakeDps, IntakeConstants.chamberWheelDiameter));
-			RobotContainer.shooterSubsystem
+			ShooterSubsystem
 					.setFeedMotorSpeed(BBMath.getRps(-IntakeConstants.intakeDps, ShooterConstants.feedWheelDiameter));
-			RobotContainer.intakeSubsystem.setKickMotorSpeed(BBMath.getRps(
-					IntakeConstants.intakeDps / IntakeConstants.kickGearRatio, IntakeConstants.kickWheelDiameter));
+			IntakeSubsystem.setKickMotorSpeed(BBMath.getRps(IntakeConstants.intakeDps / IntakeConstants.kickGearRatio,
+					IntakeConstants.kickWheelDiameter));
 		}
 	}
 
@@ -78,83 +80,82 @@ public class IntakeCommand extends Command {
 		if (!intaking) {
 			return;
 		}
-		// if (RobotContainer.shooterSubsystem.getShooterSensor() && intake == true) {
-		// RobotContainer.intakeSubsystem.setGroundMotorVoltage(0);
-		// RobotContainer.intakeSubsystem.setChamberMotorVoltage(0);
-		// RobotContainer.intakeSubsystem.setKickMotorVoltage(0);
-		// RobotContainer.shooterSubsystem.setFeedMotorVoltage(0);
+		// if (ShooterSubsystem.getShooterSensor() && intake == true) {
+		// IntakeSubsystem.setGroundMotorVoltage(0);
+		// IntakeSubsystem.setChamberMotorVoltage(0);
+		// IntakeSubsystem.setKickMotorVoltage(0);
+		// ShooterSubsystem.setFeedMotorVoltage(0);
 		// return;
 		// }
 
 		double multiplier = 1;
-		if (RobotContainer.intakeSubsystem.getChamberSensor()) {
+		if (IntakeSubsystem.getChamberSensor()) {
 			multiplier = 0.5;
-			// RobotContainer.intakeSubsystem.setGroundMotorVoltage(0);
+			// IntakeSubsystem.setGroundMotorVoltage(0);
 		}
 
-		if (RobotContainer.intakeSubsystem.getChamberSensor() && intaking == true) {
-			RobotContainer.intakeSubsystem.setChamberMotorSpeed(
+		if (IntakeSubsystem.getChamberSensor() && intaking == true) {
+			IntakeSubsystem.setChamberMotorSpeed(
 					multiplier * BBMath.getRps(IntakeConstants.intakeDps, IntakeConstants.chamberWheelDiameter));
-			RobotContainer.shooterSubsystem.setFeedMotorSpeed(
+			ShooterSubsystem.setFeedMotorSpeed(
 					multiplier * BBMath.getRps(IntakeConstants.intakeDps, ShooterConstants.feedWheelDiameter));
 		}
 
 		switch (mode) {
 			case FRONT :
-				// RobotContainer.intakeSubsystem.setKickMotorSpeed(IntakeConstants.kickRps);
-				RobotContainer.intakeSubsystem.setKickMotorSpeed(multiplier * BBMath.getRps(
+				// IntakeSubsystem.setKickMotorSpeed(IntakeConstants.kickRps);
+				IntakeSubsystem.setKickMotorSpeed(multiplier * BBMath.getRps(
 						IntakeConstants.intakeDps / IntakeConstants.kickGearRatio, IntakeConstants.kickWheelDiameter));
 				break;
 
 			case BACK :
-				// RobotContainer.intakeSubsystem.setKickMotorSpeed(-IntakeConstants.kickRps);
-				RobotContainer.intakeSubsystem.setKickMotorSpeed(
+				// IntakeSubsystem.setKickMotorSpeed(-IntakeConstants.kickRps);
+				IntakeSubsystem.setKickMotorSpeed(
 						multiplier * -BBMath.getRps(IntakeConstants.intakeDps / IntakeConstants.kickGearRatio,
 								IntakeConstants.kickWheelDiameter));
 				break;
 
 			case SENSOR :
-				if (RobotContainer.intakeSubsystem.getFrontSensor()) {
-					RobotContainer.intakeSubsystem.setKickMotorSpeed(
+				if (IntakeSubsystem.getFrontSensor()) {
+					IntakeSubsystem.setKickMotorSpeed(
 							multiplier * BBMath.getRps(IntakeConstants.intakeDps / IntakeConstants.kickGearRatio,
 									IntakeConstants.kickWheelDiameter));
 					this.mode = IntakeMode.FRONT;
-				} else if (RobotContainer.intakeSubsystem.getBackSensor()) {
-					RobotContainer.intakeSubsystem.setKickMotorSpeed(
+				} else if (IntakeSubsystem.getBackSensor()) {
+					IntakeSubsystem.setKickMotorSpeed(
 							multiplier * -BBMath.getRps(IntakeConstants.intakeDps / IntakeConstants.kickGearRatio,
 									IntakeConstants.kickWheelDiameter));
 					this.mode = IntakeMode.BACK;
 				} else {
-					RobotContainer.intakeSubsystem.setKickMotorVoltage(0);
+					IntakeSubsystem.setKickMotorVoltage(0);
 				}
 				break;
 		}
-		// RobotContainer.intakeSubsystem.setGroundMotorVoltage(-12);
-		// RobotContainer.intakeSubsystem.setGrabMotorVoltage(12);
-		// RobotContainer.intakeSubsystem.setKickMotorVoltage(-12);
+		// IntakeSubsystem.setGroundMotorVoltage(-12);
+		// IntakeSubsystem.setGrabMotorVoltage(12);
+		// IntakeSubsystem.setKickMotorVoltage(-12);
 		/*
-		 * if (RobotContainer.shooterSubsystem.getShooterSensor() == true) { end(true);
-		 * }
+		 * if (ShooterSubsystem.getShooterSensor() == true) { end(true); }
 		 */
 	}
 
 	// Called once the command ends or is interrupted.
 	@Override
 	public void end(boolean interrupted) {
-		// RobotContainer.intakeSubsystem.setGrabMotorSpeed(0);
-		// RobotContainer.intakeSubsystem.setGroundMotorSpeed(0);
-		// RobotContainer.intakeSubsystem.setKickMotorSpeed(0);
+		// IntakeSubsystem.setGrabMotorSpeed(0);
+		// IntakeSubsystem.setGroundMotorSpeed(0);
+		// IntakeSubsystem.setKickMotorSpeed(0);
 		if (!intaking) {
-			RobotContainer.shooterSubsystem.setFeedMotorSpeed(0);
-			RobotContainer.shooterSubsystem.setTopMotorSpeed(0);
-			RobotContainer.shooterSubsystem.setBottomMotorSpeed(0);
+			ShooterSubsystem.setFeedMotorSpeed(0);
+			ShooterSubsystem.setTopMotorSpeed(0);
+			ShooterSubsystem.setBottomMotorSpeed(0);
 		}
-		RobotContainer.ledSubsystem.setIntaking(false);
+		LedSubsystem.setIntaking(false);
 
-		RobotContainer.intakeSubsystem.setChamberMotorVoltage(0);
-		RobotContainer.intakeSubsystem.setGroundMotorVoltage(0);
-		RobotContainer.intakeSubsystem.setKickMotorVoltage(0);
-		RobotContainer.shooterSubsystem.setFeedMotorVoltage(0);
+		IntakeSubsystem.setChamberMotorVoltage(0);
+		IntakeSubsystem.setGroundMotorVoltage(0);
+		IntakeSubsystem.setKickMotorVoltage(0);
+		ShooterSubsystem.setFeedMotorVoltage(0);
 		mode = initialMode;
 		intakeTimer.stop();
 		intakeTimer.reset();
@@ -167,7 +168,7 @@ public class IntakeCommand extends Command {
 		if (!intaking) {
 			return false;
 		}
-		if (RobotContainer.shooterSubsystem.getShooterSensor() && !timerStarted) {
+		if (ShooterSubsystem.getShooterSensor() && !timerStarted) {
 			intakeTimer.start();
 			timerStarted = true;
 		}

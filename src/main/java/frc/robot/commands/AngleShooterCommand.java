@@ -6,7 +6,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.RobotContainer;
+import frc.robot.subsystems.ShooterSubsystem;
 
 public class AngleShooterCommand extends Command {
 
@@ -21,7 +21,7 @@ public class AngleShooterCommand extends Command {
 	// Called when the command is initially scheduled.
 	@Override
 	public void initialize() {
-		RobotContainer.shooterSubsystem.setShooterAngle(angle);
+		ShooterSubsystem.setShooterAngle(angle);
 	}
 
 	// Called every time the scheduler runs while the command is scheduled.
@@ -43,6 +43,6 @@ public class AngleShooterCommand extends Command {
 	// Returns true when the command should end.
 	@Override
 	public boolean isFinished() {
-		return MathUtil.isNear(angle, RobotContainer.shooterSubsystem.getShooterAngle(), 1.5);
+		return MathUtil.isNear(angle, ShooterSubsystem.getShooterAngle(), 1.5);
 	}
 }

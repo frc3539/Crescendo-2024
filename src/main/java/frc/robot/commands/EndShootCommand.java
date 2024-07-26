@@ -5,7 +5,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.RobotContainer;
+import frc.robot.subsystems.ShooterSubsystem;
 
 public class EndShootCommand extends Command {
 	/** Creates a new EndShootCommand. */
@@ -16,9 +16,9 @@ public class EndShootCommand extends Command {
 	// Called when the command is initially scheduled.
 	@Override
 	public void initialize() {
-		RobotContainer.shooterSubsystem.setTopMotorVoltage(0);
-		RobotContainer.shooterSubsystem.setBottomMotorVoltage(0);
-		RobotContainer.shooterSubsystem.setFeedMotorVoltage(0);
+		ShooterSubsystem.setTopMotorVoltage(0);
+		ShooterSubsystem.setBottomMotorVoltage(0);
+		ShooterSubsystem.setFeedMotorVoltage(0);
 	}
 
 	// Called every time the scheduler runs while the command is scheduled.

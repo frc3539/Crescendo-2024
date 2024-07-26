@@ -22,20 +22,20 @@ import frc.robot.constants.LedConstants;
 
 public class LedSubsystem extends SubsystemBase {
 
-	boolean intaking;
-	boolean enabled;
-	boolean aligning;
-	boolean autoShooting;
-	boolean shootAligning;
-	boolean noteTracking;
-	boolean climbing;
-	boolean reverseClimbing;
-	CANdle candle;
+	static boolean intaking;
+	static boolean enabled;
+	static boolean aligning;
+	static boolean autoShooting;
+	static boolean shootAligning;
+	static boolean noteTracking;
+	static boolean climbing;
+	static boolean reverseClimbing;
+	static CANdle candle;
 
-	public LedSubsystem(boolean enabled) {
-		this.enabled = enabled;
+	public LedSubsystem(boolean enable) {
+		enabled = enable;
 
-		this.candle = new CANdle(IDConstants.CANdleID, IDConstants.CandleCanName);
+		candle = new CANdle(IDConstants.CANdleID, IDConstants.CandleCanName);
 		candle.configLEDType(LEDStripType.GRB);
 		candle.configBrightnessScalar(LedConstants.maxBrightness);
 		setLEDs(LEDState.ON);
@@ -45,9 +45,9 @@ public class LedSubsystem extends SubsystemBase {
 		ON, OFF, CONNECTED, READY, INTAKING, INTAKING_EMPTY, SHOOTING, PREPARED, CLIMBING, REVERSE_CLIMBING, AUTO, ERROR, FRONT, BACK
 	}
 
-	public LEDState state;
+	public static LEDState state;
 
-	public void setLEDs(LEDState state) {
+	public static void setLEDs(LEDState state) {
 		if (!enabled)
 			return;
 
@@ -124,26 +124,26 @@ public class LedSubsystem extends SubsystemBase {
 				break;
 		}
 	}
-	public void setIntaking(boolean intaking) {
-		this.intaking = intaking;
+	public static void setIntaking(boolean intake) {
+		intaking = intake;
 	}
-	public void setAligning(boolean aligning) {
-		this.aligning = aligning;
+	public static void setAligning(boolean align) {
+		aligning = align;
 	}
-	public void setAutoShooting(boolean autoShooting) {
-		this.autoShooting = autoShooting;
+	public static void setAutoShooting(boolean autoShoot) {
+		autoShooting = autoShoot;
 	}
-	public void setShootAligning(boolean shootAligning) {
-		this.shootAligning = shootAligning;
+	public static void setShootAligning(boolean shootAlign) {
+		shootAligning = shootAlign;
 	}
-	public void setNoteTracking(boolean noteTracking) {
-		this.noteTracking = noteTracking;
+	public static void setNoteTracking(boolean noteTrack) {
+		noteTracking = noteTrack;
 	}
-	public void setClimbing(boolean climbing) {
-		this.climbing = climbing;
+	public static void setClimbing(boolean climb) {
+		climbing = climb;
 	}
-	public void setReverseClimbing(boolean reverseClimbing) {
-		this.reverseClimbing = reverseClimbing;
+	public static void setReverseClimbing(boolean reverseClimb) {
+		reverseClimbing = reverseClimb;
 	}
 
 	@Override
@@ -172,7 +172,7 @@ public class LedSubsystem extends SubsystemBase {
 			setLEDs(LEDState.AUTO);
 			return;
 		}
-		if (RobotContainer.climberSubsystem.doneClimbing()) {
+		if (ClimberSubsystem.doneClimbing()) {
 			setLEDs(LEDState.CLIMBING);
 			return;
 		}
@@ -191,27 +191,27 @@ public class LedSubsystem extends SubsystemBase {
 		}
 		// This method will be called once per scheduler run
 		// setLEDs(LEDState.READY);
-		if (RobotContainer.shooterSubsystem.getShooterSensor()) {
+		if (ShooterSubsystem.getShooterSensor()) {
 			setLEDs(LEDState.PREPARED);
 			return;
 		} else {
-			if (RobotContainer.intakeSubsystem.getChamberSensor()) {
+			if (IntakeSubsystem.getChamberSensor()) {
 				setLEDs(LEDState.INTAKING);
 				return;
 			}
 		}
-		if (RobotContainer.intakeSubsystem.getFrontSensor()) {
+		if (IntakeSubsystem.getFrontSensor()) {
 
 			setLEDs(LEDState.FRONT);
 			return;
 
-		} else if (RobotContainer.intakeSubsystem.getBackSensor()) {
+		} else if (IntakeSubsystem.getBackSensor()) {
 
 			setLEDs(LEDState.BACK);
 			return;
 		}
-		if (this.intaking) {
-			if (RobotContainer.intakeSubsystem.getChamberSensor()) {
+		if (intaking) {
+			if (IntakeSubsystem.getChamberSensor()) {
 
 				setLEDs(LEDState.INTAKING);
 				return;

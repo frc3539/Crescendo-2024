@@ -5,8 +5,9 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.RobotContainer;
 import frc.robot.constants.ShooterConstants;
+import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.utilities.BBMath;
 
 public class ShootCommand extends Command {
@@ -18,21 +19,21 @@ public class ShootCommand extends Command {
 	// Called when the command is initially scheduled.
 	@Override
 	public void initialize() {
-		// RobotContainer.shooterSubsystem.setFeedMotorSpeed(ShooterConstants.shootRps);
+		// ShooterSubsystem.setFeedMotorSpeed(ShooterConstants.shootRps);
 	}
 
 	// Called every time the scheduler runs while the command is scheduled.
 	@Override
 	public void execute() {
-		if (RobotContainer.shooterSubsystem.getShooterAngle() > 26) {
-			RobotContainer.shooterSubsystem
+		if (ShooterSubsystem.getShooterAngle() > 26) {
+			ShooterSubsystem
 					.setFeedMotorSpeed(BBMath.getRps(ShooterConstants.ampDps, ShooterConstants.feedWheelDiameter));
-			RobotContainer.intakeSubsystem
+			IntakeSubsystem
 					.setChamberMotorSpeed(BBMath.getRps(ShooterConstants.ampDps, ShooterConstants.feedWheelDiameter));
 		} else {
-			RobotContainer.shooterSubsystem
+			ShooterSubsystem
 					.setFeedMotorSpeed(BBMath.getRps(ShooterConstants.feedDps, ShooterConstants.feedWheelDiameter));
-			RobotContainer.intakeSubsystem
+			IntakeSubsystem
 					.setChamberMotorSpeed(BBMath.getRps(ShooterConstants.feedDps, ShooterConstants.feedWheelDiameter));
 		}
 	}
@@ -40,9 +41,9 @@ public class ShootCommand extends Command {
 	// Called once the command ends or is interrupted.
 	@Override
 	public void end(boolean interrupted) {
-		// RobotContainer.shooterSubsystem.setFeedMotorSpeed(0);
-		RobotContainer.shooterSubsystem.setFeedMotorVoltage(0);
-		RobotContainer.intakeSubsystem.setChamberMotorVoltage(0);
+		// ShooterSubsystem.setFeedMotorSpeed(0);
+		ShooterSubsystem.setFeedMotorVoltage(0);
+		IntakeSubsystem.setChamberMotorVoltage(0);
 	}
 
 	// Returns true when the command should end.

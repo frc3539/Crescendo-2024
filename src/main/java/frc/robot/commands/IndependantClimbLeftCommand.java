@@ -6,6 +6,8 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
+import frc.robot.subsystems.ClimberSubsystem;
+import frc.robot.subsystems.LedSubsystem;
 
 public class IndependantClimbLeftCommand extends Command {
 	/** Creates a new independantClimbLeft. */
@@ -16,22 +18,21 @@ public class IndependantClimbLeftCommand extends Command {
 	// Called when the command is initially scheduled.
 	@Override
 	public void initialize() {
-		RobotContainer.ledSubsystem.setClimbing(true);
+		LedSubsystem.setClimbing(true);
 
 	}
 
 	// Called every time the scheduler runs while the command is scheduled.
 	@Override
 	public void execute() {
-		RobotContainer.climberSubsystem
-				.setLeftClimbMotorVoltage(3 * RobotContainer.operatorController.getLeftTriggerAxis());
+		ClimberSubsystem.setLeftClimbMotorVoltage(3 * RobotContainer.operatorController.getLeftTriggerAxis());
 	}
 
 	// Called once the command ends or is interrupted.
 	@Override
 	public void end(boolean interrupted) {
-		RobotContainer.climberSubsystem.setLeftClimbMotorVoltage(0);
-		RobotContainer.ledSubsystem.setClimbing(false);
+		ClimberSubsystem.setLeftClimbMotorVoltage(0);
+		LedSubsystem.setClimbing(false);
 
 	}
 

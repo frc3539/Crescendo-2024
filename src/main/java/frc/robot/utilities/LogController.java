@@ -3,6 +3,8 @@ package frc.robot.utilities;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
 import frc.robot.RobotContainer;
+import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 
 public class LogController {
 	// +-----------------------------------+
@@ -73,13 +75,13 @@ public class LogController {
 	public void logIntakeSubsystem() {
 		if (!LOG_INTAKE_SUBSYSTEM)
 			return;
-		RobotContainer.intakeSubsystem.log();
+		IntakeSubsystem.log();
 	}
 
 	public void logShooterSubsystem() {
 		if (!LOG_SHOOTER_SUBSYSTEM)
 			return;
-		RobotContainer.shooterSubsystem.log();
+		ShooterSubsystem.log();
 	}
 	public void logVisionSubsystem() {
 		if (!LOG_VISION_SUBSYSTEM)
