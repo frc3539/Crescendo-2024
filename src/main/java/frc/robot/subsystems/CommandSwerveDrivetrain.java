@@ -165,8 +165,8 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
 		// If we should be running a profile use those chassisspeeds instead.
 		if (driveSignalOpt.isPresent()) {
 			ChassisSpeeds speeds = driveSignalOpt.get();
-			request = autonRequest.withVelocityX(speeds.vxMetersPerSecond)
-					.withVelocityY(speeds.vyMetersPerSecond).withRotationalRate(speeds.omegaRadiansPerSecond);
+			request = autonRequest.withVelocityX(speeds.vxMetersPerSecond).withVelocityY(speeds.vyMetersPerSecond)
+					.withRotationalRate(speeds.omegaRadiansPerSecond);
 		} else
 			request = swerveRequest;
 

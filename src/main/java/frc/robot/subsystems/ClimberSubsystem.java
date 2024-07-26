@@ -20,7 +20,8 @@ import frc.robot.constants.IDConstants;
 public class ClimberSubsystem extends SubsystemBase {
 	private TalonFX leftClimbMotor, rightClimbMotor;
 	StatusSignal<ForwardLimitValue> leftLimitSwitch, rightLimitSwitch;
-	VelocityVoltage velocityVoltageControlLeft, velocityVoltageControlRight = new VelocityVoltage(0).withEnableFOC(true);
+	VelocityVoltage velocityVoltageControlLeft,
+			velocityVoltageControlRight = new VelocityVoltage(0).withEnableFOC(true);
 	VoltageOut voltageControlLeft, voltageControlRight = new VoltageOut(0).withEnableFOC(true);
 
 	public ClimberSubsystem() {

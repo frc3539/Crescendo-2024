@@ -50,9 +50,10 @@ public class ShooterSubsystem extends SubsystemBase {
 	StatusSignal<Double> velocitySignalTop, velocitySignalBottom, velocitySignalFeed, positionSignalElevator,
 			positionSignalAngle;
 
-	VelocityVoltage velocityVoltageControlTop, velocityVoltageControlBottom, velocityVoltageControlFeed = new VelocityVoltage(0).withEnableFOC(true);
-	VoltageOut voltageOutControlTop, voltageOutControlBottom, voltageOutControlFeed = new VoltageOut(0).withEnableFOC(true);
-	
+	VelocityVoltage velocityVoltageControlTop, velocityVoltageControlBottom,
+			velocityVoltageControlFeed = new VelocityVoltage(0).withEnableFOC(true);
+	VoltageOut voltageOutControlTop, voltageOutControlBottom,
+			voltageOutControlFeed = new VoltageOut(0).withEnableFOC(true);
 
 	public ShooterSubsystem() {
 
@@ -258,8 +259,7 @@ public class ShooterSubsystem extends SubsystemBase {
 	}
 
 	public double getShooterAngle() {
-		return Units.rotationsToDegrees(
-				positionSignalAngle.getValue() - ShooterConstants.shooterRestingRotations)
+		return Units.rotationsToDegrees(positionSignalAngle.getValue() - ShooterConstants.shooterRestingRotations)
 				+ ShooterConstants.restShooterAngle;
 	}
 
