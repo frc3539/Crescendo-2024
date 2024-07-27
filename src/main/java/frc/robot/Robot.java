@@ -34,6 +34,8 @@ public class Robot extends TimedRobot {
 		// and put our
 		// autonomous chooser on the dashboard.
 		robotContainer = new RobotContainer();
+		DriverStation.silenceJoystickConnectionWarning(true);
+
 	}
 
 	/**
@@ -52,6 +54,7 @@ public class Robot extends TimedRobot {
 			currentAlliance = DriverStation.getAlliance().get();
 			robotContainer.putAutons(currentAlliance);
 		}
+
 		// Runs the Scheduler. This is responsible for polling buttons, adding
 		// newly-scheduled
 		// commands, running already-scheduled commands, removing finished or
