@@ -147,20 +147,20 @@ public class LedSubsystem extends SubsystemBase {
 
 	@Override
 	public void periodic() {
-		if (DriverStation.isAutonomous() && !VisionSubsystem.backLeftCam.isConnected()
-				&& !VisionSubsystem.backRightCam.isConnected()) {
-			setLEDs(LEDState.ERROR);
-			return;
-		}
-		if (autoShooting && !VisionSubsystem.backLeftCam.isConnected() && !VisionSubsystem.backRightCam.isConnected()) {
-			setLEDs(LEDState.ERROR);
-			return;
-		}
-		if (shootAligning && !VisionSubsystem.backLeftCam.isConnected()
-				&& !VisionSubsystem.backRightCam.isConnected()) {
-			setLEDs(LEDState.ERROR);
-			return;
-		}
+		// if (DriverStation.isAutonomous() && !VisionSubsystem.backLeftCam.isConnected()
+		// 		&& !VisionSubsystem.backRightCam.isConnected()) {
+		// 	setLEDs(LEDState.ERROR);
+		// 	return;
+		// }
+		// if (autoShooting && !VisionSubsystem.backLeftCam.isConnected() && !VisionSubsystem.backRightCam.isConnected()) {
+		// 	setLEDs(LEDState.ERROR);
+		// 	return;
+		// }
+		// if (shootAligning && !VisionSubsystem.backLeftCam.isConnected()
+		// 		&& !VisionSubsystem.backRightCam.isConnected()) {
+		// 	setLEDs(LEDState.ERROR);
+		// 	return;
+		// }
 		if (intaking) {
 			if (IntakeSubsystem.getChamberSensor()) {
 
@@ -181,22 +181,22 @@ public class LedSubsystem extends SubsystemBase {
 			setLEDs(LEDState.AUTO);
 			return;
 		}
-		if (ClimberSubsystem.doneClimbing()) {
-			setLEDs(LEDState.CLIMBING);
-			return;
-		}
+		// if (ClimberSubsystem.doneClimbing()) {
+		// 	setLEDs(LEDState.CLIMBING);
+		// 	return;
+		// }
 		if (reverseClimbing) {
 			setLEDs(LEDState.REVERSE_CLIMBING);
 			return;
 		}
-		if (noteTracking) {
-			if (!VisionSubsystem.backNoteCam.isConnected() || !VisionSubsystem.frontNoteCam.isConnected()) {
-				setLEDs(LEDState.ERROR);
-				return;
-			}
-			setLEDs(LEDState.AUTO);
-			return;
-		}
+		// if (noteTracking) {
+		// 	if (!VisionSubsystem.backNoteCam.isConnected() || !VisionSubsystem.frontNoteCam.isConnected()) {
+		// 		setLEDs(LEDState.ERROR);
+		// 		return;
+		// 	}
+		// 	setLEDs(LEDState.AUTO);
+		// 	return;
+		// }
 		// This method will be called once per scheduler run
 		// setLEDs(LEDState.READY);
 		if (ShooterSubsystem.getShooterSensor()) {

@@ -61,7 +61,7 @@ public class LogController {
 		logDriveSubsystem();
 		logIntakeSubsystem();
 		logShooterSubsystem();
-		logVisionSubsystem();
+		// logVisionSubsystem();
 	}
 
 	public void logDriveSubsystem() {
@@ -81,9 +81,9 @@ public class LogController {
 			return;
 		ShooterSubsystem.log();
 	}
-	public void logVisionSubsystem() {
-		if (!LOG_VISION_SUBSYSTEM)
-			return;
-		RobotContainer.visionSubsystem.log();
-	}
+	// public void logVisionSubsystem() {
+	// 	if (!LOG_VISION_SUBSYSTEM)
+	// 		return;
+	// 	RobotContainer.visionSubsystem.log();
+	// }
 }

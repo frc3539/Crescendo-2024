@@ -44,9 +44,9 @@ public class RobotContainer {
 	public static DriveSubsystem driveSubsystem = TunerConstantsComp.DriveTrain; // TunerConstants.DriveTrain
 	public static IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
 
-	public static ClimberSubsystem climberSubsystem = new ClimberSubsystem();
+	// public static ClimberSubsystem climberSubsystem = new ClimberSubsystem();
 	public static LedSubsystem ledSubsystem = new LedSubsystem(true);
-	public static VisionSubsystem visionSubsystem = new VisionSubsystem();
+	// public static VisionSubsystem visionSubsystem = new VisionSubsystem();
 	public static ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
 
 	/**
@@ -70,7 +70,7 @@ public class RobotContainer {
 		// Configure the trigger bindings
 		configureBindings();
 		putCommands();
-		visionSubsystem.start();
+		// visionSubsystem.start();
 	}
 
 	/**
@@ -95,9 +95,9 @@ public class RobotContainer {
 			chooser.addOption("Blue Shoot Right Far", new BlueRightFar());
 			chooser.addOption("Blue Centerline 4 Piece", new BlueCL4Piece());
 			chooser.addOption("Blue Simple Left", new BlueSimpleLeft());
-			chooser.addOption("Blue 3 Right Auto Track", new Blue3NoteTracking());
-			chooser.addOption("Blue 5 Center Auto Track", new Blue5NoteTracking());
-			chooser.addOption("Blue Left Centerline", new BlueLeftCL());
+			// chooser.addOption("Blue 3 Right Auto Track", new Blue3NoteTracking());
+			// chooser.addOption("Blue 5 Center Auto Track", new Blue5NoteTracking());
+			// chooser.addOption("Blue Left Centerline", new BlueLeftCL());
 		} else {
 			chooser.setDefaultOption("Red Shoot and Drive", new RedShootDrive());
 			chooser.addOption("Red 3 Piece Left", new Red3Piece());
@@ -107,8 +107,8 @@ public class RobotContainer {
 			chooser.addOption("Red Shoot Left Far", new RedLeftFar());
 			chooser.addOption("Red Centerline 4 Piece", new RedCL4Piece());
 			chooser.addOption("Red Simple Right", new RedSimpleRight());
-			chooser.addOption("Red 3 Left Auto Track", new Red3NoteTracking());
-			chooser.addOption("Red 5 Center Auto Track", new Red5NoteTracking());
+			// chooser.addOption("Red 3 Left Auto Track", new Red3NoteTracking());
+			// chooser.addOption("Red 5 Center Auto Track", new Red5NoteTracking());
 		}
 		SmartDashboard.putData(chooser);
 	}
@@ -117,13 +117,13 @@ public class RobotContainer {
 		operatorController.leftBumper().whileTrue(new RevUpCommand(false, ShooterConstants.shootDps));
 		rightOperatorBumper.whileTrue(new ShootCommand());
 		// operatorController.povUp().whileTrue(new IntakeCommand());
-		operatorController.povUp().whileTrue(new IntakeCommand(true, IntakeMode.FRONT));
-		operatorController.povDown().whileTrue(new IntakeCommand(true, IntakeMode.BACK));
-		operatorController.a().whileTrue(new IntakeCommand(true, IntakeMode.SENSOR));
-		operatorController.back().whileTrue(new IntakeCommand(false, IntakeMode.BACK));
+		operatorController.a().whileTrue(new IntakeCommand(true, IntakeMode.FRONT));
+		// operatorController.povDown().whileTrue(new IntakeCommand(true, IntakeMode.BACK));
+		// operatorController.a().whileTrue(new IntakeCommand(true, IntakeMode.SENSOR));
+		// operatorController.back().whileTrue(new IntakeCommand(false, IntakeMode.BACK));
 
-		operatorController.leftTrigger(.1).whileTrue(new IndependantClimbLeftCommand());
-		operatorController.rightTrigger(.1).whileTrue(new IndependantClimbRightCommand());
+		// operatorController.leftTrigger(.1).whileTrue(new IndependantClimbLeftCommand());
+		// operatorController.rightTrigger(.1).whileTrue(new IndependantClimbRightCommand());
 
 		operatorController.b().whileTrue(new AutoShootCommand().finallyDo(() -> {
 			CommandScheduler.getInstance().schedule(new HomePositionCommand());
@@ -134,10 +134,10 @@ public class RobotContainer {
 		// CommandScheduler.getInstance().schedule(new HomePositionCommand());
 		// }));
 		operatorController.leftStick().whileTrue(new RevUpCommand(false, ShooterConstants.shootDps * 0.6));
-		operatorController.rightStick().whileTrue(new ReverseClimb());
+		// operatorController.rightStick().whileTrue(new ReverseClimb());
 
 		// operatorController.a().whileTrue(new AngleShooterCommand(-29.5));
-		operatorController.start().whileTrue(new AutoClimbCommand());
+		// operatorController.start().whileTrue(new AutoClimbCommand());
 		// operatorController.y().onTrue(new SetElevatorCommand(8));
 		operatorController.x().whileTrue(new AmpCommand().finallyDo(() -> {
 			CommandScheduler.getInstance().schedule(new HomePositionCommand());
@@ -163,7 +163,7 @@ public class RobotContainer {
 	public void putCommands() {
 		SmartDashboard.putData(new DisableArmBreakModeCommand().ignoringDisable(true));
 		SmartDashboard.putData(new DisableElevatorBreakModeCommand().ignoringDisable(true));
-		SmartDashboard.putData(new DisableClimberBreakModeCommand().ignoringDisable(true));
+		// SmartDashboard.putData(new DisableClimberBreakModeCommand().ignoringDisable(true));
 
 	}
 

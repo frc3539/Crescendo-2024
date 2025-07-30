@@ -16,10 +16,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
 import frc.robot.constants.DrivetrainConstants;
 import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.IntakeSubsystem;
+// import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LedSubsystem;
-import frc.robot.subsystems.ShooterSubsystem;
-import frc.robot.subsystems.VisionSubsystem;
+// import frc.robot.subsystems.ShooterSubsystem;
+// import frc.robot.subsystems.VisionSubsystem;
 
 public class DriveCommand extends Command {
 	Translation2d blueSpeakerCoordinate = new Translation2d(0, 5.55);
@@ -104,50 +104,50 @@ public class DriveCommand extends Command {
 			LedSubsystem.setShootAligning(false);
 
 		}
-		if (RobotContainer.driverButtonB.getAsBoolean()) {
-			var target = VisionSubsystem.getBestBackNote();
-			if (target != null & !IntakeSubsystem.getBackSensor() & !IntakeSubsystem.getFrontSensor()
-					& !IntakeSubsystem.getChamberSensor() & !ShooterSubsystem.getShooterSensor()) {
-				LedSubsystem.setNoteTracking(true);
-				double noteTrackSpeedMultiplier = 0.3;
-				var angleToTarget = -target.getYaw() * Math.PI / 180;
-				rotationController.setSetpoint(
-						RobotContainer.driveSubsystem.getPose2d().getRotation().getRadians() + angleToTarget);
-				request = driveRobotCentric.withVelocityX(-maxVelocity * noteTrackSpeedMultiplier).withVelocityY(0);
-				driveRobotCentric.withRotationalRate(rotationController
-						.calculate(RobotContainer.driveSubsystem.getPose2d().getRotation().getRadians(), 0.02)
-						* maxRotationalVelocity * .3).withRotationalDeadband(0);
-				driveFieldCentric.withRotationalRate(rotationController
-						.calculate(RobotContainer.driveSubsystem.getPose2d().getRotation().getRadians(), 0.02)
-						* maxRotationalVelocity * .3).withRotationalDeadband(0);
+		// if (RobotContainer.driverButtonB.getAsBoolean()) {
+		// 	var target = VisionSubsystem.getBestBackNote();
+		// 	if (target != null & !IntakeSubsystem.getBackSensor() & !IntakeSubsystem.getFrontSensor()
+		// 			& !IntakeSubsystem.getChamberSensor() & !ShooterSubsystem.getShooterSensor()) {
+		// 		LedSubsystem.setNoteTracking(true);
+		// 		double noteTrackSpeedMultiplier = 0.3;
+		// 		var angleToTarget = -target.getYaw() * Math.PI / 180;
+		// 		rotationController.setSetpoint(
+		// 				RobotContainer.driveSubsystem.getPose2d().getRotation().getRadians() + angleToTarget);
+		// 		request = driveRobotCentric.withVelocityX(-maxVelocity * noteTrackSpeedMultiplier).withVelocityY(0);
+		// 		driveRobotCentric.withRotationalRate(rotationController
+		// 				.calculate(RobotContainer.driveSubsystem.getPose2d().getRotation().getRadians(), 0.02)
+		// 				* maxRotationalVelocity * .3).withRotationalDeadband(0);
+		// 		driveFieldCentric.withRotationalRate(rotationController
+		// 				.calculate(RobotContainer.driveSubsystem.getPose2d().getRotation().getRadians(), 0.02)
+		// 				* maxRotationalVelocity * .3).withRotationalDeadband(0);
 
-			} else {
-				LedSubsystem.setNoteTracking(false);
-			}
-		} else if (RobotContainer.driverButtonX.getAsBoolean()) {
-			var target = VisionSubsystem.getBestFrontNote();
-			if (target != null & !IntakeSubsystem.getBackSensor() & !IntakeSubsystem.getFrontSensor()
-					& !IntakeSubsystem.getChamberSensor() & !ShooterSubsystem.getShooterSensor()) {
-				LedSubsystem.setNoteTracking(true);
+		// 	} else {
+		// 		LedSubsystem.setNoteTracking(false);
+		// 	}
+		// // } else if (RobotContainer.driverButtonX.getAsBoolean()) {
+		// // 	var target = VisionSubsystem.getBestFrontNote();
+		// // 	if (target != null & !IntakeSubsystem.getBackSensor() & !IntakeSubsystem.getFrontSensor()
+		// // 			& !IntakeSubsystem.getChamberSensor() & !ShooterSubsystem.getShooterSensor()) {
+		// // 		LedSubsystem.setNoteTracking(true);
 
-				double noteTrackSpeedMultiplier = 0.3;
-				var angleToTarget = -target.getYaw() * Math.PI / 180;
-				rotationController.setSetpoint(
-						RobotContainer.driveSubsystem.getPose2d().getRotation().getRadians() + angleToTarget);
-				request = driveRobotCentric.withVelocityX(maxVelocity * noteTrackSpeedMultiplier).withVelocityY(0);
-				driveRobotCentric.withRotationalRate(rotationController
-						.calculate(RobotContainer.driveSubsystem.getPose2d().getRotation().getRadians(), 0.02)
-						* maxRotationalVelocity * .3).withRotationalDeadband(0);
-				driveFieldCentric.withRotationalRate(rotationController
-						.calculate(RobotContainer.driveSubsystem.getPose2d().getRotation().getRadians(), 0.02)
-						* maxRotationalVelocity * .3).withRotationalDeadband(0);
+		// // 		double noteTrackSpeedMultiplier = 0.3;
+		// // 		var angleToTarget = -target.getYaw() * Math.PI / 180;
+		// // 		rotationController.setSetpoint(
+		// // 				RobotContainer.driveSubsystem.getPose2d().getRotation().getRadians() + angleToTarget);
+		// // 		request = driveRobotCentric.withVelocityX(maxVelocity * noteTrackSpeedMultiplier).withVelocityY(0);
+		// // 		driveRobotCentric.withRotationalRate(rotationController
+		// // 				.calculate(RobotContainer.driveSubsystem.getPose2d().getRotation().getRadians(), 0.02)
+		// // 				* maxRotationalVelocity * .3).withRotationalDeadband(0);
+		// // 		driveFieldCentric.withRotationalRate(rotationController
+		// // 				.calculate(RobotContainer.driveSubsystem.getPose2d().getRotation().getRadians(), 0.02)
+		// // 				* maxRotationalVelocity * .3).withRotationalDeadband(0);
 
-			} else {
-				LedSubsystem.setNoteTracking(false);
-			}
-		} else {
-			LedSubsystem.setNoteTracking(false);
-		}
+		// // 	} else {
+		// // 		LedSubsystem.setNoteTracking(false);
+		// // 	}
+		// } else {
+		// 	LedSubsystem.setNoteTracking(false);
+		// }
 		DriveSubsystem.applyRequest(request);
 	}
 

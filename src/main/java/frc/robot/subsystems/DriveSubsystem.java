@@ -139,7 +139,7 @@ public class DriveSubsystem extends SwerveDrivetrain implements Subsystem {
 
 	public void log() {
 		SmartDashboard.putNumber("/DriveTrain/RobotRoll", getRobotRoll().getDegrees());
-		VisionSubsystem.publishPose2d("/DriveTrain/Pose", getPose2d());
+		// VisionSubsystem.publishPose2d("/DriveTrain/Pose", getPose2d());
 
 		// Pose2d trajectory = follower.getLastState() != null
 		// ? follower.getLastState().getPathState().getPose2d()
@@ -161,12 +161,12 @@ public class DriveSubsystem extends SwerveDrivetrain implements Subsystem {
 
 		var driveSignalOpt = follower.update(getPose2d(), Timer.getFPGATimestamp(), Robot.kDefaultPeriod);
 
-		if (follower.getLastState() != null) {
-			VisionSubsystem.publishPose2d("/DriveTrain/PoseRequested",
-					follower.getLastState().getPathState().getPose2d());
-		} else {
-			VisionSubsystem.publishPose2d("/DriveTrain/PoseRequested", new Pose2d());
-		}
+		// if (follower.getLastState() != null) {
+		// 	VisionSubsystem.publishPose2d("/DriveTrain/PoseRequested",
+		// 			follower.getLastState().getPathState().getPose2d());
+		// } else {
+		// 	VisionSubsystem.publishPose2d("/DriveTrain/PoseRequested", new Pose2d());
+		// }
 
 		// If we should be running a profile use those chassisspeeds instead.
 		if (driveSignalOpt.isPresent()) {

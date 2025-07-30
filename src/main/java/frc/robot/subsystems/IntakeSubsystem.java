@@ -116,15 +116,17 @@ public class IntakeSubsystem extends SubsystemBase {
 	}
 
 	public static boolean getFrontSensor() {
-		if (IntakeConstants.invertSensors == 1)
-			return frontSensor.get();
-		return !frontSensor.get();
+		// if (IntakeConstants.invertSensors == 1)
+		// 	return frontSensor.get();
+		// return !frontSensor.get();
+		return false;
 	}
 
 	public static boolean getBackSensor() {
-		if (IntakeConstants.invertSensors == 1)
-			return backSensor.get();
-		return !backSensor.get();
+		// if (IntakeConstants.invertSensors == 1)
+		// 	return backSensor.get();
+		// return !backSensor.get();
+		return false;
 	}
 
 	public static void log() {
