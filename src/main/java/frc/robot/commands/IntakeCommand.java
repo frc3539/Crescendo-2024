@@ -142,6 +142,7 @@ public class IntakeCommand extends Command {
 	// Called once the command ends or is interrupted.
 	@Override
 	public void end(boolean interrupted) {
+		System.out.println("Intake COmmand ending");
 		// IntakeSubsystem.setGrabMotorSpeed(0);
 		// IntakeSubsystem.setGroundMotorSpeed(0);
 		// IntakeSubsystem.setKickMotorSpeed(0);

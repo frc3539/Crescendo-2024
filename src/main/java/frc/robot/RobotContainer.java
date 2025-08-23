@@ -116,18 +116,18 @@ public class RobotContainer {
 
 		operatorController.leftBumper().whileTrue(new RevUpCommand(false, ShooterConstants.shootDps));
 		rightOperatorBumper.whileTrue(new ShootCommand());
-		// operatorController.povUp().whileTrue(new IntakeCommand());
+		operatorController.povUp().whileTrue(new IntakeCommand(true, IntakeMode.BACK));
 		operatorController.a().whileTrue(new IntakeCommand(true, IntakeMode.FRONT));
 		// operatorController.povDown().whileTrue(new IntakeCommand(true, IntakeMode.BACK));
 		// operatorController.a().whileTrue(new IntakeCommand(true, IntakeMode.SENSOR));
-		// operatorController.back().whileTrue(new IntakeCommand(false, IntakeMode.BACK));
+		operatorController.back().whileTrue(new IntakeCommand(false, IntakeMode.BACK));
 
 		// operatorController.leftTrigger(.1).whileTrue(new IndependantClimbLeftCommand());
 		// operatorController.rightTrigger(.1).whileTrue(new IndependantClimbRightCommand());
 
-		operatorController.b().whileTrue(new AutoShootCommand().finallyDo(() -> {
-			CommandScheduler.getInstance().schedule(new HomePositionCommand());
-		}));
+		// operatorController.b().whileTrue(new AutoShootCommand().finallyDo(() -> {
+		// 	CommandScheduler.getInstance().schedule(new HomePositionCommand());
+		// }));
 		// operatorController.leftStick().whileTrue(new AngleShooterCommand(5)
 		// .alongWith(new RevUpCommand(false, ShooterConstants.shootDps)).finallyDo(()
 		// -> {
@@ -139,12 +139,12 @@ public class RobotContainer {
 		// operatorController.a().whileTrue(new AngleShooterCommand(-29.5));
 		// operatorController.start().whileTrue(new AutoClimbCommand());
 		// operatorController.y().onTrue(new SetElevatorCommand(8));
-		operatorController.x().whileTrue(new AmpCommand().finallyDo(() -> {
-			CommandScheduler.getInstance().schedule(new HomePositionCommand());
-		}));
-		operatorController.y().whileTrue(new TrapCommand().finallyDo(() -> {
-			CommandScheduler.getInstance().schedule(new HomePositionCommand());
-		}));
+		// operatorController.x().whileTrue(new AmpCommand().finallyDo(() -> {
+		// 	CommandScheduler.getInstance().schedule(new HomePositionCommand());
+		// }));
+		// operatorController.y().whileTrue(new TrapCommand().finallyDo(() -> {
+		// 	CommandScheduler.getInstance().schedule(new HomePositionCommand());
+		// }));
 		// operatorController.povLeft().onTrue(new ClimbPositionCommand());
 		operatorController.povLeft().whileTrue(new ClimbPositionCommand());
 
@@ -155,7 +155,7 @@ public class RobotContainer {
 		// operatorController.start().whileTrue(new BuddyClimbCommand());
 		driverController.start().whileTrue(new ZeroGyroCommand());
 		driverController.y().whileTrue(new AutoAlignCommand(TagPosition.AMP));
-		driverController.povUp().whileTrue(new IntakeCommand(false, IntakeMode.BACK));
+		driverController.povUp().whileTrue(new IntakeCommand(true, IntakeMode.BACK));
 
 		driveSubsystem.setDefaultCommand(new DriveCommand());
 	}
